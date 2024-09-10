@@ -78,7 +78,7 @@ Generates ratio plots for two series, and a third plot of the ratio/difference o
 the two series if the user requests it.
 }
 \details{
-Version 1.3, 9/2/2024
+Version 1.4, 9/6/2024
 }
 \examples{
 ukgas_x11_seas   <- 

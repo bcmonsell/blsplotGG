@@ -36,7 +36,7 @@
 #' @examples
 #' shoes_x11_seas <- 
 #'    seasonal::seas(shoes2008, arima.model = "(0 1 1)(0 1 1)", 
-#'                   transform.function = "log", forecast.maxlead = 20,
+#'                   transform.function = "log", forecast.maxlead = 36,
 #'                   regression.aictest = c("td", "easter"),
 #'		             regression.save = c("td", "hol"),
 #'                   x11.seasonalma = "s3x5", check.print = c( 'pacf', 'pacfplot' ))

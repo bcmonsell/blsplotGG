@@ -2,7 +2,7 @@
 #'
 #' Generates a plot of the final t-statistics for the outlier identification procedure.
 #'
-#' Version 2.6, 9/5/2024
+#' Version 2.6, 9/5/2024++
 #' 
 #' @param seas_obj \code{seas} object generated from a call of \code{seas} on a single time series
 #'                  This is a requited entry.

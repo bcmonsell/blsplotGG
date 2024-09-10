@@ -64,7 +64,7 @@ Default is \code{c("darkgrey", "steelblue", "darkgreen")}.}
 A \code{ggplot} object of the regARIMA forecasts for two models of the same series.
 }
 \description{
-Generates plot that compares regARIMA forecasts  for two models of the same series
+Generates plot that compares regARIMA forecasts for two models of the same series
 }
 \details{
 Version 1.6, 8/28/2024

@@ -1,6 +1,6 @@
 #' Forecast plot for two models
 #'
-#' Generates plot that compares regARIMA forecasts  for two models of the same series
+#' Generates plot that compares regARIMA forecasts for two models of the same series
 #'
 #' Version 1.6, 8/28/2024
 #'

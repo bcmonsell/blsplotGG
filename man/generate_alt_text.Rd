@@ -9,7 +9,8 @@ generate_alt_text(
   chart_type = NULL,
   data_type = NULL,
   reason_text = NULL,
-  short_alt = FALSE
+  short_alt = FALSE,
+  BrailleR_only = FALSE
 )
 }
 \arguments{
@@ -27,6 +28,9 @@ This is a required entry.}
 
 \item{short_alt}{logical scalar if TRUE BrailleR text will not be appended to the alt text.
 Default is \code{FALSE}.}
+
+\item{BrailleR_only}{logical scalar if TRUE only BrailleR text will returned.
+Default is \code{FALSE}.}
 }
 \value{
 generate alt text for plot produced by \code{gg_object}
@@ -36,7 +40,7 @@ Generates alt text for ggplot graph objects using the \code{BrailleR} package an
 text suggested by Amy Casale in her article "Writing Alt Text for Data Visualization".
 }
 \details{
-Version 2.1, 5/6/2024
+Version 3.1, 9/9/2024
 }
 \examples{
 air_seas <- seasonal::seas(AirPassengers, arima.model = "(0 1 1)(0 1 1)", x11="")

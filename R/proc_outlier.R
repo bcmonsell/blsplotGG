@@ -18,7 +18,7 @@
 #' air_seas <- 
 #'    seasonal::seas(AirPassengers, x11="", slidingspans = "", 
 #'                      transform.function = "log", arima.model = "(0 1 1)(0 1 1)", 
-#'                      regression.aictest = 'td', forecast.maxlead=36, 
+#'                      regression.aictest = 'td', forecast.maxlead=60, 
 #'                      check.print = c( "pacf", "pacfplot" ))
 #' this_auto_outlier <- get_auto_outlier_string(air_seas)
 #' this_outlier      <- proc_outlier(this_auto_outlier)

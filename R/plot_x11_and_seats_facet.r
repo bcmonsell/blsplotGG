@@ -3,18 +3,20 @@
 #' Generates a \code{ggplot} object with a time series facet plot that compares an X-11 and SEATS 
 #' seasonal adjustment, optionally including the original series.
 #'
-#' Version 5.1, 5/6/2024
+#' Version 6.3, 9/9/2024
 #'
 #' @param this_x11 Time series of the X-11 seasonal adjustment. 
-#'                 This is a required entry.
+#'        This is a required entry.
 #' @param this_seats Time series of the SEATS seasonal adjustment. 
-#'                   This is a required entry.
+#'        This is a required entry.
 #' @param this_ori Time series of the original series. Optional entry.
 #' @param main_title Title for the plot. Default is character string \code{'Comparison of X-11 and SEATS Seasonal Adjustments'}.
 #' @param sub_title Subtitle for the plot. Optional entry.
 #' @param this_x_label Label for X-axis.  Default is \code{"Time"}
 #' @param this_y_label Label for Y-axis.  Default is \code{" "}
 #' @param line_color Color used for lines in plot.  Default is \code{"steelblue"}.
+#' @param remove_legend Logical scalar; if TRUE, plot legend will be removed.
+#'        Default is FALSE.
 #' @return A \code{ggplot} object that generates a facet plot comparing an X-11 and SEATS 
 #'         seasonal adjustment, trend, or factor.
 #'
@@ -48,8 +50,9 @@ plot_x11_and_seats_facet <-
              sub_title = NULL, 
              this_x_label = "Time", 
              this_y_label = " ", 
-             line_color = "steelblue") {
-    # Author: Brian C. Monsell (OEUS) Version 5.1, 5/6/2024
+             line_color = "steelblue",
+			 remove_legend = FALSE) {
+    # Author: Brian C. Monsell (OEUS) Version 6.3, 9/9/2024
 
     if (is.null(this_x11)) {
         cat("must specify the X-11 seasonally adjusted series")
@@ -81,16 +84,20 @@ plot_x11_and_seats_facet <-
         dplyr::select(.data$date, .data$x11.sa, .data$seats.sa) %>%
         tidyr::gather(key = "series", value = "value", -date)
 		
-	p_facet <- 
-	   ggplot2::ggplot(this_facet_df) +  
-           ggplot2::geom_line(ggplot2::aes(y = .data$value, x = .data$date), 
-                              color = line_color) + 
-           ggplot2::facet_grid(dplyr::case_when(.data$series == "x11.sa" ~ "X-11",
+		p_facet <- 
+			ggplot2::ggplot(this_facet_df, 
+			                ggplot2::aes(y = .data$value, x = .data$date, 
+			                             color = .data$series)) +  
+				ggplot2::geom_line() + 
+			  ggplot2::scale_color_manual(values = c("x11.sa" = line_color[1], 
+				                                       "seats.sa" = line_color[2]),
+                                            labels = c("X-11", "SEATS")) +
+				ggplot2::facet_grid(dplyr::case_when(.data$series == "x11.sa" ~ "X-11",
                                                 .data$series == "seats.sa" ~ "SEATS") ~ .) + 
-           ggplot2::labs(title = main_title,
-                         subtitle = sub_title,
-                         x = this_x_label,
-                         y = this_y_label)
+				ggplot2::labs(title = main_title,
+							  subtitle = sub_title,
+                              x = this_x_label,
+                              y = this_y_label)
         
     } else {
         this_facet_df <- 
@@ -102,9 +109,14 @@ plot_x11_and_seats_facet <-
 	        tidyr::gather(key = "series", value = "value", -date)
 	        
 	p_facet <- 
-	   ggplot2::ggplot(this_facet_df) +  
-           ggplot2::geom_line(ggplot2::aes(y = .data$value, x = .data$date), 
-                              color = line_color) + 
+	   ggplot2::ggplot(this_facet_df, 
+	                   ggplot2::aes(y = .data$value, x = .data$date, 
+	                                color = .data$series)) +  
+           ggplot2::geom_line() + 
+		       ggplot2::scale_color_manual(values = c("ori" = line_color[1],
+		                                          "x11.sa" = line_color[2], 
+				                                  "seats.sa" = line_color[3]),
+                                            labels = c("Ori", "X-11", "SEATS")) +
            ggplot2::facet_grid(dplyr::case_when(.data$series == "ori" ~ "Ori",
                                                 .data$series == "x11.sa" ~ "X-11",
                                                 .data$series == "seats.sa" ~ "SEATS") ~ .) + 
@@ -115,5 +127,10 @@ plot_x11_and_seats_facet <-
     }
     
 
-    return(p_facet)
+ 	if (remove_legend) {
+ 	  p_facet <- 
+ 	    p_facet + ggplot2::theme(legend.position = "none")
+	}
+	
+   return(p_facet)
 }

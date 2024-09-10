@@ -3,7 +3,7 @@
 #' Generates ratio plots for two series, and a third plot of the ratio/difference of 
 #' the two series if the user requests it.
 #'
-#' Version 1.3, 9/2/2024
+#' Version 1.4, 9/6/2024
 #'
 #' @param ratio_one First time series of ratios/factors for which you want to generate 
 #'        a high definition plot.
@@ -79,7 +79,7 @@ plot_ratio_two <-
 			 add_line = TRUE, 
 			 ratio_mean = c(1.0, 1.0), 
 			 ratio_color = "steelblue") {
-    # Author: Brian C. Monsell (OEUS) Version 1.3, 9/2/2024
+    # Author: Brian C. Monsell (OEUS) Version 1.4, 9/6/2024
     
     # check if \code{ratio_one} is specified
     if (is.null(ratio_one)) {
@@ -171,7 +171,7 @@ plot_ratio_two <-
 			ncol = 1)
 
 	if (!is.null(overall_title)) {
-		ggpubr::annotate_figure(plot_final, 
+		plot_final <- ggpubr::annotate_figure(plot_final, 
 			top = ggpubr::text_grob(overall_title))
 	}
 

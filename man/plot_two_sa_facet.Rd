@@ -13,7 +13,8 @@ plot_two_sa_facet(
   this_x_label = "Time",
   this_y_label = " ",
   this_sa_text = c("X-11", "SEATS"),
-  line_color = "steelblue"
+  line_color = "steelblue",
+  remove_legend = FALSE
 )
 }
 \arguments{
@@ -36,17 +37,20 @@ This is a required entry.}
 \item{this_sa_text}{Labels for different seasonal adjustments.  Default is \code{c('X-11', 'SEATS')}}
 
 \item{line_color}{Color used for lines in plot.  Default is \code{"steelblue"}.}
+
+\item{remove_legend}{Logical scalar; if TRUE, plot legend will be removed.
+Default is FALSE.}
 }
 \value{
 A \code{ggplot} object that generates a facet plot comparing two seasonal adjustments,
 trends, or factors.
 }
 \description{
-Generates a \code{ggplot} object with a time series facet plot that compares two s
-easonal adjustments of the same series, optionally including the original series.
+Generates a \code{ggplot} object with a time series facet plot that compares two
+seasonal adjustments of the same series, optionally including the original series.
 }
 \details{
-Version 2.1, 5/6/2024
+Version 3.3, 9/9/2024
 }
 \examples{
 ukgas_x11_seas   <- 

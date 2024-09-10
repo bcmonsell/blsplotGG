@@ -3,7 +3,7 @@
 #' Generates alt text for ggplot graph objects using the \code{BrailleR} package and adding
 #' text suggested by Amy Casale in her article "Writing Alt Text for Data Visualization".
 #'
-#' Version 2.1, 5/6/2024
+#' Version 3.1, 9/9/2024
 #'
 #' @param gg_object \code{ggplot} object from which alt text will be generated. 
 #'                  Required entry if \code{short_alt = FALSE}.
@@ -14,6 +14,8 @@
 #' @param reason_text character scalar detailing the reason \code{gg_object} is plotted. 
 #'                  This is a required entry.
 #' @param short_alt logical scalar if TRUE BrailleR text will not be appended to the alt text. 
+#'                  Default is \code{FALSE}.
+#' @param BrailleR_only logical scalar if TRUE only BrailleR text will returned. 
 #'                  Default is \code{FALSE}.
 #' @return generate alt text for plot produced by \code{gg_object}
 #'
@@ -42,8 +44,8 @@
 #'                      "compare seasonal adjustment and trend to original series")
 #' @export
 generate_alt_text <- function(gg_object = NULL, chart_type = NULL, data_type = NULL, reason_text = NULL, 
-                              short_alt = FALSE) {
-    # Author: Brian C. Monsell (OEUS) Version 2.1, 5/6/2024
+                              short_alt = FALSE, BrailleR_only = FALSE) {
+    # Author: Brian C. Monsell (OEUS) Version 3.1, 9/9/2024
     
     if (!short_alt) {
         if (is.null(gg_object)) {
@@ -55,22 +57,25 @@ generate_alt_text <- function(gg_object = NULL, chart_type = NULL, data_type = N
                 return(NULL)
             }
         }
-    }
+    } 
+	
+	if (!BrailleR_only) {
    
-    if (is.null(chart_type)) {
-        cat("must specify type of chart")
-        return(NULL)
-    }
+		if (is.null(chart_type)) {
+			cat("must specify type of chart")
+			return(NULL)
+		}
     
-    if (is.null(data_type)) {
-        cat("must specify description of data used in plot")
-        return(NULL)
-    }
+		if (is.null(data_type)) {
+			cat("must specify description of data used in plot")
+			return(NULL)
+		}
    
-    if (is.null(reason_text)) {
-        cat("must specify reason for chart")
-        return(NULL)
-    }
+		if (is.null(reason_text)) {
+			cat("must specify reason for chart")
+			return(NULL)
+		}
+	}
     
     # create short text based on Amy Casale's article
     short_alt_text <- 
@@ -78,12 +83,16 @@ generate_alt_text <- function(gg_object = NULL, chart_type = NULL, data_type = N
     if (short_alt) {
         return(short_alt_text)
     }
-
+	
+	if (BrailleR_only) {
+		long_alt_text <- stringr::str_c(BrailleR::VI(gg_object)$text, collapse=" ")
+	} else {
     # append BrailleR text to short text 
-    long_alt_text <- 
-        paste0(short_alt_text, " ", 
-               stringr::str_c(BrailleR::VI(gg_object)$text, collapse=" "))
-        
+		long_alt_text <- 
+			paste0(short_alt_text, " ", 
+                   stringr::str_c(BrailleR::VI(gg_object)$text, collapse=" "))
+	}
+
     #return long alt text
     return(long_alt_text)
 }

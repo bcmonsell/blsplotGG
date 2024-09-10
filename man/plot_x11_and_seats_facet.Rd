@@ -12,7 +12,8 @@ plot_x11_and_seats_facet(
   sub_title = NULL,
   this_x_label = "Time",
   this_y_label = " ",
-  line_color = "steelblue"
+  line_color = "steelblue",
+  remove_legend = FALSE
 )
 }
 \arguments{
@@ -33,6 +34,9 @@ This is a required entry.}
 \item{this_y_label}{Label for Y-axis.  Default is \code{" "}}
 
 \item{line_color}{Color used for lines in plot.  Default is \code{"steelblue"}.}
+
+\item{remove_legend}{Logical scalar; if TRUE, plot legend will be removed.
+Default is FALSE.}
 }
 \value{
 A \code{ggplot} object that generates a facet plot comparing an X-11 and SEATS
@@ -43,7 +47,7 @@ Generates a \code{ggplot} object with a time series facet plot that compares an 
 seasonal adjustment, optionally including the original series.
 }
 \details{
-Version 5.1, 5/6/2024
+Version 6.3, 9/9/2024
 }
 \examples{
 ukgas_x11_seas   <- 

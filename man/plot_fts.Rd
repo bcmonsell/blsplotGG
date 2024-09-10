@@ -44,7 +44,7 @@ from the automatic outlier identification procedure.
 Generates a plot of the final t-statistics for the outlier identification procedure.
 }
 \details{
-Version 2.6, 9/5/2024
+Version 2.6, 9/5/2024++
 }
 \examples{
 air_seas_outlier <- 
