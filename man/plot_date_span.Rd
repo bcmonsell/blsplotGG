@@ -62,5 +62,5 @@ air_short_p <-
    plot_date_span(air_p, "1-1-1956", "1-1-1962", reset_y_limit = TRUE)
 }
 \author{
-Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{monsell.brian@gmail.com}
+Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}
 }

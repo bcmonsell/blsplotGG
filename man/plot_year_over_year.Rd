@@ -15,7 +15,9 @@ plot_year_over_year(
   do_grid = FALSE,
   do_background = FALSE,
   line_color = NULL,
-  this_palette = "Paired"
+  this_palette = "Paired",
+  detrend_series = FALSE,
+  detrend_lowess = FALSE
 )
 }
 \arguments{
@@ -40,29 +42,38 @@ Default is starting date for the time series.}
 Default is no grid lines.}
 
 \item{do_background}{Logical scalar; indicates grey background included in plot.
-Default is no grey background;}
+Default is no grey background.}
 
 \item{line_color}{Character scalar; color used for plot.
 User should specify one color for each column of the matrix specified.
-Default is the \code{RColorBrewer} pallatte \code{"Paired"}.}
+Default is the \code{RColorBrewer} palette \code{"Paired"}.}
 
 \item{this_palette}{Character string; default \code{RColorBrewer} palette.
-Deault is \code{"Paired"}.}
+Default is \code{"Paired"}.}
+
+\item{detrend_series}{Logical scalar; indicates if the series plotted is to be detrended.
+Default is the original series is plotted.}
+
+\item{detrend_lowess}{Logical scalar; indicates lowess is used to generate the trend
+used to detrend the series. Default is loess is not used.}
 }
 \value{
-Generate \code{ggplot} object gnerating a year to year plot of a time series object.
+Generate \code{ggplot} object generating a year to year plot of a time series object.
 If time series object not specified, print out error message and return NULL.
 }
 \description{
 Generate year over year plot of a user-specified ts object.
 }
 \details{
-Version 2.2, 8/26/2024
+Version 3.1, 9/25/2024
 }
 \examples{
 this_yyplot <- 
     plot_year_over_year(AirPassengers, this_y_label = "Air", this_palette = "Dark2")
+this_yyplot_detrend <- 
+    plot_year_over_year(AirPassengers, this_y_label = "Air", this_palette = "Dark2",
+                        detrend_series = TRUE, detrend_lowess = TRUE)
 }
 \author{
-Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{monsell.brian@gmail.com}
+Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}
 }

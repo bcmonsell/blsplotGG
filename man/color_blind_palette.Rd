@@ -30,5 +30,5 @@ this_color_blind <- color_blind_palette(FALSE, brewer_palette = "Dark2")
 \url{https://CRAN.R-project.org/package=RColorBrewer}, \url{http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/}
 }
 \author{
-Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{monsell.brian@gmail.com}
+Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}
 }

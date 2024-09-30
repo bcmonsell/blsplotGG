@@ -70,5 +70,5 @@ ukgas_two_sa_facet_p <-
                       line_color = "forestgreen")
 }
 \author{
-Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{monsell.brian@gmail.com}
+Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}
 }

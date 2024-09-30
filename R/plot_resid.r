@@ -31,7 +31,7 @@
 #' @return Generates a \code{ggplot} object of a plot of the regARIMA residuals with 
 #'         diagnostic information in the sub-headers.
 #'
-#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{monsell.brian@@gmail.com}
+#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #'
 #' @examples
 #' air_seas <- seasonal::seas(AirPassengers, arima.model = "(0 1 1)(0 1 1)")

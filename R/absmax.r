@@ -7,7 +7,7 @@
 #' @param x vector of numbers
 #' @return Maximum of the absolute value of a vector
 #'
-#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{monsell.brian@@gmail.com}
+#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #'
 #' @examples
 #' r50 <- rnorm(50)

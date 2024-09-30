@@ -7,7 +7,7 @@
 #' @param this_month_string Character string; 3 character abbreviation of month
 #' @return Index of month - 1 for 'Jan', 2 for 'Feb', etc.
 #'
-#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{monsell.brian@@gmail.com}
+#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #'
 #' @examples
 #' thisOtl <- 'AO2015.Jan'

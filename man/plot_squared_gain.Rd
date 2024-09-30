@@ -79,5 +79,5 @@ p_sa_squared_gain <- plot_squared_gain(shoes_seats_seas,
 	this_palette = "Set2")
 }
 \author{
-Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{monsell.brian@gmail.com}
+Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}
 }

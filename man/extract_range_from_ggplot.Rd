@@ -41,5 +41,5 @@ air_short_p <- plot_date_span(air_p, "1-1-1956", "1-1-1961")
 air_short_range <- extract_range_from_ggplot(air_short_p)
 }
 \author{
-Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{monsell.brian@gmail.com}
+Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}
 }

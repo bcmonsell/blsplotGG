@@ -20,7 +20,7 @@
 #' @return generate alt text for plot produced by \code{gg_object}
 #'
 #' 
-#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{monsell.brian@@gmail.com}
+#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #' @references \url{https://CRAN.R-project.org/package=BrailleR} and   \url{https://medium.com/nightingale/writing-alt-text-for-data-visualization-2a218ef43f81}
 #'
 #' @examples

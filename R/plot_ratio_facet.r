@@ -31,7 +31,7 @@
 #' @return A \code{ggplot} object that generates a ratio facet plot for the 
 #'         factors provided in the \code{ratio_tables} argument.
 #'
-#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{monsell.brian@@gmail.com}
+#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #'
 #' @examples
 #' shoes_x11_seas <- 

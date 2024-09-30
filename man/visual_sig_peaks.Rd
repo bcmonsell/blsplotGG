@@ -32,5 +32,5 @@ vp_ori_td   <- visual_sig_peaks(air_seas, spec_type = 'sa',
                                 spec_freq_code = 'td')
 }
 \author{
-Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{monsell.brian@gmail.com}
+Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}
 }

@@ -125,5 +125,5 @@ air_e3_p <- blsplotGG::plot_table(air_seas, "e3",
          use_ratio = FALSE, add_outlier = TRUE, line_color = "steelblue")
 }
 \author{
-Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{monsell.brian@gmail.com}
+Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}
 }

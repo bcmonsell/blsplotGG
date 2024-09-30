@@ -3,7 +3,7 @@
 #' Generates a \code{ggplot} object with a time series plot that compares an X-11 and SEATS 
 #' seasonal adjustment, optionally including the original series.
 #'
-#' Version 4.1, 8/26/2024
+#' Version Version 4.2, 9/19/2024
 #'
 #' @param this_x11 Time series of the X-11 seasonal adjustment. 
 #'        This is a required entry.
@@ -19,16 +19,17 @@
 #'        Default is no grid lines. 
 #' @param do_background Logical scalar; indicates grey background included in plot.
 #'        Default is no grey background;
-#' @param line_color Character scalar; color used for plot. 
-#'        User should specify one color for each column of the matrix specified.
-#'        Default is the \code{RColorBrewer} palette \code{"Dark2"}.
+#' @param line_color Character vector of length 2 (if \code{this_ori} is not specified)
+#'        or 3 (if \code{plot_ori} is specified); color used for lines in the plot,
+#'        in the order of seasonally adjusted series, trend, original series. 
+#'        Default is generated from the \code{RColorBrewer} palette \code{"Dark2"}.
 #' @param this_palette Character string; default \code{RColorBrewer} palette.
 #'        Deault is \code{"Dark2"}.
 #' @param this_guide_legend Title for legend.  Default is \code{"Series"}
 #' @return A \code{ggplot} object that generates a plot comparing an X-11 and SEATS 
 #'         seasonal adjustment, trend, or factors.
 #'
-#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{monsell.brian@@gmail.com}
+#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #'
 #' @examples
 #' ukgas_x11_seas   <- 
@@ -63,7 +64,7 @@ plot_x11_and_seats <-
              line_color = NULL, 
              this_palette = "Dark2",
              this_guide_legend = "Series") {
-    # Author: Brian C. Monsell (OEUS) Version 4.1, 8/26/2024
+    # Author: Brian C. Monsell (OEUS) Version 4.2, 9/19/2024
 
     if (is.null(this_x11)) {
         cat("must specify the X-11 seasonally adjusted series")
@@ -130,14 +131,14 @@ plot_x11_and_seats <-
 	               x11.sa = as.double(this_x11), 
 	               seats.sa = as.double(this_seats)) %>%
 	        dplyr::select(.data$date, .data$ori, .data$x11.sa, .data$seats.sa) %>%
-          tidyr::gather(key = "sa", value = "value", -date)
+			tidyr::gather(key = "sa", value = "value", -date)
         p_x11_seats <- 
             ggplot2::ggplot(this_df) + 
             ggplot2::geom_line(ggplot2::aes(x = .data$date, 
                                             y = .data$value, 
                                             color = .data$sa)) + 
             ggplot2::scale_color_manual(labels = c("Ori", "X-11", "SEATS"), 
-                                        values = line_color) +
+                                        values = line_color[c(3,1,2)]) +
             ggplot2::labs(title = main_title,
                           subtitle = sub_title,
                           x = this_x_label,

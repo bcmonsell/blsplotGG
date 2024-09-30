@@ -11,7 +11,7 @@
 #'        Default is \code{c("red", "blue", "green", "brown", "grey", "yellow")}. 
 #' @return Character string with description of outliers for x-axis label of a \code{ggplot}.
 #'
-#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{monsell.brian@@gmail.com}
+#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #'
 #' @examples
 #' air_seas <- 

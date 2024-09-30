@@ -29,7 +29,7 @@
 #' @return A \code{ggplot} object which generates a plot of the seasonal factors 
 #'        (and the SI-ratios) grouped by month/quarter.
 #'
-#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{monsell.brian@@gmail.com}
+#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #'
 #' @examples
 #' air_seas    <- 

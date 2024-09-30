@@ -82,5 +82,5 @@ plot_air_sf <- plot_sf_series(air_sf,
    this_legend_text = c('sf', 'mean'))
 }
 \author{
-Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{monsell.brian@gmail.com}
+Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}
 }

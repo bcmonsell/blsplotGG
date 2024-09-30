@@ -27,7 +27,7 @@
 #'         changes. The \code{seas} object in the \code{seas_obj} argument must contain 
 #'         output for a revisions history analysis for seasonal adjustment changes.
 #'
-#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{monsell.brian@@gmail.com}
+#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #'
 #' @examples
 #' shoes_seas <-

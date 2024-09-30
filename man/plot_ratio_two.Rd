@@ -102,5 +102,5 @@ ukgas_sf_two_plot <-
          ratio_color = "darkgreen")
 }
 \author{
-Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{monsell.brian@gmail.com}
+Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}
 }

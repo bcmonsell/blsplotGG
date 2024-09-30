@@ -59,5 +59,5 @@ plot_double_spectrum_air <-
                           this_peak_color = c("red", "orange"))
 }
 \author{
-Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{monsell.brian@gmail.com}
+Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}
 }

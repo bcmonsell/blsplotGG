@@ -88,5 +88,5 @@ p_BP_facet <- blsplotGG::plot_matrix(BP_Region_Matrix, this_y_label = 'Building 
    line_color = c("orange", "steelblue", "forestgreen", "brown"))
 }
 \author{
-Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{monsell.brian@gmail.com}
+Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}
 }

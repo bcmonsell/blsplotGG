@@ -27,7 +27,7 @@
 #'         set to some values - these lags should be in sequence, such as
 #'         \code{history.trendlags = 1:4}.
 #'
-#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{monsell.brian@@gmail.com}
+#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #'
 #' @examples
 #' shoes_seas <-

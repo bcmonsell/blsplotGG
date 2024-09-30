@@ -10,7 +10,7 @@
 #' @return An updated vector of length \code{this_num} augmented with the first value of the 
 #'         input series.
 #'
-#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{monsell.brian@@gmail.com}
+#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #'
 #' @examples
 #' this_vector <- c(1,2)

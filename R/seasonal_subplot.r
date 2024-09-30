@@ -13,7 +13,7 @@
 #' @param subplot_color Color used for lines in ratio plot.  Default is \code{"steelblue"}.
 #' @return A \code{ggplot} object that generates a ratio plot.
 #'
-#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{monsell.brian@@gmail.com}
+#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #'
 #' @examples
 #' ukgas_x11_seas <- 

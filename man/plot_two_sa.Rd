@@ -85,5 +85,5 @@ ukgas_seats_v_x11_p <-
                        line_color = c("steelblue", "forestgreen"))
 }
 \author{
-Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{monsell.brian@gmail.com}
+Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}
 }

@@ -27,7 +27,7 @@
 #'         revisions history analysis for seasonal adjustments with \code{sadjlags}
 #'         set to 1 and 12 (for monthly series) or 4 (for quarterly series).
 #'
-#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{monsell.brian@@gmail.com}
+#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #'
 #' @examples
 #' shoes_seas <-

@@ -65,5 +65,5 @@ air_fcst_p <-
               main_title = "Forecasts for Airline Passengers", do_grid = TRUE)
 }
 \author{
-Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{monsell.brian@gmail.com}
+Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}
 }

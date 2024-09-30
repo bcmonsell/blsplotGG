@@ -103,5 +103,5 @@ p_trn_full_diff <- plot_fully_differenced_transformed(shoes_seats_seas, "trn",
 	line_color = "darkgreen")
 }
 \author{
-Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{monsell.brian@gmail.com}
+Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}
 }

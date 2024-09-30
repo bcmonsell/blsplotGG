@@ -35,5 +35,5 @@ this_auto_outlier <- get_auto_outlier_string(air_seas)
 this_outlier      <- proc_outlier(this_auto_outlier)
 }
 \author{
-Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{monsell.brian@gmail.com}
+Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}
 }

@@ -48,5 +48,5 @@ this_p_with_outlier_lines <-
     this_p_with_outlier_lines + ggplot2::xlab(outlier_lines_label)
 }
 \author{
-Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{monsell.brian@gmail.com}
+Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}
 }

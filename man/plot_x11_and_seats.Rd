@@ -43,9 +43,10 @@ Default is no grid lines.}
 \item{do_background}{Logical scalar; indicates grey background included in plot.
 Default is no grey background;}
 
-\item{line_color}{Character scalar; color used for plot.
-User should specify one color for each column of the matrix specified.
-Default is the \code{RColorBrewer} palette \code{"Dark2"}.}
+\item{line_color}{Character vector of length 2 (if \code{this_ori} is not specified)
+or 3 (if \code{plot_ori} is specified); color used for lines in the plot,
+in the order of seasonally adjusted series, trend, original series.
+Default is generated from the \code{RColorBrewer} palette \code{"Dark2"}.}
 
 \item{this_palette}{Character string; default \code{RColorBrewer} palette.
 Deault is \code{"Dark2"}.}
@@ -61,7 +62,7 @@ Generates a \code{ggplot} object with a time series plot that compares an X-11 a
 seasonal adjustment, optionally including the original series.
 }
 \details{
-Version 4.1, 8/26/2024
+Version Version 4.2, 9/19/2024
 }
 \examples{
 ukgas_x11_seas   <- 
@@ -82,5 +83,5 @@ ukgas_seats_v_x11_p <-
                        line_color = c("steelblue", "forestgreen"))
 }
 \author{
-Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{monsell.brian@gmail.com}
+Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}
 }

@@ -40,7 +40,7 @@
 #' @return A \code{ggplot} object that generates a stacked plot with the 
 #         ratio plot of both series.
 #'
-#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{monsell.brian@@gmail.com}
+#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #'
 #' @examples
 #' ukgas_x11_seas   <- 

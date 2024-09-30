@@ -9,7 +9,7 @@
 #'               If not specified, all color palettes are returned
 #' @return Vector of color palette names from the \code{RColorBrewer} package that can be distinguished by color-blind people.
 #'
-#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{monsell.brian@@gmail.com}
+#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #'
 #' @examples
 #' qual_color_blind_palettes <- display_color_blind_palettes("qual")

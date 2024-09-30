@@ -78,5 +78,5 @@ p_shoes_sa_history <-
         sub_title = "US Retail Sales of Shoes")
 }
 \author{
-Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{monsell.brian@gmail.com}
+Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}
 }

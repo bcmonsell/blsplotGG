@@ -29,7 +29,7 @@
 #' @param this_guide_legend Title for legend.  Default is \code{"Series"}
 #' @return A \code{ggplot} object that generates a plot comparing two seasonal adjustments, trend, or factors.
 #'
-#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{monsell.brian@@gmail.com}
+#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #'
 #' @examples
 #' ukgas_x11_seas   <- 

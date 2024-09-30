@@ -21,7 +21,7 @@
 #' @return A \code{ggplot} object that generates a facet plot comparing two seasonal adjustments,
 #'         trends, or factors.
 #'
-#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{monsell.brian@@gmail.com}
+#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #'
 #' @examples
 #' ukgas_x11_seas   <- 

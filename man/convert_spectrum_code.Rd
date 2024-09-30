@@ -33,5 +33,5 @@ Version 1.4, 5/6/2024
 this_code <- convert_spectrum_code("sp2")
 }
 \author{
-Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{monsell.brian@gmail.com}
+Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}
 }

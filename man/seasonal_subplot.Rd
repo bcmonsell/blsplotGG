@@ -52,5 +52,5 @@ p_ukgas_sf_sub   <-
                      this_x_label = "Quarter")
 }
 \author{
-Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{monsell.brian@gmail.com}
+Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}
 }

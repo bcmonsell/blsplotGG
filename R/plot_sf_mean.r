@@ -34,7 +34,7 @@
 #' @return Generate plot of the means of seasonal factors by period.
 #'         If seasonal factors not specified, print out error message and return NULL.
 #'
-#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{monsell.brian@@gmail.com}
+#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #'
 #' @examples
 #' EM_individual_seas <-

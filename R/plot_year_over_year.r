@@ -2,7 +2,7 @@
 #'
 #' Generate year over year plot of a user-specified ts object.
 #'
-#' Version 2.2, 8/26/2024
+#' Version 3.1, 9/25/2024
 #'
 #' @param this_series Numeric matrix; columns of time series object to be plotted.
 #' @param main_title Character string; main title of plot. 
@@ -17,20 +17,27 @@
 #' @param do_grid Logical scalar; indicates if plots will have grid lines. 
 #'        Default is no grid lines.
 #' @param do_background Logical scalar; indicates grey background included in plot.
-#'        Default is no grey background;
+#'        Default is no grey background.
 #' @param line_color Character scalar; color used for plot. 
 #'        User should specify one color for each column of the matrix specified.
-#'        Default is the \code{RColorBrewer} pallatte \code{"Paired"}.
+#'        Default is the \code{RColorBrewer} palette \code{"Paired"}.
 #' @param this_palette Character string; default \code{RColorBrewer} palette.
-#'        Deault is \code{"Paired"}.
-#' @return Generate \code{ggplot} object gnerating a year to year plot of a time series object. 
+#'        Default is \code{"Paired"}.
+#' @param detrend_series Logical scalar; indicates if the series plotted is to be detrended. 
+#'        Default is the original series is plotted.
+#' @param detrend_lowess Logical scalar; indicates lowess is used to generate the trend 
+#'        used to detrend the series. Default is loess is not used.
+#' @return Generate \code{ggplot} object generating a year to year plot of a time series object. 
 #'        If time series object not specified, print out error message and return NULL.
 #'
-#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{monsell.brian@@gmail.com}
+#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #'
 #' @examples
 #' this_yyplot <- 
 #'     plot_year_over_year(AirPassengers, this_y_label = "Air", this_palette = "Dark2")
+#' this_yyplot_detrend <- 
+#'     plot_year_over_year(AirPassengers, this_y_label = "Air", this_palette = "Dark2",
+#'                         detrend_series = TRUE, detrend_lowess = TRUE)
 #' @importFrom rlang .data
 #' @export
 plot_year_over_year <- 
@@ -44,15 +51,36 @@ plot_year_over_year <-
 			 do_grid = FALSE, 
 			 do_background = FALSE, 
 			 line_color = NULL, 
-			 this_palette = "Paired") {
-    # Author: Brian C. Monsell (OEUS) Version 2.2, 8/26/2024
+			 this_palette = "Paired",
+			 detrend_series = FALSE,
+			 detrend_lowess = FALSE) {
+    # Author: Brian C. Monsell (OEUS) Version 3.1, 9/25/2024
 
     if (is.null(this_series)) {
         stop("Argument this_series must be specified.")
-    }
+    } else {
+		if (!is.ts(this_series)) {
+			stop("Argument this_series must be a ts object.")
+		}
+	}
 	
 	if (is.null(main_title)) {
-	    main_title <- paste0("Year-Over-Year Plot of ", deparse(substitute(this_series)))
+	    main_title <- "Year-Over-Year Plot of "
+		if (detrend_lowess) {
+			main_title <- paste0(main_title, "Lowess ")
+		}
+		if (detrend_series) {
+			main_title <- paste0(main_title, "Detrended ")
+		}
+	    main_title <- paste0(main_title, deparse(substitute(this_series)))
+	}
+	
+	if (detrend_series) {
+		if (detrend_lowess) {
+			this_series <- astsa::detrend(this_series, lowess = TRUE)
+		} else {
+			this_series <- astsa::detrend(this_series)
+		}
 	}
 
 	this_period <- cycle(this_series)

@@ -19,7 +19,7 @@
 #' @return A \code{ggplot} object which produces a plot of the final t-statistics 
 #'         from the automatic outlier identification procedure.
 #'
-#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{monsell.brian@@gmail.com}
+#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #'
 #' @examples
 #' air_seas_outlier <- 

@@ -18,7 +18,7 @@
 #' @return Text for spectrum associated with code used in \code{plot_spectrum} function. 
 #'         If improper \code{this_spectrum} specified, function will return \code{NULL}.
 #'
-#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{monsell.brian@@gmail.com}
+#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #'
 #' @examples
 #' this_code <- convert_spectrum_code("sp2")

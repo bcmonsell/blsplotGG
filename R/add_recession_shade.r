@@ -11,7 +11,7 @@
 #' @param shade_alpha numeric scalar; controls the intensity of the shading. Default is \code{0.2}.
 #' @return \code{ggplot} object with shading for recession added.
 #'
-#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{monsell.brian@@gmail.com}
+#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #'
 #' @examples
 #' air_seas <- 

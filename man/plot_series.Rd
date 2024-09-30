@@ -71,14 +71,14 @@ Default is "solid".}
 Default is \code{'grey'}.}
 }
 \value{
-Generate \\code{ggplot} plot of user-specified series.
+Generate \code{ggplot} plot of user-specified series.
 If series not specified, print out error message and return NULL.
 }
 \description{
 Generate plot of user-specified time series (ts) object.
 }
 \details{
-Version 2.3, 8/26/2024
+Version 2.4, 8/26/2024
 }
 \examples{
 air_seas <- 
@@ -91,5 +91,5 @@ air_d11_p <- plot_series(air_seas_d11, this_series_name = "AirPassengers",
          do_grid = TRUE, draw_recess = TRUE, line_color = "darkblue")
 }
 \author{
-Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{monsell.brian@gmail.com}
+Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}
 }

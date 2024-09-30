@@ -12,7 +12,7 @@
 #'                       Default is \code{'seas'}.
 #' @return If visually significant peaks found, a numveric vector of the position of the peak frequecies. If no peaks found, 0.
 #'
-#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{monsell.brian@@gmail.com}
+#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #'
 #' @examples
 #' air_seas <- seasonal::seas(AirPassengers, arima.model = '(0 1 1)(0 1 1)', x11='')

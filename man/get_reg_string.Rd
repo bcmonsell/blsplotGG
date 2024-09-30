@@ -32,5 +32,5 @@ air_seas <- seasonal::seas(AirPassengers, slidingspans = "",
 air_reg <- get_reg_string(air_seas)
 }
 \author{
-Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{monsell.brian@gmail.com}
+Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}
 }

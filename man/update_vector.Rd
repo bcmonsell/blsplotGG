@@ -27,5 +27,5 @@ this_vector <- c(1,2)
 updated_vector <- update_vector(this_vector, 4)
 }
 \author{
-Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{monsell.brian@gmail.com}
+Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}
 }

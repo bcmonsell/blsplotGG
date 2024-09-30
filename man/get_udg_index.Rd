@@ -31,5 +31,5 @@ ukgas_udg <- seasonal::udg(ukgas_seas)
 ukgas_udg_index_a <- get_udg_index(ukgas_udg, this_key='a')
 }
 \author{
-Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{monsell.brian@gmail.com}
+Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}
 }

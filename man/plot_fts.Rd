@@ -55,5 +55,5 @@ plot_fts_air <-
              main_title = "Outlier T-Values for Airline Passengers")
 }
 \author{
-Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{monsell.brian@gmail.com}
+Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}
 }

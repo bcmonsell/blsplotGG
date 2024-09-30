@@ -66,5 +66,5 @@ air_alt_text <-
 \url{https://CRAN.R-project.org/package=BrailleR} and   \url{https://medium.com/nightingale/writing-alt-text-for-data-visualization-2a218ef43f81}
 }
 \author{
-Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{monsell.brian@gmail.com}
+Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}
 }

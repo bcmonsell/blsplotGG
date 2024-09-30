@@ -32,7 +32,7 @@
 #' @param this_guide_legend Title for legend.  Default is \code{"Forecast"}
 #' @return A \code{ggplot} object of the regARIMA forecasts for two models of the same series.
 #'
-#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{monsell.brian@@gmail.com}
+#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #'
 #' @examples
 #' shoes_seas_one <- 

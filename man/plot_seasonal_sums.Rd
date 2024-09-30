@@ -80,5 +80,5 @@ p_seasonal_sum <- plot_seasonal_sums(shoes_seats_seas,
 	line_color = "darkgreen")
 }
 \author{
-Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{monsell.brian@gmail.com}
+Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}
 }

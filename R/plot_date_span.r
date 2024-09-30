@@ -17,7 +17,7 @@
 #' @param reset_y_limit Logical scalar that if TRUE, the range of the y-axis is reset. Default is \code{FALSE}.
 #' @return A \code{ggplot} object that produces a subplot of the submitted plot.
 #'
-#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{monsell.brian@@gmail.com}
+#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #'
 #' @examples
 #' air_seas <- 

@@ -11,7 +11,7 @@
 #'        There is no default - must be a color-blind friendly palette.
 #' @return Vector of hexadecimal color codes that form a color palette that can be distinguished by color-blind people.
 #'
-#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{monsell.brian@@gmail.com}
+#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #' @references \url{https://CRAN.R-project.org/package=RColorBrewer}, \url{http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/}
 #'
 #' @examples

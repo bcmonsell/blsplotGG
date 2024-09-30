@@ -62,9 +62,9 @@ shoes_seas <-
 shoesSA <- seasonal::final(shoes_seas)
 p_shoes_sa_diff <- 
     plot_first_difference(shoesSA, 
-        main_title = "Seasonal Adjustment Change History Graph",
-        remove_y_axis = FALSE, x_title_size = 12)
+        main_title = "Seasonal Adjustment First Differences",
+        remove_y_axis = FALSE, x_title_size = 10)
 }
 \author{
-Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{monsell.brian@gmail.com}
+Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}
 }

@@ -79,5 +79,5 @@ shoes_factor_ratio_two   <-
                     sub_title = "Trading Day, Easter, and Irregular Factors")
 }
 \author{
-Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{monsell.brian@gmail.com}
+Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}
 }

@@ -20,7 +20,7 @@
 #' @return A \code{ggplot} object that generates a facet plot comparing an X-11 and SEATS 
 #'         seasonal adjustment, trend, or factor.
 #'
-#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{monsell.brian@@gmail.com}
+#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #'
 #' @examples
 #' ukgas_x11_seas   <- 
@@ -41,7 +41,7 @@
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
 #' @export
-#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{monsell.brian@@gmail.com}
+#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 plot_x11_and_seats_facet <- 
     function(this_x11 = NULL, 
              this_seats = NULL, 

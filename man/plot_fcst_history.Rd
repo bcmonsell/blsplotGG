@@ -80,5 +80,5 @@ plot_fcst_history_air <-
          name_mdl1 = 'Airline model', name_mdl2 = 'Airline model + regressors')
 }
 \author{
-Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{monsell.brian@gmail.com}
+Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}
 }

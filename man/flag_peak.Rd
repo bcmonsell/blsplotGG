@@ -29,5 +29,5 @@ this_flagged_peak_seas <- flag_peak(air_seas,'ori','s')
 this_flagged_peak_td <- flag_peak(air_seas,'ori','t')
 }
 \author{
-Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{monsell.brian@gmail.com}
+Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}
 }

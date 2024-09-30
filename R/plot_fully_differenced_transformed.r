@@ -42,7 +42,7 @@
 #'         If SEATS seasonal adjustment not produced, print out error message and 
 #'         return NULL.
 #'
-#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{monsell.brian@@gmail.com}
+#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #'
 #' @examples
 #' shoes_seats_seas <- 

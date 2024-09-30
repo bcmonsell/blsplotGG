@@ -32,7 +32,7 @@
 #'        Default is \code{"steelblue"}.
 #' @return A \code{ggplot} object that produces a ratio plot of a time series.
 #'
-#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{monsell.brian@@gmail.com}
+#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #'
 #' @examples
 #' ukgas_x11_seas <- 

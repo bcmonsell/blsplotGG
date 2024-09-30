@@ -75,5 +75,5 @@ plot_resid_air <-
                 use_ratio = TRUE, line_color="darkblue")
 }
 \author{
-Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{monsell.brian@gmail.com}
+Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}
 }

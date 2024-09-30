@@ -24,7 +24,7 @@
 #'         of a series specified by \code{this_series} grouped by month or quarter.
 #'         The time series specified should be either a monthly or quarterly series.
 #'
-#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{monsell.brian@@gmail.com}
+#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #'
 #' @examples
 #' shoes_seas <-
@@ -39,8 +39,8 @@
 #' shoesSA <- seasonal::final(shoes_seas)
 #' p_shoes_sa_diff <- 
 #'     plot_first_difference(shoesSA, 
-#'         main_title = "Seasonal Adjustment Change History Graph",
-#'         remove_y_axis = FALSE, x_title_size = 12)
+#'         main_title = "Seasonal Adjustment First Differences",
+#'         remove_y_axis = FALSE, x_title_size = 10)
 #' @importFrom rlang .data
 #' @export
 plot_first_difference <- function(
@@ -51,7 +51,7 @@ plot_first_difference <- function(
 	x_title_size = 10,
 	geom_text_size = 2.5,
 	geom_text_color = "steelblue") {
-	# Author: Brian C. Monsell (OEUS) Version 1.1, 8/22/2024
+	# Author: Brian C. Monsell (OEUS) Version 1.2, 9/18/2024
 	
     # check if a value is specified for \code{this_series}
     if (is.null(this_series)) {

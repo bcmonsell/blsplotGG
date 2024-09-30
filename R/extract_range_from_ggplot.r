@@ -9,7 +9,7 @@
 #' @return Vector of length 2 with the range of the data used to generate a given 
 #'         \code{ggplot} object of a time series plot.
 #'
-#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{monsell.brian@@gmail.com}
+#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #'
 #' @examples
 #' air_seas <- 

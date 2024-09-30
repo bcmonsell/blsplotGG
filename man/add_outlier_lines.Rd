@@ -64,5 +64,5 @@ this_x11_p_with_outlier_lines <-
                       this_line_type = rep("dotted", 6))
 }
 \author{
-Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{monsell.brian@gmail.com}
+Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}
 }

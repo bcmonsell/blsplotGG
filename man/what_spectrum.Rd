@@ -34,5 +34,5 @@ Version 1.5, 5/6/2024
 sub_title <- what_spectrum("sp2", use_title_case = TRUE)
 }
 \author{
-Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{monsell.brian@gmail.com}
+Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}
 }

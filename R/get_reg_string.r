@@ -12,7 +12,7 @@
 #' @return Character string containing a summary of the regressors in the regARIMA model. 
 #'         If no regressors in the model, the routine will return a blank character.
 #'
-#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{monsell.brian@@gmail.com}
+#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #'
 #' @examples 
 #' air_seas <- seasonal::seas(AirPassengers, slidingspans = "", 

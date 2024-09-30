@@ -37,7 +37,7 @@
 #'         If SEATS seaonal adjustment (with \code{finite = yes}) not producted,  
 #'         print out error message and return NULL. 
 #'
-#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{monsell.brian@@gmail.com}
+#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #'
 #' @examples
 #' shoes_seats_seas <- 

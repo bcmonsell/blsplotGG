@@ -94,5 +94,5 @@ p_trn_conc_filter <- plot_seats_filter(shoes_seats_seas, "trn", "concurrent",
 	point_color = "darkgreen")
 }
 \author{
-Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{monsell.brian@gmail.com}
+Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}
 }

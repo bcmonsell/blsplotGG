@@ -28,7 +28,7 @@
 #' @return A \code{ggplot} object that produces a forecast history plot. 
 #'         If series not specified, print out error message and return NULL.
 #'
-#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{monsell.brian@@gmail.com}
+#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #'
 #' @examples
 #' air_seas_mdl <- 

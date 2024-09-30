@@ -125,5 +125,5 @@ em_plot_facet <- blsplotGG::plot_sf_mean(EM_Comp_Sf,
   )
 }
 \author{
-Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{monsell.brian@gmail.com}
+Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}
 }

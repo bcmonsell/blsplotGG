@@ -25,7 +25,7 @@
 #' @param this_guide_legend Title for legend.  Default is \code{"Forecast"}
 #' @return A \code{ggplot} object of the regARIMA forecasts with confidence bounds.
 #'
-#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{monsell.brian@@gmail.com}
+#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #'
 #' @examples
 #' air_seas <- seasonal::seas(AirPassengers, arima.model = "(0 1 1)(0 1 1)",

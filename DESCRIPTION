@@ -1,6 +1,6 @@
 Package: blsplotGG
 Title: Plots for Seasonal Adjustment Analysts using ggplot2
-Version: 2.0
+Version: 2.0.1
 Authors@R: 
     person(given = "Brian",
            family = "Monsell",
@@ -20,7 +20,8 @@ LazyData: TRUE
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Imports:
-    BrailleR,
+    astsa,
+	BrailleR,
     dplyr,
     ggfortify,
     ggplot2,
@@ -35,7 +36,6 @@ Imports:
     stringr,
     tidyr,
     tis,
-    tsbox,
-    zoo
+    tsbox
 Depends: 
     R (>= 2.10)

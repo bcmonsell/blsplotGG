@@ -2,7 +2,7 @@
 #'
 #' Generate plot of user-specified time series (ts) object. 
 #'
-#' Version 2.3, 8/26/2024
+#' Version 2.4, 8/26/2024
 #'
 #' @param this_series Time series object; 
 #'        This is a required entry.
@@ -36,10 +36,10 @@
 #'        Default is "solid".
 #' @param line_color Character string; color used for series in the plot.  
 #'        Default is \code{'grey'}. 
-#' @return Generate \\code{ggplot} plot of user-specified series. 
+#' @return Generate \code{ggplot} plot of user-specified series. 
 #'         If series not specified, print out error message and return NULL.
 #'
-#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{monsell.brian@@gmail.com}
+#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #'
 #' @examples
 #' air_seas <- 
@@ -69,7 +69,7 @@ plot_series <-
              recess_sub = TRUE,  
              this_line_type = "solid", 
              line_color = "grey") {
-    # Author: Brian C. Monsell (OEUS) Version 2.3, 8/26/2024
+    # Author: Brian C. Monsell (OEUS) Version 2.4, 8/26/2024
     
     # check if a value is specified for \code{this_series}
     if (is.null(this_series)) {

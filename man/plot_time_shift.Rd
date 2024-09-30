@@ -73,5 +73,5 @@ p_time_shift <- plot_time_shift(shoes_time_shift,
 	this_palette = "Set2")
 }
 \author{
-Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{monsell.brian@gmail.com}
+Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}
 }

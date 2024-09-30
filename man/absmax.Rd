@@ -23,5 +23,5 @@ r50 <- rnorm(50)
 r50.absmax <- absmax(r50)
 }
 \author{
-Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{monsell.brian@gmail.com}
+Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}
 }
