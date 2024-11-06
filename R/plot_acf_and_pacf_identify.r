@@ -2,7 +2,7 @@
 #'
 #' Generate a single plot with ACF and PACF of the regARIMA model residuals.
 #' 
-#' Version 1.2, 10/23/2024
+#' Version 3.0, 11/5/2024
 #'
 #' @param seas_obj \code{seas} object generated from a call of \code{seas} on a single time series
 #'        This is a required entry.
@@ -21,6 +21,8 @@
 #' @param this_x_label Label for X axis. Default is \code{"Lags"}.
 #' @param this_y_label Character vector of length two. Labels for each Y axis. 
 #'        Default is \code{c("ACF", "PACF")}.
+#' @param this_x_axis_breaks Numeric vector; sets the values for the x-axis.
+#'        Default uses the value of \code{this_frequency} to set x-axis.
 #' @param do_grid Logical scalar; indicates if certain plots will have grid lines.
 #'        Default is no grid lines. 
 #' @param do_background Logical scalar; indicates grey background included in plot.
@@ -45,9 +47,15 @@
 #' 				     check.acflimit = 1.96,
 #' 				     check.qlimit = 0.01,
 #'                   check.print = c( 'pacf', 'pacfplot' ))
-#' p_shoes_acf_and_pacf   <- 
+#' p_shoes_acf_and_pacf_identify_d0_sd0   <- 
 #'    plot_acf_and_pacf_identify(shoes_identify_seas, 
-#'             overall_title = "UK Gas Model - No Differencing",
+#'             overall_title = "US Shoe Sales - No Differencing",
+#'             acf_color = "darkblue")
+#' p_shoes_acf_and_pacf_identify_d1_sd1   <- 
+#'    plot_acf_and_pacf_identify(shoes_identify_seas, 
+#'	           this_diff = 1,
+#'			   this_sdiff = 1,
+#'             overall_title = "US Shoe Sales - Regular and Seasonal Differencing",
 #'             acf_color = "darkblue")
 #' @export
 plot_acf_and_pacf_identify <- 
@@ -60,10 +68,11 @@ plot_acf_and_pacf_identify <-
 			 pacf_title = "PACF Plot", 
 			 this_x_label = "Lag",
 			 this_y_label = c("ACF", "PACF"),
+			 this_x_axis_breaks = NULL,
 			 do_grid = FALSE,
 			 do_background = FALSE,			 
 			 acf_color = "steelblue") {
-    # Author: Brian C. Monsell (OEUS) Version 1.2, 10/23/2024
+    # Author: Brian C. Monsell (OEUS) Version 3.0, 11/5/2024
  
     # check if a value is specified for \code{seas_obj}
     if (is.null(seas_obj)) {
@@ -90,6 +99,8 @@ plot_acf_and_pacf_identify <-
 	this_pacf_matrix <- this_pacf_list[[this_key]]
 	this_range <- range(this_acf_matrix[,1], this_pacf_matrix[,1])
 	
+	this_freq <- seasonal::udg(seas_obj, "freq")
+	
 	if (add_ci) {
 		this_acflimit <- seasonal::udg(seas_obj, "acflimit")
 		this_range <- 
@@ -101,13 +112,15 @@ plot_acf_and_pacf_identify <-
 	}
 	
 	p_acf <- 
-		plot_acf_matrix(this_acf_matrix,
+		plot_acf_matrix(this_acf_matrix[,2:6],
 			 this_range,
 			 add_ci = add_ci, 
 			 this_acflimit,
 			 main_title = acf_title,
 			 this_x_label = this_x_label,
-			 this_y_label = this_y_label[1], 
+			 this_y_label = this_y_label[1],
+			 this_frequency = this_freq,
+			 this_x_axis_breaks = this_x_axis_breaks,
 			 acf_color = acf_color)
 			 
 	# remove grid lines if \code{do_grid = FALSE}
@@ -123,13 +136,15 @@ plot_acf_and_pacf_identify <-
     }	
 	
 	p_pacf <- 
-		plot_acf_matrix(this_pacf_matrix,
+		plot_acf_matrix(this_pacf_matrix[,2:3],
 			 this_range,
 			 add_ci = add_ci, 
 			 this_acflimit,
 			 main_title = pacf_title,
 			 this_x_label = this_x_label,
 			 this_y_label = this_y_label[2], 
+			 this_frequency = this_freq,
+			 this_x_axis_breaks = this_x_axis_breaks,
 			 acf_color = acf_color)
 
 	# remove grid lines if \code{do_grid = FALSE}

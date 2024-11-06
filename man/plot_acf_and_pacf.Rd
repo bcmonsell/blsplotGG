@@ -12,6 +12,7 @@ plot_acf_and_pacf(
   pacf_title = "PACF Plot",
   this_x_label = "Lag",
   this_y_label = c("ACF", "PACF"),
+  this_x_axis_breaks = NULL,
   do_grid = FALSE,
   do_background = FALSE,
   acf_color = "steelblue"
@@ -38,6 +39,9 @@ Default is character string \code{'PACF Plot'}.}
 \item{this_y_label}{Character vector of length two. Labels for each Y axis.
 Default is \code{c("ACF", "PACF")}.}
 
+\item{this_x_axis_breaks}{Numeric vector; sets the values for the x-axis.
+Default uses the value of \code{this_frequency} to set x-axis.}
+
 \item{do_grid}{Logical scalar; indicates if certain plots will have grid lines.
 Default is no grid lines.}
 
@@ -55,7 +59,7 @@ model residuals.
 Generate a single plot with ACF and PACF of the regARIMA model residuals.
 }
 \details{
-Version 2.2, 10/23/2024
+Version 3.0, 11/5/2024
 }
 \examples{
 ukgas_x11_seas <- 

@@ -13,6 +13,7 @@ plot_acf(
   sub_title = NULL,
   this_x_label = "Lag",
   this_y_label = "ACF",
+  this_x_axis_breaks = NULL,
   do_grid = FALSE,
   do_background = FALSE,
   acf_color = "steelblue"
@@ -42,6 +43,9 @@ Default is character string \code{'ACF Plot'}.}
 
 \item{this_y_label}{Label for Y axis. Default is \code{"ACF"}.}
 
+\item{this_x_axis_breaks}{Numeric vector; sets the values for the x-axis.
+Default uses the value of \code{this_frequency} to set x-axis.}
+
 \item{do_grid}{Logical scalar; indicates if certain plots will have grid lines.
 Default is no grid lines.}
 
@@ -59,7 +63,7 @@ of the regARIMA residuals.
 Generate ACF, PACF, or squared ACF plot of the regARIMA model residuals.
 }
 \details{
-Version 2.2, 10/23/2024
+Version 3.1, 11/5/2024
 }
 \examples{
 ukgas_x11_seas <- 

@@ -3,7 +3,7 @@
 #' Generate ACF, PACF, or squared ACF plot of the regARIMA model residuals 
 #' from a matrix of the ACF.
 #' 
-#' Version 1.3, 10/23/2024 
+#' Version 2.6, 11/5/2024
 #'
 #' @param acf_matrix Numeric matrix containing the ACF, PACF, or squared ACF with 
 #'        columns with SE, Ljung Box Q, lags, if associated with the file.
@@ -19,6 +19,10 @@
 #' @param sub_title Subtitle for the plot. Default is \code{NULL}, or no subtitle.
 #' @param this_x_label Label for X axis. Default is \code{"Lags"}.
 #' @param this_y_label Label for Y axis. Default is \code{"ACF"}.
+#' @param this_frequency Integer scalar; Frequency of the time series.
+#'        Default is \code{12}.
+#' @param this_x_axis_breaks Numeric vector; sets the values for the x-axis.
+#'        Default uses the value of \code{this_frequency} to set x-axis.
 #' @param acf_color Color used for lines in ACF plot.  
 #'        Default is \code{"steelblue"}.
 #' @return A \code{ggplot} object that produces an ACF, PACF, or squared ACF plot
@@ -38,9 +42,10 @@
 #'                   check.save = c("acf", "pcf", "ac2"))
 #' ukgas_acf_matrix   <- 
 #'    seasonal::series(ukgas_x11_seas, "acf")
-#' p_ukgas_acf   <- 
+#' p_ukgas_acf_matrix   <- 
 #'    plot_acf_matrix(ukgas_acf_matrix, 
 #'             main_title = "UK Gas Model Squared ACF",
+#'             this_frequency = 4,
 #'             acf_color = "darkblue")
 #' @export
 plot_acf_matrix <- 
@@ -51,9 +56,11 @@ plot_acf_matrix <-
 			 main_title = "ACF Plot",
 			 sub_title = NULL, 
 			 this_x_label = "Lag",
-			 this_y_label = "ACF", 
+			 this_y_label = "ACF",
+			 this_x_axis_breaks = NULL,
+			 this_frequency = 12,
 			 acf_color = "steelblue") {
-    # Author: Brian C. Monsell (OEUS) Version 1.3, 10/23/2024
+    # Author: Brian C. Monsell (OEUS) Version 2.6, 11/5/2024
 
 	this_cf     <- acf_matrix[,1]
 	if (add_ci) {
@@ -68,8 +75,21 @@ plot_acf_matrix <-
 		}
 	} 
 
-	this_lag <- seq(1, length(this_cf))
+	maxlag <- length(this_cf)
+	this_lag <- seq(1, maxlag)
 	acf_level <- 0.0
+
+	if (is.null(this_x_axis_breaks)) {
+		if (this_frequency == 4) {
+			this_x_axis_breaks <- seq(0, maxlag, 2)
+		} else {
+			if (this_frequency == 12) {
+				this_x_axis_breaks <- seq(0, maxlag, 4)
+			} else {
+				this_x_axis_breaks <- seq(0, maxlag, this_frequency)
+			}
+		}
+	}
 
 	if (add_ci) {
 		acf_df <- data.frame(
@@ -79,15 +99,15 @@ plot_acf_matrix <-
 				upper = this_upperCI)
 					
 		p_acf <- ggplot2::ggplot(acf_df) + 
-			ggplot2::geom_segment(mapping=ggplot2::aes(x=lag, 
+			ggplot2::geom_segment(mapping=ggplot2::aes(x=.data$lag, 
                                         y=acf_level, 
-                                        xend=lag, 
-                                        yend=acf), 
+                                        xend=.data$lag, 
+                                        yend=.data$acf), 
 								color = acf_color) +
 			ggplot2::labs(title = main_title, 
                       subtitle = sub_title, 
                       y = this_y_label) + 
-			ggplot2::ylim(acf_range) +
+			ggplot2::ylim(acf_range) + 
 			ggplot2::geom_line(ggplot2::aes(x = .data$lag, 
                                         y = .data$lower),
                                         color = "grey") + 
@@ -96,26 +116,30 @@ plot_acf_matrix <-
                                         color = "grey") + 
 			ggplot2::geom_hline(yintercept = acf_level, 
                             linetype = "solid", 
-                            color = acf_color)
+                            color = acf_color) +
+			ggplot2::scale_x_continuous(breaks = this_x_axis_breaks, 
+			                            lim = c(0, maxlag+1))
 	} else {
 		acf_df <- data.frame(
 				lag = this_lag,
 				acf = this_cf)
 					
 		p_acf <- ggplot2::ggplot(acf_df) + 
-			ggplot2::geom_segment(mapping=ggplot2::aes(x=lag, 
+			ggplot2::geom_segment(mapping=ggplot2::aes(x=.data$lag, 
                                         y=acf_level, 
-                                        xend=lag, 
-                                        yend=acf), 
+                                        xend=.data$lag, 
+                                        yend=.data$acf), 
                             color = acf_color) +
 			ggplot2::labs(title = main_title, 
                       subtitle = sub_title, 
                       y = this_y_label) + 
-			ggplot2::ylim(acf_range) +
+			ggplot2::ylim(acf_range) + 
 			ggplot2::geom_hline(yintercept = acf_level, 
                             linetype = "solid", 
-                            color = acf_color)
+                            color = acf_color) +
+			ggplot2::scale_x_continuous(breaks = this_x_axis_breaks, 
+			                            lim = c(0, maxlag+1))
 	}
-
+	
 	return(p_acf)
 }

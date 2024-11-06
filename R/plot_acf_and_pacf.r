@@ -2,7 +2,7 @@
 #'
 #' Generate a single plot with ACF and PACF of the regARIMA model residuals.
 #' 
-#' Version 2.2, 10/23/2024
+#' Version 3.0, 11/5/2024
 #'
 #' @param seas_obj \code{seas} object generated from a call of \code{seas} on a single time series
 #'        This is a required entry.
@@ -17,6 +17,8 @@
 #' @param this_x_label Label for X axis. Default is \code{"Lags"}.
 #' @param this_y_label Character vector of length two. Labels for each Y axis. 
 #'        Default is \code{c("ACF", "PACF")}.
+#' @param this_x_axis_breaks Numeric vector; sets the values for the x-axis.
+#'        Default uses the value of \code{this_frequency} to set x-axis.
 #' @param do_grid Logical scalar; indicates if certain plots will have grid lines.
 #'        Default is no grid lines. 
 #' @param do_background Logical scalar; indicates grey background included in plot.
@@ -51,10 +53,11 @@ plot_acf_and_pacf <-
 			 pacf_title = "PACF Plot", 
 			 this_x_label = "Lag",
 			 this_y_label = c("ACF", "PACF"),
+			 this_x_axis_breaks = NULL,
 			 do_grid = FALSE,
 			 do_background = FALSE,			 
 			 acf_color = "steelblue") {
-    # Author: Brian C. Monsell (OEUS) Version 2.2, 10/23/2024
+    # Author: Brian C. Monsell (OEUS) Version 3.0, 11/5/2024
  
     # check if a value is specified for \code{seas_obj}
     if (is.null(seas_obj)) {
@@ -69,6 +72,8 @@ plot_acf_and_pacf <-
 	this_acf_matrix  <- seasonal::series(seas_obj, "acf")
 	this_pacf_matrix <- seasonal::series(seas_obj, "pcf")
 	this_range <- range(this_acf_matrix[,1], this_pacf_matrix[,1])
+	
+	this_freq <- seasonal::udg(seas_obj, "freq")
 	
 	if (add_ci) {
 		this_acflimit <- seasonal::udg(seas_obj, "acflimit")
@@ -89,6 +94,8 @@ plot_acf_and_pacf <-
 			 main_title = acf_title,
 			 this_x_label = this_x_label,
 			 this_y_label = this_y_label[1], 
+			 this_frequency = this_freq,
+			 this_x_axis_breaks = this_x_axis_breaks,
 			 acf_color = acf_color)
 			 
 	# remove grid lines if \code{do_grid = FALSE}
@@ -111,6 +118,8 @@ plot_acf_and_pacf <-
 			 main_title = pacf_title,
 			 this_x_label = this_x_label,
 			 this_y_label = this_y_label[2], 
+			 this_frequency = this_freq,
+			 this_x_axis_breaks = this_x_axis_breaks,
 			 acf_color = acf_color)
 
 	# remove grid lines if \code{do_grid = FALSE}

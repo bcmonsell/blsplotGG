@@ -14,6 +14,7 @@ plot_acf_and_pacf_identify(
   pacf_title = "PACF Plot",
   this_x_label = "Lag",
   this_y_label = c("ACF", "PACF"),
+  this_x_axis_breaks = NULL,
   do_grid = FALSE,
   do_background = FALSE,
   acf_color = "steelblue"
@@ -46,6 +47,9 @@ Default is character string \code{'PACF Plot'}.}
 \item{this_y_label}{Character vector of length two. Labels for each Y axis.
 Default is \code{c("ACF", "PACF")}.}
 
+\item{this_x_axis_breaks}{Numeric vector; sets the values for the x-axis.
+Default uses the value of \code{this_frequency} to set x-axis.}
+
 \item{do_grid}{Logical scalar; indicates if certain plots will have grid lines.
 Default is no grid lines.}
 
@@ -63,7 +67,7 @@ series with user-specified orders of differencing.
 Generate a single plot with ACF and PACF of the regARIMA model residuals.
 }
 \details{
-Version 1.2, 10/23/2024
+Version 3.0, 11/5/2024
 }
 \examples{
 shoes_identify_seas <- 
@@ -78,9 +82,15 @@ shoes_identify_seas <-
 				     check.acflimit = 1.96,
 				     check.qlimit = 0.01,
                   check.print = c( 'pacf', 'pacfplot' ))
-p_shoes_acf_and_pacf   <- 
+p_shoes_acf_and_pacf_identify_d0_sd0   <- 
    plot_acf_and_pacf_identify(shoes_identify_seas, 
-            overall_title = "UK Gas Model - No Differencing",
+            overall_title = "US Shoe Sales - No Differencing",
+            acf_color = "darkblue")
+p_shoes_acf_and_pacf_identify_d1_sd1   <- 
+   plot_acf_and_pacf_identify(shoes_identify_seas, 
+           this_diff = 1,
+		   this_sdiff = 1,
+            overall_title = "US Shoe Sales - Regular and Seasonal Differencing",
             acf_color = "darkblue")
 }
 \author{

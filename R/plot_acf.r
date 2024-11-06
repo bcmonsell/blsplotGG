@@ -2,7 +2,7 @@
 #'
 #' Generate ACF, PACF, or squared ACF plot of the regARIMA model residuals.
 #' 
-#' Version 2.2, 10/23/2024
+#' Version 3.1, 11/5/2024
 #'
 #' @param seas_obj \code{seas} object generated from a call of \code{seas} on a single time series
 #'        This is a required entry.
@@ -19,6 +19,8 @@
 #' @param sub_title Subtitle for the plot. Default is \code{NULL}, or no subtitle.
 #' @param this_x_label Label for X axis. Default is \code{"Lags"}.
 #' @param this_y_label Label for Y axis. Default is \code{"ACF"}.
+#' @param this_x_axis_breaks Numeric vector; sets the values for the x-axis.
+#'        Default uses the value of \code{this_frequency} to set x-axis.
 #' @param do_grid Logical scalar; indicates if certain plots will have grid lines.
 #'        Default is no grid lines. 
 #' @param do_background Logical scalar; indicates grey background included in plot.
@@ -62,10 +64,11 @@ plot_acf <-
 			 sub_title = NULL, 
 			 this_x_label = "Lag",
 			 this_y_label = "ACF", 
+			 this_x_axis_breaks = NULL,
 			 do_grid = FALSE,
 			 do_background = FALSE,			 
 			 acf_color = "steelblue") {
-    # Author: Brian C. Monsell (OEUS) Version 2.2, 10/23/2024
+    # Author: Brian C. Monsell (OEUS) Version 3.1, 11/5/2024
  
     # check if a value is specified for \code{seas_obj}
     if (is.null(seas_obj)) {
@@ -87,17 +90,21 @@ plot_acf <-
 		this_acflimit <- seasonal::udg(seas_obj, "acflimit")
 	}
 	
+	this_freq <- seasonal::udg(seas_obj, "freq")
+	
 #	generate ggplot object for acf plot
 	p_acf <- 
-		plot_acf_matrix(this_matrix, 
-		                acf_range,
-						add_ci,
-						this_acflimit,
-						main_title,
-						sub_title,
-						this_x_label,
-						this_y_label,
-						acf_color)
+		plot_acf_matrix(acf_matrix = this_matrix, 
+		                acf_range = acf_range,
+						add_ci = add_ci,
+						acflimit = this_acflimit,
+						main_title = main_title,
+						sub_title = sub_title,
+						this_x_label = this_x_label,
+						this_y_label = this_y_label,
+						this_frequency = this_freq,
+						this_x_axis_breaks = this_x_axis_breaks,
+						acf_color = acf_color)
 						
 	# remove grid lines if \code{do_grid = FALSE}
 	if (!do_grid) {

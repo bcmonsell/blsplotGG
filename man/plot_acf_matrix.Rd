@@ -13,6 +13,8 @@ plot_acf_matrix(
   sub_title = NULL,
   this_x_label = "Lag",
   this_y_label = "ACF",
+  this_x_axis_breaks = NULL,
+  this_frequency = 12,
   acf_color = "steelblue"
 )
 }
@@ -39,6 +41,12 @@ Default is character string \code{'ACF Plot'}.}
 
 \item{this_y_label}{Label for Y axis. Default is \code{"ACF"}.}
 
+\item{this_x_axis_breaks}{Numeric vector; sets the values for the x-axis.
+Default uses the value of \code{this_frequency} to set x-axis.}
+
+\item{this_frequency}{Integer scalar; Frequency of the time series.
+Default is \code{12}.}
+
 \item{acf_color}{Color used for lines in ACF plot.
 Default is \code{"steelblue"}.}
 }
@@ -51,7 +59,7 @@ Generate ACF, PACF, or squared ACF plot of the regARIMA model residuals
 from a matrix of the ACF.
 }
 \details{
-Version 1.3, 10/23/2024
+Version 2.6, 11/5/2024
 }
 \examples{
 ukgas_x11_seas <- 
@@ -65,9 +73,10 @@ ukgas_x11_seas <-
                   check.save = c("acf", "pcf", "ac2"))
 ukgas_acf_matrix   <- 
    seasonal::series(ukgas_x11_seas, "acf")
-p_ukgas_acf   <- 
+p_ukgas_acf_matrix   <- 
    plot_acf_matrix(ukgas_acf_matrix, 
             main_title = "UK Gas Model Squared ACF",
+            this_frequency = 4,
             acf_color = "darkblue")
 }
 \author{
