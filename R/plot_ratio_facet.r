@@ -3,7 +3,7 @@
 #' Generates a high-definition plot for a number of X-13 factors around 
 #' a reference line other than zero.
 #'
-#' Version 2.5, 8/28/2024
+#' Version 2.6, 11/6/2024
 #'
 #' @param seas_obj \code{seas} object generated from a call of \code{seas} 
 #'        on a single time series
@@ -63,7 +63,7 @@ plot_ratio_facet <-
 	         add_line = TRUE, 
 			 ratio_mean = 1.0, 
 			 ratio_color = "steelblue") {
-    # Author: Brian C. Monsell (OEUS) Version 2.5, 8/28/2024
+    # Author: Brian C. Monsell (OEUS) Version 2.6, 11/6/2024
 
     # check if a value is specified for \code{seas_obj}
     if (is.null(seas_obj)) {
@@ -190,6 +190,11 @@ plot_ratio_facet <-
 	                            color = ratio_color)
 	}
 	
+	# remove grey background if \code{do_background = FALSE} 
+    if (!do_background) {
+		p_ratio_facet <- p_ratio_facet + ggplot2::theme_bw()
+    }
+
 	# remove grid lines if \code{do_grid = FALSE}
 	if (!do_grid) {
 	    p_ratio_facet <- p_ratio_facet + 
@@ -197,11 +202,6 @@ plot_ratio_facet <-
 		                   panel.grid.minor = ggplot2::element_blank())
 	}
 	
-	# remove grey background if \code{do_background = FALSE} 
-    if (!do_background) {
-		p_ratio_facet <- p_ratio_facet + ggplot2::theme_bw()
-    }
-
 	return(p_ratio_facet)
 	
 }

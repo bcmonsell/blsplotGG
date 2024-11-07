@@ -2,7 +2,7 @@
 #'
 #' Generate year over year plot of a user-specified ts object.
 #'
-#' Version 3.1, 9/25/2024
+#' Version 3.2, 11/6/2024
 #'
 #' @param this_series Numeric matrix; columns of time series object to be plotted.
 #' @param main_title Character string; main title of plot. 
@@ -54,7 +54,7 @@ plot_year_over_year <-
 			 this_palette = "Paired",
 			 detrend_series = FALSE,
 			 detrend_lowess = FALSE) {
-    # Author: Brian C. Monsell (OEUS) Version 3.1, 9/25/2024
+    # Author: Brian C. Monsell (OEUS) Version 3.2, 11/6/2024
 
     if (is.null(this_series)) {
         stop("Argument this_series must be specified.")
@@ -169,16 +169,16 @@ plot_year_over_year <-
 		}
 	}
 
+	# remove grey background if \code{do_background = FALSE} 
+    if (!do_background) {
+		this_plot <- this_plot + ggplot2::theme_bw()
+    }
+
 	# remove grid lines if \code{do_grid = FALSE}
     if (!do_grid) {
 	    this_plot <- this_plot + 
 		    ggplot2::theme(panel.grid.major = ggplot2::element_blank(), 
 			               panel.grid.minor = ggplot2::element_blank())
-    }
-
-	# remove grey background if \code{do_background = FALSE} 
-    if (!do_background) {
-		this_plot <- this_plot + ggplot2::theme_bw()
     }
 
 	return(this_plot)

@@ -61,7 +61,7 @@ Generates a \code{ggplot} object with a time series plot that compares an X-13
 seasonal adjustment and trend, optionally including the original series.
 }
 \details{
-Version 1.6, 9/19/2024
+Version 1.7, 11/6/2024
 }
 \examples{
 ukgas_x11_seas   <- 

@@ -56,7 +56,7 @@ Generates a \code{ggplot} object of estimates from a revisions history of a seas
 adjustment changes for a given series.
 }
 \details{
-Version 1.4, 9/5/2024
+Version 1.5, 11/6/2024
 }
 \examples{
 shoes_seas <-

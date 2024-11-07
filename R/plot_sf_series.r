@@ -2,7 +2,7 @@
 #'
 #' Generates a special plot of the seasonal factors grouped by month/quarter. 
 #'
-#' Version 2.1, 9/2/2024
+#' Version 2.2, 11/6/2024
 #'
 #' @param this_sf array of seasonal factors stored as a time series
 #' @param y_limit Numeric vector of length 2; Range of values you wish the plot to be plotted over. 
@@ -61,7 +61,7 @@ plot_sf_series <-
 			 add_mean_line = TRUE,
 			 this_legend_title = "SF Plot", 
 			 this_legend_text = c("SF", "SF Mean")) {
-    # Author: Brian C. Monsell (OEUS) Version 2.1, 9/2/2024
+    # Author: Brian C. Monsell (OEUS) Version 2.2, 11/6/2024
 
     # check if a value is specified for \code{this_sf}
     if (is.null(this_sf)) {
@@ -170,6 +170,11 @@ plot_sf_series <-
     
     p_sf$labels$colour <- this_legend_title
 
+	# remove grey background if \code{do_background = FALSE} 
+    if (!do_background) {
+		p_sf <- p_sf + ggplot2::theme_bw()
+    }
+	
 	# remove grid lines if \code{do_grid = FALSE}
     if (!do_grid) {
 	    p_sf <- p_sf + 
@@ -177,10 +182,5 @@ plot_sf_series <-
 			               panel.grid.minor = ggplot2::element_blank())
     }
 
-	# remove grey background if \code{do_background = FALSE} 
-    if (!do_background) {
-		p_sf <- p_sf + ggplot2::theme_bw()
-    }
-	
 	return(p_sf)
 }

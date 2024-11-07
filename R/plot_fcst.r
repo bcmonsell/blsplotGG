@@ -2,7 +2,7 @@
 #'
 #' Generates a \code{ggplot} plot of regARIMA forecasts with confidence bounds.
 #'
-#' Version 3.1, 8/28/2024
+#' Version 3.2, 11/6/2024
 #'
 #' @param seas_obj \code{seas} object generated from a call of \code{seas} on a single time series
 #'        This is a required entry.
@@ -48,7 +48,7 @@ plot_fcst <-
              do_background = FALSE, 
              this_palette = c("darkgrey", "blue", "darkgreen", "darkgreen"), 
 			 this_guide_legend = "Forecast") {
-    # Author: Brian C. Monsell (OEUS) Version 3.1, 8/28/2024
+    # Author: Brian C. Monsell (OEUS) Version 3.2, 11/6/2024
     
     # check if a value is specified for \code{seas_obj}
     if (is.null(seas_obj)) {
@@ -119,6 +119,11 @@ plot_fcst <-
         ggplot2::guides(color = ggplot2::guide_legend(this_guide_legend))
 
     
+	# remove grey background if \code{do_background = FALSE} 
+    if (!do_background) {
+		p_fcst <- p_fcst + ggplot2::theme_bw()
+    }
+
 	# remove grid lines if \code{do_grid = FALSE}
 	if (!do_grid) {
 	    p_fcst <- p_fcst + 
@@ -126,10 +131,5 @@ plot_fcst <-
 			               panel.grid.minor = ggplot2::element_blank())
 	}
     
-	# remove grey background if \code{do_background = FALSE} 
-    if (!do_background) {
-		p_fcst <- p_fcst + ggplot2::theme_bw()
-    }
-
 	return(p_fcst)
 }

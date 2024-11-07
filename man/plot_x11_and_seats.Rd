@@ -62,7 +62,7 @@ Generates a \code{ggplot} object with a time series plot that compares an X-11 a
 seasonal adjustment, optionally including the original series.
 }
 \details{
-Version Version 4.2, 9/19/2024
+Version 4.3, 11/6/2024
 }
 \examples{
 ukgas_x11_seas   <- 

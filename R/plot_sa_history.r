@@ -3,7 +3,7 @@
 #' Generates a ggplot2 object of estimates from a revisions history of a seasonal 
 #' adjustment for a given series.
 #'
-#' Version 1.8, 9/5/2024
+#' Version 1.9, 11/6/2024
 #'
 #' @param seas_obj \code{seas} object generated from a call of \code{seas} on a single time series
 #'        This is a required entry.
@@ -61,7 +61,7 @@ plot_sa_history <-
 			 do_background = FALSE, 
 	         line_color = NULL, 
 			 this_palette = "Dark2") {
-	# Author: Brian C. Monsell (OEUS) Version 1.8, 9/5/2024
+	# Author: Brian C. Monsell (OEUS) Version 1.9, 11/6/2024
 
     # check if a value is specified for \code{seas_obj}
     if (is.null(seas_obj)) {
@@ -177,6 +177,11 @@ plot_sa_history <-
                   y = this_y_label)
 	}
 
+	# remove grey background if \code{do_background = FALSE} 
+    if (!do_background) {
+		p_history <- p_history + ggplot2::theme_bw()
+    }
+
 	# remove grid lines if \code{do_grid = FALSE}
 	if (!do_grid) {
 	    p_history <- p_history + 
@@ -184,10 +189,5 @@ plot_sa_history <-
 			               panel.grid.minor = ggplot2::element_blank())
 	}
 	
-	# remove grey background if \code{do_background = FALSE} 
-    if (!do_background) {
-		p_history <- p_history + ggplot2::theme_bw()
-    }
-
 	return(p_history)
 }

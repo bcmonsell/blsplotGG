@@ -59,7 +59,7 @@ If series not specified, print out error message and return NULL.
 Generate forecast history plot, which compares the sum of squared forecast errors for two models.
 }
 \details{
-Version 2.4, 8/26/2024
+Version 2.5 11/6/2024
 }
 \examples{
 air_seas_mdl <- 

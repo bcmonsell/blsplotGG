@@ -1,6 +1,6 @@
 Package: blsplotGG
 Title: Plots for Seasonal Adjustment Analysts using ggplot2
-Version: 2.0.2
+Version: 2.0.3
 Authors@R: 
     person(given = "Brian",
            family = "Monsell",

@@ -66,7 +66,7 @@ A \code{ggplot} object which generates a plot of the seasonal factors
 Generates a special plot of the seasonal factors grouped by month/quarter.
 }
 \details{
-Version 2.1, 9/2/2024
+Version 2.2, 11/6/2024
 }
 \examples{
 air_seas    <- 

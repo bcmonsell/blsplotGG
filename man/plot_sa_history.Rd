@@ -56,7 +56,7 @@ Generates a ggplot2 object of estimates from a revisions history of a seasonal
 adjustment for a given series.
 }
 \details{
-Version 1.8, 9/5/2024
+Version 1.9, 11/6/2024
 }
 \examples{
 shoes_seas <-

@@ -67,7 +67,7 @@ A \code{ggplot} object of the regARIMA forecasts for two models of the same seri
 Generates plot that compares regARIMA forecasts for two models of the same series
 }
 \details{
-Version 1.6, 8/28/2024
+Version 1.7, 11/6/2024
 }
 \examples{
 shoes_seas_one <- 

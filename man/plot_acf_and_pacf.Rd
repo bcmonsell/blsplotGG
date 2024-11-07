@@ -59,7 +59,7 @@ model residuals.
 Generate a single plot with ACF and PACF of the regARIMA model residuals.
 }
 \details{
-Version 3.0, 11/5/2024
+Version 3.1, 11/6/2024
 }
 \examples{
 ukgas_x11_seas <- 

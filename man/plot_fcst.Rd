@@ -54,7 +54,7 @@ A \code{ggplot} object of the regARIMA forecasts with confidence bounds.
 Generates a \code{ggplot} plot of regARIMA forecasts with confidence bounds.
 }
 \details{
-Version 3.1, 8/28/2024
+Version 3.2, 11/6/2024
 }
 \examples{
 air_seas <- seasonal::seas(AirPassengers, arima.model = "(0 1 1)(0 1 1)",

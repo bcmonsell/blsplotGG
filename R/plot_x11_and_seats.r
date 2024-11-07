@@ -3,7 +3,7 @@
 #' Generates a \code{ggplot} object with a time series plot that compares an X-11 and SEATS 
 #' seasonal adjustment, optionally including the original series.
 #'
-#' Version Version 4.2, 9/19/2024
+#' Version 4.3, 11/6/2024
 #'
 #' @param this_x11 Time series of the X-11 seasonal adjustment. 
 #'        This is a required entry.
@@ -64,7 +64,7 @@ plot_x11_and_seats <-
              line_color = NULL, 
              this_palette = "Dark2",
              this_guide_legend = "Series") {
-    # Author: Brian C. Monsell (OEUS) Version 4.2, 9/19/2024
+    # Author: Brian C. Monsell (OEUS) Version 4.3, 11/6/2024
 
     if (is.null(this_x11)) {
         cat("must specify the X-11 seasonally adjusted series")
@@ -146,6 +146,11 @@ plot_x11_and_seats <-
             ggplot2::guides(color = ggplot2::guide_legend(this_guide_legend))
     }
 	
+	# remove grey background if \code{do_background = FALSE} 
+    if (!do_background) {
+		p_x11_seats <- p_x11_seats + ggplot2::theme_bw()
+    }
+
 	# remove grid lines if \code{do_grid = FALSE}
 	if (!do_grid) {
 	    p_x11_seats <- p_x11_seats + 
@@ -153,10 +158,5 @@ plot_x11_and_seats <-
 			               panel.grid.minor = ggplot2::element_blank())
 	}
        
-	# remove grey background if \code{do_background = FALSE} 
-    if (!do_background) {
-		p_x11_seats <- p_x11_seats + ggplot2::theme_bw()
-    }
-
 	return(p_x11_seats)
 }

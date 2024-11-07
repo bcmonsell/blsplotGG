@@ -3,7 +3,7 @@
 #' Generates a \code{ggplot} object with a time series plot that compares two seasonal adjustments
 #' of the same series, optionally including the original series.
 #'
-#' Version 2.3, 8/26/2024
+#' Version 2.4, 11/6/2024
 #'
 #' @param this_sa_one Time series of the X-11 seasonal adjustment.
 #'        This is a required entry.
@@ -63,7 +63,7 @@ plot_two_sa <-
              line_color = NULL, 
 			 this_palette = "Dark2",
              this_guide_legend = "Series") {
-    # Author: Brian C. Monsell (OEUS) Version 2.3, 8/26/2024
+    # Author: Brian C. Monsell (OEUS) Version 2.4, 11/6/2024
 
     if (is.null(this_sa_one)) {
         cat("must specify the first seasonally adjusted series")
@@ -157,5 +157,12 @@ plot_two_sa <-
 		p_two_sa <- p_two_sa + ggplot2::theme_bw()
     }
 
-    return(p_two_sa)
+     # remove grid lines if \code{do_grid = FALSE}
+    if (!do_grid) {
+		p_two_sa <- p_two_sa + 
+		    ggplot2::theme(panel.grid.major = ggplot2::element_blank(), 
+			           panel.grid.minor = ggplot2::element_blank())
+    }
+       
+   return(p_two_sa)
 }

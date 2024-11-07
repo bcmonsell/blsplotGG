@@ -66,7 +66,7 @@ diagnostic information in the sub-headers.
 Generates a plot of the regARIMA residuals with diagnostic information
 }
 \details{
-Version 2.5, 8/26/2024
+Version 2.6, 11/6/2024
 }
 \examples{
 air_seas <- seasonal::seas(AirPassengers, arima.model = "(0 1 1)(0 1 1)")

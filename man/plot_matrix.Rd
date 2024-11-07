@@ -71,7 +71,7 @@ If matrix not specified, print out error message and return NULL.
 Generate plot of a matrix of user-specified time series.
 }
 \details{
-Version 4.1, 9/5/2024
+Version 4.2, 11/6/2024
 }
 \examples{
 BP_Region_Matrix <-

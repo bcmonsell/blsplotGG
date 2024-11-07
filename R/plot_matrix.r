@@ -2,7 +2,7 @@
 #'
 #' Generate plot of a matrix of user-specified time series.
 #' 
-#' Version 4.1, 9/5/2024
+#' Version 4.2, 11/6/2024
 #'
 #' @param this_matrix Numeric matrix; columns of time series object to be plotted.
 #' @param main_title Character string; main title of plot. 
@@ -66,7 +66,7 @@ plot_matrix <-
 			 this_line_type = "solid", 
 			 do_facet = FALSE, 
 			 reset_facet_y_axis = FALSE) {
-    # Author: Brian C. Monsell (OEUS) Version 4.1, 9/5/2024
+    # Author: Brian C. Monsell (OEUS) Version 4.2, 11/6/2024
 
     if (is.null(this_matrix)) {
         stop("Argument this_matrix must be specified.")
@@ -121,6 +121,11 @@ plot_matrix <-
 			              x = this_x_label)
 		
 		
+	# remove grey background if \code{do_background = FALSE} 
+    if (!do_background) {
+		this_plot <- this_plot + ggplot2::theme_bw()
+    }
+
 	# remove grid lines if \code{do_grid = FALSE}
     if (!do_grid) {
 	    this_plot <- this_plot + 
@@ -128,11 +133,6 @@ plot_matrix <-
 			               panel.grid.minor = ggplot2::element_blank())
     }
 	
-	# remove grey background if \code{do_background = FALSE} 
-    if (!do_background) {
-		this_plot <- this_plot + ggplot2::theme_bw()
-    }
-
 	if (reset_facet_y_axis) {
 		if (do_facet) {
 			if (is.null(y_limit)) {

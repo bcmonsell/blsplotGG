@@ -2,7 +2,7 @@
 #'
 #' Generate a single plot with ACF and PACF of the regARIMA model residuals.
 #' 
-#' Version 3.0, 11/5/2024
+#' Version 3.1, 11/6/2024
 #'
 #' @param seas_obj \code{seas} object generated from a call of \code{seas} on a single time series
 #'        This is a required entry.
@@ -57,7 +57,7 @@ plot_acf_and_pacf <-
 			 do_grid = FALSE,
 			 do_background = FALSE,			 
 			 acf_color = "steelblue") {
-    # Author: Brian C. Monsell (OEUS) Version 3.0, 11/5/2024
+    # Author: Brian C. Monsell (OEUS) Version 3.1, 11/6/2024
  
     # check if a value is specified for \code{seas_obj}
     if (is.null(seas_obj)) {
@@ -98,6 +98,11 @@ plot_acf_and_pacf <-
 			 this_x_axis_breaks = this_x_axis_breaks,
 			 acf_color = acf_color)
 			 
+	# remove grey background if \code{do_background = FALSE} 
+    if (!do_background) {
+		p_acf <- p_acf + ggplot2::theme_bw()
+    }	
+	
 	# remove grid lines if \code{do_grid = FALSE}
 	if (!do_grid) {
 	    p_acf <- p_acf + 
@@ -105,11 +110,6 @@ plot_acf_and_pacf <-
 			               panel.grid.minor = ggplot2::element_blank())
 	}
        
-	# remove grey background if \code{do_background = FALSE} 
-    if (!do_background) {
-		p_acf <- p_acf + ggplot2::theme_bw()
-    }	
-	
 	p_pacf <- 
 		plot_acf_matrix(this_pacf_matrix,
 			 this_range,
@@ -122,6 +122,11 @@ plot_acf_and_pacf <-
 			 this_x_axis_breaks = this_x_axis_breaks,
 			 acf_color = acf_color)
 
+	# remove grey background if \code{do_background = FALSE} 
+    if (!do_background) {
+		p_pacf <- p_pacf + ggplot2::theme_bw()
+    }	
+
 	# remove grid lines if \code{do_grid = FALSE}
 	if (!do_grid) {
 	    p_pacf <- p_pacf + 
@@ -129,11 +134,6 @@ plot_acf_and_pacf <-
 			               panel.grid.minor = ggplot2::element_blank())
 	}
        
-	# remove grey background if \code{do_background = FALSE} 
-    if (!do_background) {
-		p_pacf <- p_pacf + ggplot2::theme_bw()
-    }	
-
 	p_acf_and_pacf <- 
 		ggpubr::ggarrange(p_acf + ggpubr::rremove("x.text"), p_pacf,
 						  ncol = 1, nrow = 2)

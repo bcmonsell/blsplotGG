@@ -3,7 +3,7 @@
 #' Generates a \code{ggplot} object with a time series plot that compares an X-13 
 #' seasonal adjustment and trend, optionally including the original series.
 #'
-#' Version 1.6, 9/19/2024
+#' Version 1.7, 11/6/2024
 #'
 #' @param seas_obj \code{seas} object generated from a call of \code{seas} on a single time series
 #'        This is a required entry.
@@ -68,7 +68,7 @@ plot_sadj_and_trend <-
              line_color = NULL, 
              this_palette = "Dark2",
              this_guide_legend = "Series") {
-    # Author: Brian C. Monsell (OEUS) Version 1.6, 9/19/2024
+    # Author: Brian C. Monsell (OEUS) Version 1.7, 11/6/2024
 
     # check if a value is specified for \code{seas_obj}
     if (is.null(seas_obj)) {
@@ -160,6 +160,11 @@ plot_sadj_and_trend <-
       p_sadj_trend + 
         ggplot2::guides(color = ggplot2::guide_legend(this_guide_legend))
 	
+	# remove grey background if \code{do_background = FALSE} 
+    if (!do_background) {
+		p_sadj_trend <- p_sadj_trend + ggplot2::theme_bw()
+    }
+
 	# remove grid lines if \code{do_grid = FALSE}
 	if (!do_grid) {
 	    p_sadj_trend <- p_sadj_trend + 
@@ -167,10 +172,5 @@ plot_sadj_and_trend <-
 			               panel.grid.minor = ggplot2::element_blank())
 	}
        
-	# remove grey background if \code{do_background = FALSE} 
-    if (!do_background) {
-		p_sadj_trend <- p_sadj_trend + ggplot2::theme_bw()
-    }
-
 	return(p_sadj_trend)
 }

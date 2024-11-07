@@ -2,7 +2,7 @@
 #'
 #' Generate plot of spectrum from X-13ARIMA-SEATS specified by the user.
 #' 
-#' Version 2.7, 8/29/2024
+#' Version 2.8, 11/6/2024
 #'
 #' @param seas_obj \code{seas} object generated from a call of \code{seas} on a single time series
 #'                    This is a required entry.
@@ -66,7 +66,7 @@ plot_spectrum <-
              this_median_color = "blue", 
              this_freq_color = c("steelblue", "forestgreen"), 
              this_peak_color = c("violet", "brown")) {
-    # Author: Brian C. Monsell (OEUS) Version 2.7, 8/29/2024
+    # Author: Brian C. Monsell (OEUS) Version 2.8, 11/6/2024
 
     # check if a value is specified for \code{seas_obj}
     if (is.null(seas_obj)) {
@@ -172,6 +172,11 @@ plot_spectrum <-
         }
     }
     
+	# remove grey background if \code{do_background = FALSE} 
+    if (!do_background) {
+		p_spec <- p_spec + ggplot2::theme_bw()
+    }
+
     # remove grid lines if \code{do_grid = FALSE}
 	if (!do_grid) {
 	    p_spec <- p_spec + 
@@ -179,11 +184,6 @@ plot_spectrum <-
 			               panel.grid.minor = ggplot2::element_blank())
 	}
     
-	# remove grey background if \code{do_background = FALSE} 
-    if (!do_background) {
-		p_spec <- p_spec + ggplot2::theme_bw()
-    }
-
 	return(p_spec)
 
 }

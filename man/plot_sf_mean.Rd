@@ -75,7 +75,7 @@ If seasonal factors not specified, print out error message and return NULL.
 Generates a plot of the means of the seasonal factors
 }
 \details{
-Version 2.7, 9/5/2024
+Version 2.8, 11/6/2024
 }
 \examples{
 EM_individual_seas <-

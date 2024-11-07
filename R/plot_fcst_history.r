@@ -2,7 +2,7 @@
 #'
 #' Generate forecast history plot, which compares the sum of squared forecast errors for two models. 
 #'
-#' Version 2.4, 8/26/2024
+#' Version 2.5 11/6/2024
 #'
 #' @param seas_mdl1 \code{seas} object generated from a call of \code{seas} 
 #'        on a single time series for the first model 
@@ -60,7 +60,7 @@ plot_fcst_history <-
              this_y_label = " ",
              this_palette = c("steelblue", "darkgreen"),
              this_guide_legend = "Fcst History") {
-    # Author: Brian C. Monsell (OEUS) Version 2.4, 8/26/2024
+    # Author: Brian C. Monsell (OEUS) Version 2.5 11/6/2024
     
     # check if seas objects for both models are specified if not, return NULL
     if (is.null(seas_mdl1)) {
@@ -220,6 +220,11 @@ plot_fcst_history <-
                             color = "lightgrey")
     }
        
+	# remove grey background if \code{do_background = FALSE} 
+    if (!do_background) {
+		p_fcst_hist <- p_fcst_hist + ggplot2::theme_bw()
+    }
+
 	# remove grid lines if \code{do_grid = FALSE}
 	if (!do_grid) {
 	    p_fcst_hist <- p_fcst_hist + 
@@ -227,11 +232,6 @@ plot_fcst_history <-
 			               panel.grid.minor = ggplot2::element_blank())
 	}
     
-	# remove grey background if \code{do_background = FALSE} 
-    if (!do_background) {
-		p_fcst_hist <- p_fcst_hist + ggplot2::theme_bw()
-    }
-
 	return(p_fcst_hist)
     
 }

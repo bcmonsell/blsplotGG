@@ -64,7 +64,7 @@ Generates a \code{ggplot} object with a time series plot that compares two seaso
 of the same series, optionally including the original series.
 }
 \details{
-Version 2.3, 8/26/2024
+Version 2.4, 11/6/2024
 }
 \examples{
 ukgas_x11_seas   <- 

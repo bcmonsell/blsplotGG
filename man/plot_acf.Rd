@@ -63,7 +63,7 @@ of the regARIMA residuals.
 Generate ACF, PACF, or squared ACF plot of the regARIMA model residuals.
 }
 \details{
-Version 3.1, 11/5/2024
+Version 3.2, 11/6/2024
 }
 \examples{
 ukgas_x11_seas <- 

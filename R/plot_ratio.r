@@ -2,7 +2,7 @@
 #'
 #' Generates a high-definition plot around a reference line other than zero.
 #'
-#' Version 3.1, 8/28/2024
+#' Version 3.2, 11/6/2024
 #'
 #' @param ratio_series Time series of ratios/factors for which you want to generate 
 #'        a high definition plot
@@ -58,7 +58,7 @@ plot_ratio <-
 			 add_line = TRUE, 
 			 ratio_mean = 1.0, 
 			 ratio_color = "steelblue") {
-    # Author: Brian C. Monsell (OEUS) Version 3.1, 8/28/2024
+    # Author: Brian C. Monsell (OEUS) Version 3.2, 11/6/2024
     
     # check if \code{ratio_series} is specified
     if (is.null(ratio_series)) {
@@ -102,6 +102,11 @@ plot_ratio <-
                                 color = ratio_color)
 	}
 						  
+	# remove grey background if \code{do_background = FALSE} 
+    if (!do_background) {
+		p_ratio <- p_ratio + ggplot2::theme_bw()
+    }
+
 	# remove grid lines if \code{do_grid = FALSE}
 	if (!do_grid) {
 	    p_ratio <- p_ratio + 
@@ -109,11 +114,6 @@ plot_ratio <-
 			               panel.grid.minor = ggplot2::element_blank())
 	}
        
-	# remove grey background if \code{do_background = FALSE} 
-    if (!do_background) {
-		p_ratio <- p_ratio + ggplot2::theme_bw()
-    }
-
     # Generate recession region shading
 	if (draw_recess) {
 	    if (is.null(recess_color)) {

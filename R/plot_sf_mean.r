@@ -1,8 +1,8 @@
 #' Seasonal factor mean plot using ggplot
 #'
 #' Generates a plot of the means of the seasonal factors
-#' 
-#' Version 2.7, 9/5/2024
+#'
+#' Version 2.8, 11/6/2024
 #'
 #' @param this_sf_matrix time series object of the seasonal factors from a seasonal adjustment
 #' @param main_title Character string; main title of plot.  Default is  \code{'Mean of Seasonal Factors'}.
@@ -101,7 +101,7 @@ plot_sf_mean <-
 			 forecast = 0, 
 			 this_legend_title = "SF Means", 
 			 this_legend_entry = colnames(this_sf_matrix)) {
-    # Author: Brian C. Monsell (OEUS) Version 2.7, 9/5/2024
+    # Author: Brian C. Monsell (OEUS) Version 2.8, 11/6/2024
 
     if (is.null(this_sf_matrix)) {
         stop("Argument this_sf_matrix must be specified.")
@@ -220,16 +220,16 @@ plot_sf_mean <-
 		}
 	}
 
+	# remove grey background if \code{do_background = FALSE} 
+    if (!do_background) {
+		this_plot <- this_plot + ggplot2::theme_bw()
+    }
+
 	# remove grid lines if \code{do_grid = FALSE}
     if (!do_grid) {
 	    this_plot <- this_plot + 
 		    ggplot2::theme(panel.grid.major = ggplot2::element_blank(), 
 			               panel.grid.minor = ggplot2::element_blank())
-    }
-
-	# remove grey background if \code{do_background = FALSE} 
-    if (!do_background) {
-		this_plot <- this_plot + ggplot2::theme_bw()
     }
 
 	if (do_facet) {

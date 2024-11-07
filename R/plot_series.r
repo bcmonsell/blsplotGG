@@ -2,7 +2,7 @@
 #'
 #' Generate plot of user-specified time series (ts) object. 
 #'
-#' Version 2.4, 8/26/2024
+#' Version 2.5, 11/6/2024
 #'
 #' @param this_series Time series object; 
 #'        This is a required entry.
@@ -69,7 +69,7 @@ plot_series <-
              recess_sub = TRUE,  
              this_line_type = "solid", 
              line_color = "grey") {
-    # Author: Brian C. Monsell (OEUS) Version 2.4, 8/26/2024
+    # Author: Brian C. Monsell (OEUS) Version 2.5, 11/6/2024
     
     # check if a value is specified for \code{this_series}
     if (is.null(this_series)) {
@@ -120,6 +120,12 @@ plot_series <-
     # remove legend from plot
     this_plot <- this_plot + ggplot2::theme(legend.position="none")
 	
+	# remove grey background if \code{do_background = FALSE} 
+    if (!do_background) {
+		this_plot <- 
+			this_plot + ggplot2::theme_bw()
+    }
+
     # remove grid lines if \code{do_grid = FALSE} 
     if (!do_grid) {
 		this_plot <- this_plot + 
@@ -127,12 +133,6 @@ plot_series <-
 		                   panel.grid.minor = ggplot2::element_blank())
     }
 	
-	# remove grey background if \code{do_background = FALSE} 
-    if (!do_background) {
-		this_plot <- 
-			this_plot + ggplot2::theme_bw()
-    }
-
     # add recession regions to plot
     if (draw_recess) {
 	if (is.null(recess_color)) {

@@ -60,7 +60,7 @@ Generates a high-definition plot for a number of X-13 factors around
 a reference line other than zero.
 }
 \details{
-Version 2.5, 8/28/2024
+Version 2.6, 11/6/2024
 }
 \examples{
 shoes_x11_seas <- 

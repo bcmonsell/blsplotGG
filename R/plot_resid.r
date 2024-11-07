@@ -2,7 +2,7 @@
 #'
 #' Generates a plot of the regARIMA residuals with diagnostic information
 #'
-#' Version 2.5, 8/26/2024
+#' Version 2.6, 11/6/2024
 #'
 #' @param seas_obj \code{seas} object generated from a call of \code{seas} on a single time series
 #'        This is a requited entry.
@@ -55,7 +55,7 @@ plot_resid <-
              use_ratio = FALSE, 
              add_line = TRUE, 
              line_color = "steelblue") {
-    # Author: Brian C. Monsell (OEUS) Version 2.5, 8/26/2024
+    # Author: Brian C. Monsell (OEUS) Version 2.6, 11/6/2024
 
     # check if a value is specified for \code{seas_obj}
     if (is.null(seas_obj)) {
@@ -113,17 +113,17 @@ plot_resid <-
 
 	}
 
+	# remove grey background if \code{do_background = FALSE} 
+    if (!do_background) {
+		this_plot <- this_plot + ggplot2::theme_bw()
+    }
+
 	# remove grid lines if \code{do_grid = FALSE}
 	if (!do_grid) {
 	    this_plot <- this_plot + 
 		    ggplot2::theme(panel.grid.major = ggplot2::element_blank(), 
 			               panel.grid.minor = ggplot2::element_blank())
 	}
-
-	# remove grey background if \code{do_background = FALSE} 
-    if (!do_background) {
-		this_plot <- this_plot + ggplot2::theme_bw()
-    }
 
     # Generate recession region shading
 	if (draw_recess) {

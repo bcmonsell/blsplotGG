@@ -65,7 +65,7 @@ If time series object not specified, print out error message and return NULL.
 Generate year over year plot of a user-specified ts object.
 }
 \details{
-Version 3.1, 9/25/2024
+Version 3.2, 11/6/2024
 }
 \examples{
 this_yyplot <- 
