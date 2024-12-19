@@ -3,14 +3,14 @@
 #' Generates a \code{ggplot} object with a time series facet plot that compares 
 #' an X-13 seasonal adjustment and trend, optionally including the original series.
 #'
-#' Version 1.9, 9/24/2024
+#' Version 1.10, 12/17/2024
 #'
 #' @param seas_obj \code{seas} object generated from a call of \code{seas} on a single time series
 #'        This is a required entry.
 #' @param plot_ori Logical scalar, indicates if original series is included with plot. 
 #'        Default is \code{TRUE}.
-#' @param main_title Title for the plot. 
-#'        By default, the routine will generate a trend based on the 
+#' @param main_title Character string; title for the plot. 
+#'        By default, the routine will generate a title based on the 
 #'        type of adjustment (X-11 and SEATS) done.
 #' @param sub_title Subtitle for the plot. Optional entry.
 #' @param this_x_label Label for X-axis.  Default is \code{"Time"}
@@ -62,7 +62,7 @@ plot_sadj_and_trend_facet <-
              this_y_label = " ", 
              line_color = NULL,
 			 remove_legend = FALSE) {
-    # Author: Brian C. Monsell (OEUS) Version 1.9, 9/24/2024
+    # Author: Brian C. Monsell (OEUS) Version 1.10, 12/17/2024
 
     # check if a value is specified for \code{seas_obj}
     if (is.null(seas_obj)) {

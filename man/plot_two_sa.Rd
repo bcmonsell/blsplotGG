@@ -48,7 +48,7 @@ Default is no grid lines.}
 Default is no grey background;}
 
 \item{line_color}{Character scalar; color used for plot.
-User should specify one color for each column of the matrix specified.
+User should specify colors for each series in \code{this_sa_text}.
 Default is the \code{RColorBrewer} palette \code{"Dark2"}.}
 
 \item{this_palette}{Character string; default \code{RColorBrewer} palette.
@@ -64,7 +64,7 @@ Generates a \code{ggplot} object with a time series plot that compares two seaso
 of the same series, optionally including the original series.
 }
 \details{
-Version 2.4, 11/6/2024
+Version 2.5, 12/19/2024
 }
 \examples{
 ukgas_x11_seas   <- 

@@ -3,7 +3,7 @@
 #' Generates a \code{ggplot} object with a time series plot that compares two seasonal adjustments
 #' of the same series, optionally including the original series.
 #'
-#' Version 2.4, 11/6/2024
+#' Version 2.5, 12/19/2024
 #'
 #' @param this_sa_one Time series of the X-11 seasonal adjustment.
 #'        This is a required entry.
@@ -22,7 +22,7 @@
 #' @param do_background Logical scalar; indicates grey background included in plot.
 #'        Default is no grey background;
 #' @param line_color Character scalar; color used for plot. 
-#'        User should specify one color for each column of the matrix specified.
+#'        User should specify colors for each series in \code{this_sa_text}.
 #'        Default is the \code{RColorBrewer} palette \code{"Dark2"}.
 #' @param this_palette Character string; default \code{RColorBrewer} palette.
 #'        Deault is \code{"Dark2"}.
@@ -63,7 +63,7 @@ plot_two_sa <-
              line_color = NULL, 
 			 this_palette = "Dark2",
              this_guide_legend = "Series") {
-    # Author: Brian C. Monsell (OEUS) Version 2.4, 11/6/2024
+    # Author: Brian C. Monsell (OEUS) Version 2.5, 12/19/2024
 
     if (is.null(this_sa_one)) {
         cat("must specify the first seasonally adjusted series")
@@ -126,10 +126,10 @@ plot_two_sa <-
     } else {
         this_df <- 
             data.frame(date = tsbox::ts_df(this_sa_one)$time, 
-	               ori = as.double(this_ori),  
+	               one.ori = as.double(this_ori),  
 	               one.sa = as.double(this_sa_one), 
 	               two.sa = as.double(this_sa_two)) %>%
-	    dplyr::select(.data$date, .data$ori, .data$one.sa, .data$two.sa) %>%
+	    dplyr::select(.data$date, .data$one.ori, .data$one.sa, .data$two.sa) %>%
 	    tidyr::gather(key = "sa", value = "value", -date)
         p_two_sa <- 
             ggplot2::ggplot(this_df) + 

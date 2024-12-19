@@ -2,7 +2,7 @@
 #'
 #' Generates a special plot of the seasonal factors grouped by month/quarter. 
 #'
-#' Version 2.2, 11/6/2024
+#' Version 2.3, 12/11/2024
 #'
 #' @param this_sf array of seasonal factors stored as a time series
 #' @param y_limit Numeric vector of length 2; Range of values you wish the plot to be plotted over. 
@@ -26,6 +26,10 @@
 #' @param this_legend_title Character string; indicates title of legend. Default is \code{'Series'}.
 #' @param this_legend_text Array of character strings; indicates text for each seasonal factor in plot. 
 #'        Default is \code{c("SF", "SF Mean")}.
+#' @param legend_title_size integer scalar; Size of the legend title.
+#'        Default is \code{12}.
+#' @param legend_text_size integer scalar; Size of the legend title.
+#'        Default is \code{10}.
 #' @return A \code{ggplot} object which generates a plot of the seasonal factors 
 #'        (and the SI-ratios) grouped by month/quarter.
 #'
@@ -60,8 +64,10 @@ plot_sf_series <-
 			 first_year = NULL, 
 			 add_mean_line = TRUE,
 			 this_legend_title = "SF Plot", 
-			 this_legend_text = c("SF", "SF Mean")) {
-    # Author: Brian C. Monsell (OEUS) Version 2.2, 11/6/2024
+			 this_legend_text = c("SF", "SF Mean"),
+			 legend_title_size = 12,
+			 legend_text_size = 10) {
+    # Author: Brian C. Monsell (OEUS) Version 2.3, 12/11/2024
 
     # check if a value is specified for \code{this_sf}
     if (is.null(this_sf)) {
@@ -88,9 +94,7 @@ plot_sf_series <-
 
     # Generate monthly labels
     if (freq == 12) {
-        this_label <-
-           c("Jan", "Feb", "Mar", "Apr", "May", "Jun", 
-		     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+        this_label <- month.abb
         if (is.null(this_xlab)) { this_xlab <- "Months" }
     } else {
     # Generate quarterly labels
@@ -169,6 +173,10 @@ plot_sf_series <-
 		ggplot2::geom_hline(yintercept = h_bar)
     
     p_sf$labels$colour <- this_legend_title
+	p_sf <- p_sf + 
+		ggplot2::theme(legend.text = ggplot2::element_text(size = legend_text_size),
+					   legend.title = ggplot2::element_text(size = legend_title_size))
+
 
 	# remove grey background if \code{do_background = FALSE} 
     if (!do_background) {

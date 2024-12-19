@@ -22,8 +22,8 @@ This is a required entry.}
 \item{plot_ori}{Logical scalar, indicates if original series is included with plot.
 Default is \code{TRUE}.}
 
-\item{main_title}{Title for the plot.
-By default, the routine will generate a trend based on the
+\item{main_title}{Character string; title for the plot.
+By default, the routine will generate a title based on the
 type of adjustment (X-11 and SEATS) done.}
 
 \item{sub_title}{Subtitle for the plot. Optional entry.}
@@ -50,7 +50,7 @@ Generates a \code{ggplot} object with a time series facet plot that compares
 an X-13 seasonal adjustment and trend, optionally including the original series.
 }
 \details{
-Version 1.9, 9/24/2024
+Version 1.10, 12/17/2024
 }
 \examples{
 ukgas_x11_seas   <- 

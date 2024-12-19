@@ -2,7 +2,7 @@
 #'
 #' Process string of month abbrev to return a numeric index.
 #'
-#' Version 2.3, 9/18/2020
+#' Version 2.4, 12/11/2024
 #'
 #' @param this_month_string Character string; 3 character abbreviation of month
 #' @return Index of month - 1 for 'Jan', 2 for 'Feb', etc.
@@ -16,10 +16,10 @@
 #' thisPerIndex <- get_month_index(thisPerChar)
 #' @export
 get_month_index <- function(this_month_string) {
-    # Author: Brian C. Monsell (OEUS) Version 2.3, September 18, 2020
+    # Author: Brian C. Monsell (OEUS) Version 2.4, 12/11/2024
     
     # Initialize monthly abbreviations, index
-    mAbb <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+    mAbb <- month.abb
     mInd <- 1:12
     
     # return index of month abbreviation

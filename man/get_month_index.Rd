@@ -16,7 +16,7 @@ Index of month - 1 for 'Jan', 2 for 'Feb', etc.
 Process string of month abbrev to return a numeric index.
 }
 \details{
-Version 2.3, 9/18/2020
+Version 2.4, 12/11/2024
 }
 \examples{
 thisOtl <- 'AO2015.Jan'
