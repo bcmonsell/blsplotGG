@@ -1,0 +1,122 @@
+#' Component facet plot
+#'
+#' Generates a plot for the components of a seasonal adjustment - trend, seasonal, and
+#' irreglar.
+#'
+#' Version 1.2, 3/27/2025
+#'
+#' @param seas_obj \code{seas} object generated from a call of \code{seas} 
+#'        on a single time series
+#'        This is a required entry.
+#' @param main_title Title for the plot. 
+#'        Default is character string \code{'Component Facet Plot'}.
+#' @param sub_title Subtitle for the plot. Default is either "SEATS seasonal adjustment" 
+#'        or "X-11 seasonal adjustment".
+#' @param this_x_label Label for X axis. Default is \code{"Time"}.
+#' @param this_y_label Label for Y axis. Default is \code{" "}.
+#' @param do_grid Logical scalar; indicates if certain plots will have grid lines. 
+#'        Default is no grid lines. 
+#' @param do_background Logical scalar; indicates grey background included in plot.
+#'        Default is no grey background;
+#' @param do_background Logical scalar; indicates grey background included in plot.
+#'        Default is no grey background;
+#' @param this_scale Character scalar; set the scale for the y-axis of the facet plots. 
+#'        Default is \code{"free_y"}.  To set axis to be the same for the different plots,
+#'        set \code{this_scale = "fixed"}. Note: Setting \code{this_scale = "fixed"} 
+#'        seasonal is not recommended for mulitplicative adjustments.
+#' @param line_color Color used for lines in component plot.  
+#'        Default is \code{"steelblue"}.
+#' @return A \code{ggplot} object that generates a facet plot for the 
+#'         trend, seasonal, and irregular from the adjustment encapsulated in \code{seas_obj}.
+#'
+#' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
+#'
+#' @examples
+#' shoes_x11_seas <- 
+#'    seasonal::seas(shoes2008, arima.model = "(0 1 1)(0 1 1)", 
+#'                   transform.function = "log", forecast.maxlead = 36,
+#'                   regression.aictest = c("td", "easter"),
+#'		             regression.save = c("td", "hol"),
+#'                   x11.seasonalma = "s3x5", check.print = c( 'pacf', 'pacfplot' ))
+#' shoes_comp_plot <- 
+#'    plot_component_facet(shoes_x11_seas, 
+#'                         main_title = "US Retail Shoe Sales",
+#'                         sub_title = "X-11 (3x5 Seasonal filter)"
+#'                         )
+#' @importFrom magrittr %>%
+#' @importFrom rlang .data
+#' @export
+plot_component_facet <- 
+    function(seas_obj = NULL, 
+             main_title = "Component Facet Plot", 
+			 sub_title = NULL, 
+             this_x_label = "Time", 
+			 this_y_label = " ", 
+			 do_grid = FALSE, 
+	         do_background = FALSE, 
+			 this_scale = "free_y",
+			 line_color = "steelblue") {
+    # Author: Brian C. Monsell (OEUS) Version 1.2, 3/27/2025
+
+    # check if a value is specified for \code{seas_obj}
+    if (is.null(seas_obj)) {
+        cat("must specify a seas object")
+	    return(NULL)
+    } else {
+    # check if a seas object is specified for \code{seas_obj}
+        if (!inherits(seas_obj, "seas")) {
+            cat("First argument must be a seas object")
+			return(NULL)
+        }
+    }
+	
+	if ("seatsadj" %in% names(seasonal::udg(seas_obj))) {
+		sub_title <- "SEATS seasonal adjustment"
+		this_sf <- seasonal::series(seas_obj, "s10")
+	} else {
+		sub_title <- "X-11 seasonal adjustment"
+		this_sf <- seasonal::series(seas_obj, "d10")
+	}
+	
+	this_trend <- seasonal::trend(seas_obj)
+	this_irregular <- seasonal::irregular(seas_obj)
+	
+	line_label <- c("Trend", "Seasonal", "Irregular")
+
+	this_facet_df <- 
+		data.frame(date = tsbox::ts_df(this_trend)$time, 
+			   trend = as.double(this_trend), 
+			   sf = as.double(this_sf),
+			   irr = as.double(this_irregular)) %>%
+		dplyr::select(.data$date, .data$trend, .data$sf, .data$irr) %>%
+		tidyr::gather(key = "comp", value = "value", -date)
+
+	p_comp_facet <- 
+		ggplot2::ggplot(this_facet_df, 
+	                ggplot2::aes(y = .data$value, x = .data$date, 
+	                             color = .data$comp)) +  
+		ggplot2::geom_line(color = line_color) + 
+		ggplot2::facet_grid(factor(comp, 
+	                           levels = c("trend", "sf", "irr"),
+	                           labels = c("Trend", "Seasonal", "Irregular")) ~ .,
+	                    scales = this_scale) + 
+		ggplot2::labs(title = main_title,
+                          subtitle = sub_title,
+                          x = this_x_label,
+                          y = this_y_label)
+
+	# remove grey background if \code{do_background = FALSE} 
+    if (!do_background) {
+		p_comp_facet <- p_comp_facet + ggplot2::theme_bw()
+    }
+
+	# remove grid lines if \code{do_grid = FALSE}
+	if (!do_grid) {
+	    p_comp_facet <- p_comp_facet + 
+		    ggplot2::theme(panel.grid.major = ggplot2::element_blank(), 
+		                   panel.grid.minor = ggplot2::element_blank())
+	}
+	
+	return(p_comp_facet)
+	
+}

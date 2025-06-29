@@ -3,7 +3,7 @@
 #' Generates a ggplot2 object of estimates from a revisions history of a trend 
 #' component for a given series, incorporating all trend lag revisions.
 #'
-#' Version 1.8, 9/5/20244
+#' Version 1.8.1, 3/4/2025
 #'
 #' @param seas_obj \code{seas} object generated from a call of \code{seas} on a single time series
 #'        This is a required entry.
@@ -43,7 +43,7 @@
 #' 	      history.trendlags = 1:4,
 #' 	      history.print = "all",
 #' 	      history.save = c("tre", "trr"))
-#' p_shoes_sa_history <- 
+#' p_shoes_trend_history <- 
 #'     plot_all_trend_lags(shoes_seas, this_trend_name = "shoes", 
 #'         main_title = "All Trend Revisions, Lags 1 to 4",
 #'         sub_title = "US Retail Sales of Shoes")
@@ -61,7 +61,7 @@ plot_all_trend_lags <-
 		do_background = FALSE,
 		base_color = "darkblue",
 		whisker_color = "darkgrey") {
-	# Author: Brian C. Monsell (OEUS) Version 1.8, 9/5/2024
+	# Author: Brian C. Monsell (OEUS) Version 1.8.1, 3/4/2025
 
     # check if a value is specified for \code{seas_obj}
     if (is.null(seas_obj)) {

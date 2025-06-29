@@ -12,6 +12,8 @@ plot_ratio_two(
   overall_title = NULL,
   ratio_one_title = "First Ratio Plot",
   ratio_two_title = "Second Ratio Plot",
+  remove_fcst_one = NULL,
+  remove_fcst_two = NULL,
   comparison_title = "Comparison Plot",
   this_x_label = NULL,
   this_y_label = NULL,
@@ -48,12 +50,20 @@ Default is character string \code{'First Ratio Plot'}.}
 \item{ratio_two_title}{Title for the plot.
 Default is character string \code{'Second Ratio Plot'}.}
 
+\item{remove_fcst_one}{Integer scalar; indicates forecasts to be removed from
+\code{ratio_one} before plotting.
+Default is no forecasts removed;}
+
+\item{remove_fcst_two}{Integer scalar; indicates forecasts to be removed from
+\code{ratio_two} before plotting.
+Default is no forecasts removed;}
+
 \item{comparison_title}{Title for the comparison plot, if requested.
 Default is character string \code{'Comparison Plot'}.}
 
-\item{this_x_label}{Label for X axis. Default is no X axis label.}
+\item{this_x_label}{Label for X axis. Default is \code{"Time"}.}
 
-\item{this_y_label}{Label for Y axis. Default is no Y axis label.}
+\item{this_y_label}{Label for Y axis. Default is \code{"Ratio"}.}
 
 \item{do_grid}{Logical scalar; indicates if certain plots will have grid lines.
 Default is no grid lines.}
@@ -78,18 +88,18 @@ Generates ratio plots for two series, and a third plot of the ratio/difference o
 the two series if the user requests it.
 }
 \details{
-Version 1.4, 9/6/2024
+Version 2.3, 6/18/2025
 }
 \examples{
 ukgas_x11_seas   <- 
    seasonal::seas(UKgas, series.period = 4, arima.model = "(0 1 1)(0 1 1)", 
                   transform.function = "log", forecast.maxlead = 20,
                   x11.seasonalma = "s3x5", x11.save = c("d10", "d11"),
-                  check.print = c( 'pacf', 'pacfplot' ))
+                  check.print = c( 'pacf', 'pacfplot' ), series.appendfcst = "no")
 ukgas_seats_seas <- 
    seasonal::seas(UKgas, series.period = 4, arima.model = "(0 1 1)(0 1 1)", 
                   transform.function = "log", forecast.maxlead = 20,
-                  seats.save = c("s10", "s11"),
+                  seats.save = c("s10", "s11"), series.appendfcst = "no",
                   check.print = c( 'pacf', 'pacfplot' ))
 ukgas_x11_sf      <- seasonal::series(ukgas_x11_seas, "d10")
 ukgas_seats_sf    <- seasonal::series(ukgas_seats_seas, "s10")

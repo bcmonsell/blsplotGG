@@ -3,7 +3,7 @@
 #' Generates a high-definition plot for a number of X-13 factors around 
 #' a reference line other than zero.
 #'
-#' Version 2.6, 11/6/2024
+#' Version 4.2, 6/24/2025
 #'
 #' @param seas_obj \code{seas} object generated from a call of \code{seas} 
 #'        on a single time series
@@ -21,11 +21,14 @@
 #'        Default is no grid lines. 
 #' @param do_background Logical scalar; indicates grey background included in plot.
 #'        Default is no grey background;
-#' @param do_background Logical scalar; indicates grey background included in plot.
-#'        Default is no grey background;
 #' @param add_line Logical scalar; add solid line for assumed mean. 
 #'        Default is \code{TRUE}. 
+#' @param this_scale Character scalar; set the scale for the y-axis of the facet plots. 
+#'        Default is \code{"fixed"}.  To set axis to be different for the different plots,
+#'        set \code{this_scale = "free_y"}.
 #' @param ratio_mean Assumed mean value for the ratio.  Default is \code{1.0}
+#' @param remove_fcst Logical scalar; if TRUE, indicates forecasts to be removed from the series before plotting.
+#'        Default is no forecasts removed (FALSE);
 #' @param ratio_color Color used for lines in ratio plot.  
 #'        Default is \code{"steelblue"}.
 #' @return A \code{ggplot} object that generates a ratio facet plot for the 
@@ -47,23 +50,26 @@
 #' shoes_factor_ratio_two   <- 
 #'    plot_ratio_facet(shoes_x11_seas, c("td", "hol", "irr"), 
 #'                     main_title = "US Retail Shoe Sales",
-#'                     sub_title = "Trading Day, Easter, and Irregular Factors")
+#'                     sub_title = "Trading Day, Easter, and Irregular Factors",
+#'                     this_scale = "free_y")
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
 #' @export
 plot_ratio_facet <- 
     function(seas_obj = NULL, 
-	         ratio_tables = NULL, 
+             ratio_tables = NULL, 
              main_title = "Ratio Facet Plot", 
-			 sub_title = NULL, 
+             sub_title = NULL, 
              this_x_label = "Time", 
-			 this_y_label = "Ratio", 
-			 do_grid = FALSE, 
-	         do_background = FALSE, 
-	         add_line = TRUE, 
-			 ratio_mean = 1.0, 
-			 ratio_color = "steelblue") {
-    # Author: Brian C. Monsell (OEUS) Version 2.6, 11/6/2024
+             this_y_label = "Ratio", 
+             do_grid = FALSE, 
+             do_background = FALSE, 
+             add_line = TRUE, 
+             this_scale = "fixed",
+             ratio_mean = 1.0, 
+             remove_fcst = FALSE,
+             ratio_color = "steelblue") {
+    # Author: Brian C. Monsell (OEUS) Version 4.2, 6/24/2025
 
     # check if a value is specified for \code{seas_obj}
     if (is.null(seas_obj)) {
@@ -85,11 +91,21 @@ plot_ratio_facet <-
 	
 	this_time <- NULL
 	this_len <- NULL
+	this_fcst <- NULL
 	if ("sf" %in% ratio_tables) {
 	    if (length(seas_obj$spc$x11) > 0) {
 	        this_sf <- seasonal::series(seas_obj, "d10")
 		} else {
 	        this_sf <- seasonal::series(seas_obj, "s10")
+		}
+		if (remove_fcst) {
+		  if (is.null(this_fcst)) {
+		    this_fcst <- seasonal::udg(seas_obj, "nfcst")
+		  }
+			this_end <- length(this_sf) - this_fcst
+			this_start <- start(this_sf)
+			this_freq  <- frequency(this_sf)
+			this_sf <- ts(this_sf[1:this_end], start = this_start, frequency = this_freq)
 		}
 		if (is.null(this_time)) {
 		    this_time <- tsbox::ts_df(this_sf)$time
@@ -102,7 +118,16 @@ plot_ratio_facet <-
 	}
 
 	if ("td" %in% ratio_tables) {
-	    this_td <- seasonal::series(seas_obj, "td")
+	  this_td <- seasonal::series(seas_obj, "td")
+		if (remove_fcst) {
+		  if (is.null(this_fcst)) {
+		    this_fcst <- seasonal::udg(seas_obj, "nfcst")
+		  }
+		  this_end <- length(this_td) - this_fcst
+			this_start <- start(this_td)
+			this_freq  <- frequency(this_td)
+			this_td <- ts(this_td[1:this_end], start = this_start, frequency = this_freq)
+		}
 		if (is.null(this_time)) {
 		    this_time <- tsbox::ts_df(this_td)$time
 		}
@@ -114,15 +139,24 @@ plot_ratio_facet <-
 	}
 
 	if ("hol" %in% ratio_tables) {
-	    this_hol <- seasonal::series(seas_obj, "hol")
+	  this_hol <- seasonal::series(seas_obj, "hol")
+	  if (remove_fcst) {
+	    if (is.null(this_fcst)) {
+	      this_fcst <- seasonal::udg(seas_obj, "nfcst")
+      }
+	    this_end <- length(this_hol) - this_fcst
+	    this_start <- start(this_hol)
+	    this_freq  <- frequency(this_hol)
+			this_hol <- ts(this_hol[1:this_end], start = this_start, frequency = this_freq)
+		}
 		if (is.null(this_time)) {
-		    this_time <- tsbox::ts_df(this_hol)$time
+		  this_time <- tsbox::ts_df(this_hol)$time
 		}
 		if (is.null(this_len)) {
-		    this_len <- length(this_hol)
+		  this_len <- length(this_hol)
 		}
 	} else {
-	    this_hol <- NULL
+	  this_hol <- NULL
 	}
 
 	if ("irr" %in% ratio_tables) {
@@ -141,9 +175,9 @@ plot_ratio_facet <-
 	    this_irr <- NULL
 	}
 
-    if (is.null(this_len)) {
-        cat("must specify either sf, td, irr, or hol in the ratio_tables argument")
-	    return(NULL)
+  if (is.null(this_len)) {
+    cat("must specify either sf, td, irr, or hol in the ratio_tables argument")
+	  return(NULL)
 	}
 	
 	if (is.null(this_sf)) {
@@ -177,7 +211,7 @@ plot_ratio_facet <-
                                              xend=.data$date, 
                                              yend=.data$value), 
                                              color = ratio_color) +
-	    ggplot2::facet_grid(series ~ .) + 
+	    ggplot2::facet_grid(series ~ ., scale = this_scale) + 
             ggplot2::labs(title = main_title,
                           subtitle = sub_title,
 						  x = this_x_label,

@@ -69,13 +69,14 @@ A \code{ggplot} object that produces a ratio plot of a time series.
 Generates a high-definition plot around a reference line other than zero.
 }
 \details{
-Version 3.2, 11/6/2024
+Version 3.3, 6/18/2025
 }
 \examples{
 ukgas_x11_seas <- 
    seasonal::seas(UKgas, series.period = 4, arima.model = "(0 1 1)(0 1 1)", 
-                  transform.function = "log", forecast.maxlead = 20,
-                  x11.seasonalma = "s3x5", check.print = c( 'pacf', 'pacfplot' ))
+                  transform.function = "log", forecast.maxlead = 20, 
+                  series.appendfcst = "no", x11.seasonalma = "s3x5", 
+                  check.print = c( 'pacf', 'pacfplot' ))
 ukgas_x11_sf     <- seasonal::series(ukgas_x11_seas, "d10")
 ukgas_sf_ratio   <- plot_ratio(ukgas_x11_sf, main_title = "UK Gas X-11 Seasonal Factors",
                                sub_title = "Seasonal Filter: 3x5")

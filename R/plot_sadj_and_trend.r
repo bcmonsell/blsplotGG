@@ -3,7 +3,7 @@
 #' Generates a \code{ggplot} object with a time series plot that compares an X-13 
 #' seasonal adjustment and trend, optionally including the original series.
 #'
-#' Version 1.7, 11/6/2024
+#' Version 2.3, 6/24/2025
 #'
 #' @param seas_obj \code{seas} object generated from a call of \code{seas} on a single time series
 #'        This is a required entry.
@@ -21,10 +21,14 @@
 #'        Default is no grey background;
 #' @param line_color Character vector of length 2 (if \code{plot_ori} is \code{FALSE})
 #'        or 3 (if \code{plot_ori} is \code{TRUE}); color used for lines in the plot,
-#'        in the order of seasonally adjusted series, trend, original series. 
+#'        in the order of original series (if specified), seasonally adjusted series, trend. 
 #'        Default is generated from the \code{RColorBrewer} palette \code{"Dark2"}.
 #' @param this_palette Character string; default \code{RColorBrewer} palette.
 #'        Deault is \code{"Dark2"}.
+#' @param line_label Caracter vector of length 2; labels used for lines in the plot,
+#'        in the order of original series, seasonally adjusted series. 
+#'        Default is \code{c("Ori", "SA", "Trend")} (if original series plotted) or
+#'        \code{c("SA", "Trend")}.
 #' @param this_guide_legend Title for legend.  Default is \code{"Series"}
 #' @return A \code{ggplot} object that generates a plot comparing a 
 #'         seasonally adjusted series with the trend generated from the same
@@ -42,7 +46,7 @@
 #'     plot_sadj_and_trend(ukgas_x11_seas, plot_ori = TRUE,
 #'                         main_title = "UK Gas",
 #'                         sub_title = "X-11 Seasonal Adjustment",
-#'                         line_color = c("steelblue", "forestgreen", "lightgrey"))
+#'                         line_color = c("lightgrey", "steelblue", "forestgreen"))
 #' ukgas_seats_seas <- 
 #'    seasonal::seas(UKgas, series.period = 4, arima.model = "(0 1 1)(0 1 1)", 
 #'                   transform.function = "log", forecast.maxlead = 20,
@@ -67,8 +71,9 @@ plot_sadj_and_trend <-
              do_background = FALSE,
              line_color = NULL, 
              this_palette = "Dark2",
+             line_label = NULL,
              this_guide_legend = "Series") {
-    # Author: Brian C. Monsell (OEUS) Version 1.7, 11/6/2024
+    # Author: Brian C. Monsell (OEUS) Version 2.3, 6/24/2025
 
     # check if a value is specified for \code{seas_obj}
     if (is.null(seas_obj)) {
@@ -86,6 +91,13 @@ plot_sadj_and_trend <-
 	this_trend <- seasonal::trend(seas_obj)
 	if (plot_ori) {
 		this_ori <- seasonal::original(seas_obj)
+		if (length(this_ori) > length(this_sadj)) {
+		  this_start <- start(this_sadj)
+		  this_end <- end(this_sadj)
+		  this_frequency <- frequency(this_sadj)
+		  this_ori <- 
+		    window(start = this_start, end = this_sadj, frequency = this_frequency)
+		}
 	}
 	
 	if ("seatsadj" %in% names(seasonal::udg(seas_obj))) {
@@ -102,7 +114,14 @@ plot_sadj_and_trend <-
     num_color <- 3
     if (!plot_ori) {
 		num_color <- 2
-    }
+		if (is.null(line_label)) { 
+			line_label <- c("SA", "Trend")
+		}
+    } else {
+		if (is.null(line_label)) { 
+			line_label <- c("Ori", "SA", "Trend")
+		}
+	}
 	
     if (is.null(line_color)) {
         line_color <- RColorBrewer::brewer.pal(3, this_palette)[1:num_color]
@@ -128,8 +147,8 @@ plot_sadj_and_trend <-
             ggplot2::geom_line(ggplot2::aes(x = .data$date, 
                                             y = .data$value, 
                                             color = .data$comp)) + 
-            ggplot2::scale_color_manual(labels = c("SA", "Trend"), 
-                                        values = line_color[1:2]) +
+            ggplot2::scale_color_manual(labels = line_label, 
+                                        values = line_color) +
             ggplot2::labs(title = main_title,
                           subtitle = sub_title,
                           x = this_x_label,
@@ -148,8 +167,8 @@ plot_sadj_and_trend <-
             ggplot2::geom_line(ggplot2::aes(x = .data$date, 
                                             y = .data$value, 
                                             color = .data$comp)) + 
-            ggplot2::scale_color_manual(labels = c("Ori", "SA", "Trend"), 
-                                        values = line_color[c(3,1,2)]) +
+            ggplot2::scale_color_manual(labels = line_label, 
+                                        values = line_color) +
             ggplot2::labs(title = main_title,
                           subtitle = sub_title,
                           x = this_x_label,
@@ -157,8 +176,8 @@ plot_sadj_and_trend <-
     }
     
     p_sadj_trend <- 
-      p_sadj_trend + 
-        ggplot2::guides(color = ggplot2::guide_legend(this_guide_legend))
+		p_sadj_trend + 
+			ggplot2::guides(color = ggplot2::guide_legend(this_guide_legend))
 	
 	# remove grey background if \code{do_background = FALSE} 
     if (!do_background) {

@@ -14,7 +14,9 @@ plot_ratio_facet(
   do_grid = FALSE,
   do_background = FALSE,
   add_line = TRUE,
+  this_scale = "fixed",
   ratio_mean = 1,
+  remove_fcst = FALSE,
   ratio_color = "steelblue"
 )
 }
@@ -46,7 +48,14 @@ Default is no grey background;}
 \item{add_line}{Logical scalar; add solid line for assumed mean.
 Default is \code{TRUE}.}
 
+\item{this_scale}{Character scalar; set the scale for the y-axis of the facet plots.
+Default is \code{"fixed"}.  To set axis to be different for the different plots,
+set \code{this_scale = "free_y"}.}
+
 \item{ratio_mean}{Assumed mean value for the ratio.  Default is \code{1.0}}
+
+\item{remove_fcst}{Logical scalar; if TRUE, indicates forecasts to be removed from the series before plotting.
+Default is no forecasts removed (FALSE);}
 
 \item{ratio_color}{Color used for lines in ratio plot.
 Default is \code{"steelblue"}.}
@@ -60,7 +69,7 @@ Generates a high-definition plot for a number of X-13 factors around
 a reference line other than zero.
 }
 \details{
-Version 2.6, 11/6/2024
+Version 4.2, 6/24/2025
 }
 \examples{
 shoes_x11_seas <- 
@@ -76,7 +85,8 @@ shoes_factor_ratio_one   <-
 shoes_factor_ratio_two   <- 
    plot_ratio_facet(shoes_x11_seas, c("td", "hol", "irr"), 
                     main_title = "US Retail Shoe Sales",
-                    sub_title = "Trading Day, Easter, and Irregular Factors")
+                    sub_title = "Trading Day, Easter, and Irregular Factors",
+                    this_scale = "free_y")
 }
 \author{
 Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}

@@ -11,7 +11,12 @@ plot_sadj_and_trend_facet(
   sub_title = NULL,
   this_x_label = "Time",
   this_y_label = " ",
+  do_grid = FALSE,
+  do_background = FALSE,
   line_color = NULL,
+  this_palette = "Dark2",
+  line_label = NULL,
+  this_scale = "fixed",
   remove_legend = FALSE
 )
 }
@@ -32,10 +37,28 @@ type of adjustment (X-11 and SEATS) done.}
 
 \item{this_y_label}{Label for Y-axis.  Default is \code{" "}}
 
+\item{do_grid}{Logical scalar; indicates if certain plots will have grid lines.
+Default is no grid lines.}
+
+\item{do_background}{Logical scalar; indicates grey background included in plot.
+Default is no grey background;}
+
 \item{line_color}{Character vector of length 2 (if \code{plot_ori} is \code{FALSE})
 or 3 (if \code{plot_ori} is \code{TRUE}); color used for lines in the plot,
-in the order of seasonally adjusted series, trend, original series.
+in the order of original series (if specified), seasonally adjusted series, trend.
 Default is generated from the \code{RColorBrewer} palette \code{"Dark2"}.}
+
+\item{this_palette}{Character string; default \code{RColorBrewer} palette.
+Deault is \code{"Dark2"}.}
+
+\item{line_label}{Caracter vector of length 2; labels used for lines in the plot,
+in the order of original series, seasonally adjusted series.
+Default is \code{c("Ori", "SA", "Trend")} (if original series plotted) or
+\code{c("SA", "Trend")}.}
+
+\item{this_scale}{Character scalar; set the scale for the y-axis of the facet plots.
+Default is \code{"fixed"}.  To set axis to be different for the different plots,
+set \code{this_scale = "free_y"}.}
 
 \item{remove_legend}{Logical scalar; if TRUE, plot legend will be removed.
 Default is FALSE.}
@@ -50,7 +73,7 @@ Generates a \code{ggplot} object with a time series facet plot that compares
 an X-13 seasonal adjustment and trend, optionally including the original series.
 }
 \details{
-Version 1.10, 12/17/2024
+Version 4.3, 6/27/2025
 }
 \examples{
 ukgas_x11_seas   <- 

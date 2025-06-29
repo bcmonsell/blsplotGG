@@ -16,7 +16,8 @@ plot_acf(
   this_x_axis_breaks = NULL,
   do_grid = FALSE,
   do_background = FALSE,
-  acf_color = "steelblue"
+  acf_color = "steelblue",
+  ci_color = "grey"
 )
 }
 \arguments{
@@ -35,13 +36,14 @@ Default is range of the series.}
 Default is confidence intervals are added.}
 
 \item{main_title}{Title for the plot.
-Default is character string \code{'ACF Plot'}.}
+Default is generated based on the value of \code{this_plot}.}
 
 \item{sub_title}{Subtitle for the plot. Default is \code{NULL}, or no subtitle.}
 
 \item{this_x_label}{Label for X axis. Default is \code{"Lags"}.}
 
-\item{this_y_label}{Label for Y axis. Default is \code{"ACF"}.}
+\item{this_y_label}{Label for Y axis.
+Default is generated based on the value of \code{this_plot}.}
 
 \item{this_x_axis_breaks}{Numeric vector; sets the values for the x-axis.
 Default uses the value of \code{this_frequency} to set x-axis.}
@@ -54,6 +56,9 @@ Default is no grey background;}
 
 \item{acf_color}{Color used for lines in ACF plot.
 Default is \code{"steelblue"}.}
+
+\item{ci_color}{Color used for confidence interval in ACF plot.
+Default is \code{"grey"}.}
 }
 \value{
 A \code{ggplot} object that produces an ACF, PACF, or squared ACF plot
@@ -63,7 +68,7 @@ of the regARIMA residuals.
 Generate ACF, PACF, or squared ACF plot of the regARIMA model residuals.
 }
 \details{
-Version 3.2, 11/6/2024
+Version 4.2, 2/18/2025
 }
 \examples{
 ukgas_x11_seas <- 

@@ -16,7 +16,7 @@ plot_sf_mean(
   this_palette = "Dark2",
   this_line_type = rep("solid", ncol(this_sf_matrix)),
   do_facet = FALSE,
-  reset_facet_y_axis = FALSE,
+  this_scale = "free_y",
   y_limit = NULL,
   forecast = 0,
   this_legend_title = "SF Means",
@@ -53,8 +53,9 @@ Default is \code{rep("solid", ncol(this_sf_matrix))}.}
 \item{do_facet}{Logical scalar; indicates if a facet plot is generated of the different colums.
 Default is \code{FALSE}.}
 
-\item{reset_facet_y_axis}{Logical scalar; indicates if y-axis for facet plots reset to \code{y_limit}
-Default is \code{FALSE}.}
+\item{this_scale}{Character scalar; set the scale for the y-axis of the facet plots.
+Default is \code{"free_y"}.  To set axis to be the same for the different plots,
+set \code{this_scale = "fixed"}.}
 
 \item{y_limit}{Numeric vector of length 2; Range of values you wish the plot to be plotted over.
 Default is range of the seasonal factors.}
@@ -75,7 +76,7 @@ If seasonal factors not specified, print out error message and return NULL.
 Generates a plot of the means of the seasonal factors
 }
 \details{
-Version 2.8, 11/6/2024
+Version 3.1, 1/7/2025
 }
 \examples{
 EM_individual_seas <-
@@ -120,7 +121,7 @@ em_plot_facet <- blsplotGG::plot_sf_mean(EM_Comp_Sf,
   sub_title = 'X-11 Seasonals',
   forecast = 60, 
   do_facet = TRUE, 
-  reset_facet_y_axis = TRUE,
+  this_scale = "fixed",
   this_legend_entry = c("M 16-19", "F 16-19", "M 20+", "F 20+")
   )
 }

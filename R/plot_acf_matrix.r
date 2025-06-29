@@ -3,7 +3,7 @@
 #' Generate ACF, PACF, or squared ACF plot of the regARIMA model residuals 
 #' from a matrix of the ACF.
 #' 
-#' Version 2.6, 11/5/2024
+#' Version 3.1, 2/18/2025
 #'
 #' @param acf_matrix Numeric matrix containing the ACF, PACF, or squared ACF with 
 #'        columns with SE, Ljung Box Q, lags, if associated with the file.
@@ -15,7 +15,7 @@
 #' @param acflimit Numeric scalar; the multiplier for the confidence interval usually read 
 #'        from the \code{udg}. Default: \code{1.6}.
 #' @param main_title Title for the plot. 
-#'        Default is character string \code{'ACF Plot'}.
+#'        Default is \code{"ACF Plot"}.
 #' @param sub_title Subtitle for the plot. Default is \code{NULL}, or no subtitle.
 #' @param this_x_label Label for X axis. Default is \code{"Lags"}.
 #' @param this_y_label Label for Y axis. Default is \code{"ACF"}.
@@ -25,6 +25,8 @@
 #'        Default uses the value of \code{this_frequency} to set x-axis.
 #' @param acf_color Color used for lines in ACF plot.  
 #'        Default is \code{"steelblue"}.
+#' @param ci_color Color used for confidence interval in ACF plot.  
+#'        Default is \code{"grey"}.
 #' @return A \code{ggplot} object that produces an ACF, PACF, or squared ACF plot
 #'         of the regARIMA residuals.
 #'
@@ -47,6 +49,7 @@
 #'             main_title = "UK Gas Model Squared ACF",
 #'             this_frequency = 4,
 #'             acf_color = "darkblue")
+#' @importFrom rlang .data
 #' @export
 plot_acf_matrix <- 
 	function(acf_matrix = NULL,
@@ -59,8 +62,9 @@ plot_acf_matrix <-
 			 this_y_label = "ACF",
 			 this_x_axis_breaks = NULL,
 			 this_frequency = 12,
-			 acf_color = "steelblue") {
-    # Author: Brian C. Monsell (OEUS) Version 2.6, 11/5/2024
+			 acf_color = "steelblue",
+			 ci_color = "grey") {
+    # Author: Brian C. Monsell (OEUS) Version 3.1, 2/18/2025
 
 	this_cf     <- acf_matrix[,1]
 	if (add_ci) {
@@ -78,7 +82,7 @@ plot_acf_matrix <-
 	maxlag <- length(this_cf)
 	this_lag <- seq(1, maxlag)
 	acf_level <- 0.0
-
+	
 	if (is.null(this_x_axis_breaks)) {
 		if (this_frequency == 4) {
 			this_x_axis_breaks <- seq(0, maxlag, 2)
@@ -110,10 +114,10 @@ plot_acf_matrix <-
 			ggplot2::ylim(acf_range) + 
 			ggplot2::geom_line(ggplot2::aes(x = .data$lag, 
                                         y = .data$lower),
-                                        color = "grey") + 
+                                        color = ci_color) + 
 			ggplot2::geom_line(ggplot2::aes(x = .data$lag, 
                                         y = .data$upper),
-                                        color = "grey") + 
+                                        color = ci_color) + 
 			ggplot2::geom_hline(yintercept = acf_level, 
                             linetype = "solid", 
                             color = acf_color) +

@@ -15,6 +15,7 @@ plot_sadj_and_ori(
   do_grid = FALSE,
   do_background = FALSE,
   line_color = c("grey", "darkblue"),
+  line_label = c("Ori", "SA"),
   this_guide_legend = "Series"
 )
 }
@@ -47,6 +48,10 @@ Default is no grey background;}
 in the order of original series, seasonally adjusted series.
 Default is \code{c("grey", "darkblue")}.}
 
+\item{line_label}{Caracter vector of length 2; labels used for lines in the plot,
+in the order of original series, seasonally adjusted series.
+Default is \code{c("Ori", "SA")}.}
+
 \item{this_guide_legend}{Title for legend.  Default is \code{"Series"}}
 }
 \value{
@@ -58,7 +63,7 @@ Generates a \code{ggplot} object with a time series plot that compares an X-13
 seasonal adjustment and trend, optionally including the original series.
 }
 \details{
-Version 2.2, 12/17/2024
+Version 2.3, 1/2/2025
 }
 \examples{
 ukgas_x11_seas   <- 

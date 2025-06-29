@@ -1,6 +1,6 @@
 Package: blsplotGG
 Title: Plots for Seasonal Adjustment Analysts using ggplot2
-Version: 2.0.3
+Version: 2.1.2
 Authors@R: 
     person(given = "Brian",
            family = "Monsell",
@@ -22,19 +22,19 @@ RoxygenNote: 7.3.2
 Imports:
     astsa,
 	BrailleR,
-    dplyr,
+    dplyr (>= 1.0.10),
     ggfortify,
-    ggplot2,
+    ggplot2 (>= 3.0.0),
 	ggpubr,
 	grDevices,
     lubridate,
-    magrittr,
+    magrittr (>= 1.5),
 	RColorBrewer,
-    rlang,
-	scales,
+    rlang (>= 1.1.1),
+	scales (>= 1.3.0),
     seasonal (>= 1.10.0),
-    stringr,
-    tidyr,
+    stringr (>= 1.5.0),
+    tidyr (>= 1.3.0),
     tis,
     tsbox
 Suggests:

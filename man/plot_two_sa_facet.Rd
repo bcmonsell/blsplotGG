@@ -12,8 +12,9 @@ plot_two_sa_facet(
   sub_title = NULL,
   this_x_label = "Time",
   this_y_label = " ",
-  this_sa_text = c("X-11", "SEATS"),
   line_color = "steelblue",
+  line_label = c("sadj1", "sadj2"),
+  this_scale = "fixed",
   remove_legend = FALSE
 )
 }
@@ -34,9 +35,14 @@ This is a required entry.}
 
 \item{this_y_label}{Label for Y-axis.  Default is \code{" "}}
 
-\item{this_sa_text}{Labels for different seasonal adjustments.  Default is \code{c('X-11', 'SEATS')}}
-
 \item{line_color}{Color used for lines in plot.  Default is \code{"steelblue"}.}
+
+\item{line_label}{Caracter vector of length 2; labels used for lines in the plot,
+Default is \code{c("sadj1", "sadj2")}.}
+
+\item{this_scale}{Character scalar; set the scale for the y-axis of the facet plots.
+Default is \code{"fixed"}.  To set axis to be different for the different plots,
+set \code{this_scale = "free_y"}.}
 
 \item{remove_legend}{Logical scalar; if TRUE, plot legend will be removed.
 Default is FALSE.}
@@ -50,7 +56,7 @@ Generates a \code{ggplot} object with a time series facet plot that compares two
 seasonal adjustments of the same series, optionally including the original series.
 }
 \details{
-Version 3.3, 9/9/2024
+Version 4.0, 1/7/2025
 }
 \examples{
 ukgas_x11_seas   <- 
@@ -65,9 +71,11 @@ ukgas_seats_seas <-
 ukgas_x11_sa     <- seasonal::final(ukgas_x11_seas)
 ukgas_seats_sa   <- seasonal::final(ukgas_seats_seas)
 ukgas_two_sa_facet_p <- 
-    plot_two_sa_facet(this_sa_one = ukgas_x11_sa, this_sa_two = ukgas_seats_sa,
+    plot_two_sa_facet(this_sa_one = ukgas_x11_sa, 
+                      this_sa_two = ukgas_seats_sa,
                       main_title = "UK Gas Seasonal Adjustments",
-                      line_color = "forestgreen")
+                      line_color = "forestgreen",
+                      line_label = c("X-11", "Seats"))
 }
 \author{
 Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}

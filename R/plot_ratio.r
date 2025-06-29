@@ -2,7 +2,7 @@
 #'
 #' Generates a high-definition plot around a reference line other than zero.
 #'
-#' Version 3.2, 11/6/2024
+#' Version 3.3, 6/18/2025
 #'
 #' @param ratio_series Time series of ratios/factors for which you want to generate 
 #'        a high definition plot
@@ -37,39 +37,40 @@
 #' @examples
 #' ukgas_x11_seas <- 
 #'    seasonal::seas(UKgas, series.period = 4, arima.model = "(0 1 1)(0 1 1)", 
-#'                   transform.function = "log", forecast.maxlead = 20,
-#'                   x11.seasonalma = "s3x5", check.print = c( 'pacf', 'pacfplot' ))
+#'                   transform.function = "log", forecast.maxlead = 20, 
+#'                   series.appendfcst = "no", x11.seasonalma = "s3x5", 
+#'                   check.print = c( 'pacf', 'pacfplot' ))
 #' ukgas_x11_sf     <- seasonal::series(ukgas_x11_seas, "d10")
 #' ukgas_sf_ratio   <- plot_ratio(ukgas_x11_sf, main_title = "UK Gas X-11 Seasonal Factors",
 #'                                sub_title = "Seasonal Filter: 3x5")
 #' @export
 plot_ratio <- 
     function(ratio_series = NULL, 
-	         ratio_range = NULL, 
+             ratio_range = NULL, 
              main_title = "Ratio Plot", 
-			 sub_title = NULL, 
-             this_x_label = "Time", 
-			 this_y_label = "Ratio", 
-			 do_grid = FALSE,
-			 do_background = FALSE,			 
-	         draw_recess = FALSE, 
-			 recess_color = 'lightgrey', 
-			 recess_sub = TRUE,  
-			 add_line = TRUE, 
-			 ratio_mean = 1.0, 
-			 ratio_color = "steelblue") {
-    # Author: Brian C. Monsell (OEUS) Version 3.2, 11/6/2024
+             sub_title = NULL, 
+             this_x_label = "Time",
+             this_y_label = "Ratio",
+             do_grid = FALSE,
+             do_background = FALSE,
+             draw_recess = FALSE, 
+             recess_color = 'lightgrey',
+             recess_sub = TRUE,  
+             add_line = TRUE, 
+             ratio_mean = 1.0, 
+             ratio_color = "steelblue") {
+    # Author: Brian C. Monsell (OEUS) Version 3.3, 6/18/2025
     
     # check if \code{ratio_series} is specified
     if (is.null(ratio_series)) {
         cat("Argument ratio_series must be specified.")
-        return(NULL)
-	} else {
-		if (!is.ts(ratio_series)) {
-			cat("Argument ratio_series must be a ts object")
-			return(NULL)
-		}
-    }
+        return(NULL) 
+      } else {
+        if (!is.ts(ratio_series)) {
+          cat("Argument ratio_series must be a ts object")
+          return(NULL)
+        }
+      }
 	
 	if (is.null(this_y_label)) {
 	    this_y_label <- "Ratio"
@@ -80,7 +81,7 @@ plot_ratio <-
 	}
 
     # generate data frame with ratio time series to be plotted
-    this_ratio_df <-  
+  this_ratio_df <-  
         data.frame(date = tsbox::ts_df(ratio_series)$time, 
                    ratio_series = as.double(ratio_series))
 				   
@@ -103,9 +104,9 @@ plot_ratio <-
 	}
 						  
 	# remove grey background if \code{do_background = FALSE} 
-    if (!do_background) {
+  if (!do_background) {
 		p_ratio <- p_ratio + ggplot2::theme_bw()
-    }
+  }
 
 	# remove grid lines if \code{do_grid = FALSE}
 	if (!do_grid) {
@@ -127,7 +128,7 @@ plot_ratio <-
 		}
 	} 
 	
-    p_ratio <- p_ratio + ggplot2::xlab(this_x_label)
+  p_ratio <- p_ratio + ggplot2::xlab(this_x_label)
     
 	return(p_ratio)
 

@@ -3,7 +3,7 @@
 #' Generates ratio plots for two series, and a third plot of the ratio/difference of 
 #' the two series if the user requests it.
 #'
-#' Version 1.4, 9/6/2024
+#' Version 2.3, 6/18/2025
 #'
 #' @param ratio_one First time series of ratios/factors for which you want to generate 
 #'        a high definition plot.
@@ -23,10 +23,16 @@
 #'        Default is character string \code{'First Ratio Plot'}.
 #' @param ratio_two_title Title for the plot. 
 #'        Default is character string \code{'Second Ratio Plot'}.
+#' @param remove_fcst_one Integer scalar; indicates forecasts to be removed from  
+#'        \code{ratio_one} before plotting.
+#'        Default is no forecasts removed;
+#' @param remove_fcst_two Integer scalar; indicates forecasts to be removed from 
+#'        \code{ratio_two} before plotting.
+#'        Default is no forecasts removed;
 #' @param comparison_title Title for the comparison plot, if requested. 
 #'        Default is character string \code{'Comparison Plot'}.
-#' @param this_x_label Label for X axis. Default is no X axis label.
-#' @param this_y_label Label for Y axis. Default is no Y axis label.
+#' @param this_x_label Label for X axis. Default is \code{"Time"}.
+#' @param this_y_label Label for Y axis. Default is \code{"Ratio"}.
 #' @param do_grid Logical scalar; indicates if certain plots will have grid lines.
 #'        Default is no grid lines. 
 #' @param do_background Logical scalar; indicates grey background included in plot.
@@ -47,11 +53,11 @@
 #'    seasonal::seas(UKgas, series.period = 4, arima.model = "(0 1 1)(0 1 1)", 
 #'                   transform.function = "log", forecast.maxlead = 20,
 #'                   x11.seasonalma = "s3x5", x11.save = c("d10", "d11"),
-#'                   check.print = c( 'pacf', 'pacfplot' ))
+#'                   check.print = c( 'pacf', 'pacfplot' ), series.appendfcst = "no")
 #' ukgas_seats_seas <- 
 #'    seasonal::seas(UKgas, series.period = 4, arima.model = "(0 1 1)(0 1 1)", 
 #'                   transform.function = "log", forecast.maxlead = 20,
-#'                   seats.save = c("s10", "s11"),
+#'                   seats.save = c("s10", "s11"), series.appendfcst = "no",
 #'                   check.print = c( 'pacf', 'pacfplot' ))
 #' ukgas_x11_sf      <- seasonal::series(ukgas_x11_seas, "d10")
 #' ukgas_seats_sf    <- seasonal::series(ukgas_seats_seas, "s10")
@@ -65,52 +71,70 @@
 #' @export
 plot_ratio_two <- 
     function(ratio_one = NULL,
-             ratio_two = NULL,	
-	         ratio_range = NULL,
-			 do_comparison_plot = TRUE,
+             ratio_two = NULL,
+             ratio_range = NULL,
+             do_comparison_plot = TRUE,
              overall_title = NULL, 
-			 ratio_one_title = "First Ratio Plot", 
-			 ratio_two_title = "Second Ratio Plot",
-			 comparison_title = "Comparison Plot",
+             ratio_one_title = "First Ratio Plot", 
+             ratio_two_title = "Second Ratio Plot",
+             remove_fcst_one = NULL,
+             remove_fcst_two = NULL,
+             comparison_title = "Comparison Plot",
              this_x_label = NULL, 
-			 this_y_label = NULL, 
-			 do_grid = FALSE,
-			 do_background = FALSE,			 
-			 add_line = TRUE, 
-			 ratio_mean = c(1.0, 1.0), 
-			 ratio_color = "steelblue") {
-    # Author: Brian C. Monsell (OEUS) Version 1.4, 9/6/2024
+             this_y_label = NULL, 
+             do_grid = FALSE,
+             do_background = FALSE, 
+             add_line = TRUE, 
+             ratio_mean = c(1.0, 1.0),
+             ratio_color = "steelblue") {
+    # Author: Brian C. Monsell (OEUS) Version 2.3, 6/18/2025
     
     # check if \code{ratio_one} is specified
     if (is.null(ratio_one)) {
         cat("Argument ratio_one must be specified.")
         return(NULL)
-	} else {
-		if (!is.ts(ratio_one)) {
-			cat("Argument ratio_one must be a ts object")
-			return(NULL)
-		}
+      } else {
+        if (!is.ts(ratio_one)) {
+          cat("Argument ratio_one must be a ts object")
+          return(NULL)
+          }
     }
 	
     # check if \code{ratio_two} is specified
     if (is.null(ratio_two)) {
         cat("Argument ratio_two must be specified.")
         return(NULL)
-	} else {
+      } else {
 		if (!is.ts(ratio_two)) {
 			cat("Argument ratio_two must be a ts object")
 			return(NULL)
 		}
     }
 	
-	if (is.null(ratio_range)) {
+  if (!is.null(remove_fcst_one)) {
+    this_end <- length(ratio_one) - remove_fcst_one
+    this_start <- start(ratio_one)
+    this_freq  <- frequency(ratio_one)
+    ratio_one <- 
+      ts(ratio_one[1:this_end], start = this_start, frequency = this_freq)
+  }
+      
+  if (!is.null(remove_fcst_two)) {
+    this_end <- length(ratio_two) - remove_fcst_two
+    this_start <- start(ratio_two)
+    this_freq  <- frequency(ratio_two)
+    ratio_two <- 
+      ts(ratio_two[1:this_end], start = this_start, frequency = this_freq)
+  }
+      
+  if (is.null(ratio_range)) {
 		ratio_range <- range(ratio_one, ratio_two)
 	}
 
 	if (is.null(this_y_label)) {
 	    this_y_label <- "Ratio"
 	}
-	
+  
 	all_plots_list <- list()
 	
 	all_plots_list[["p1"]] <-
@@ -120,8 +144,8 @@ plot_ratio_two <-
 			this_x_label = this_x_label,
 			this_y_label = this_y_label,
 			do_grid = do_grid,
-			do_background = do_background,			 
-	        draw_recess = FALSE, 
+			do_background = do_background,
+			draw_recess = FALSE, 
 			add_line = add_line, 
 			ratio_mean = ratio_mean[1], 
 			ratio_color = ratio_color)
@@ -133,8 +157,8 @@ plot_ratio_two <-
 			this_x_label = this_x_label,
 			this_y_label = this_y_label,
 			do_grid = do_grid,
-			do_background = do_background,			 
-	        draw_recess = FALSE, 
+			do_background = do_background,
+			draw_recess = FALSE, 
 			add_line = add_line, 
 			ratio_mean = ratio_mean[2], 
 			ratio_color = ratio_color)

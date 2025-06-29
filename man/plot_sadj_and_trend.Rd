@@ -15,6 +15,7 @@ plot_sadj_and_trend(
   do_background = FALSE,
   line_color = NULL,
   this_palette = "Dark2",
+  line_label = NULL,
   this_guide_legend = "Series"
 )
 }
@@ -43,11 +44,16 @@ Default is no grey background;}
 
 \item{line_color}{Character vector of length 2 (if \code{plot_ori} is \code{FALSE})
 or 3 (if \code{plot_ori} is \code{TRUE}); color used for lines in the plot,
-in the order of seasonally adjusted series, trend, original series.
+in the order of original series (if specified), seasonally adjusted series, trend.
 Default is generated from the \code{RColorBrewer} palette \code{"Dark2"}.}
 
 \item{this_palette}{Character string; default \code{RColorBrewer} palette.
 Deault is \code{"Dark2"}.}
+
+\item{line_label}{Caracter vector of length 2; labels used for lines in the plot,
+in the order of original series, seasonally adjusted series.
+Default is \code{c("Ori", "SA", "Trend")} (if original series plotted) or
+\code{c("SA", "Trend")}.}
 
 \item{this_guide_legend}{Title for legend.  Default is \code{"Series"}}
 }
@@ -61,7 +67,7 @@ Generates a \code{ggplot} object with a time series plot that compares an X-13
 seasonal adjustment and trend, optionally including the original series.
 }
 \details{
-Version 1.7, 11/6/2024
+Version 2.3, 6/24/2025
 }
 \examples{
 ukgas_x11_seas   <- 
@@ -73,7 +79,7 @@ ukgas_x11_sadj_and_trend_p <-
     plot_sadj_and_trend(ukgas_x11_seas, plot_ori = TRUE,
                         main_title = "UK Gas",
                         sub_title = "X-11 Seasonal Adjustment",
-                        line_color = c("steelblue", "forestgreen", "lightgrey"))
+                        line_color = c("lightgrey", "steelblue", "forestgreen"))
 ukgas_seats_seas <- 
    seasonal::seas(UKgas, series.period = 4, arima.model = "(0 1 1)(0 1 1)", 
                   transform.function = "log", forecast.maxlead = 20,

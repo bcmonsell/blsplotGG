@@ -17,7 +17,8 @@ plot_acf_and_pacf_identify(
   this_x_axis_breaks = NULL,
   do_grid = FALSE,
   do_background = FALSE,
-  acf_color = "steelblue"
+  acf_color = "steelblue",
+  ci_color = "grey"
 )
 }
 \arguments{
@@ -58,6 +59,9 @@ Default is no grey background;}
 
 \item{acf_color}{Color used for lines in ACF plot.
 Default is \code{"steelblue"}.}
+
+\item{ci_color}{Color used for confidence interval in ACF plot.
+Default is \code{"grey"}.}
 }
 \value{
 A \code{ggplot} object that produces an ACF and PACF plot for the original
@@ -67,7 +71,7 @@ series with user-specified orders of differencing.
 Generate a single plot with ACF and PACF of the regARIMA model residuals.
 }
 \details{
-Version 3.1, 11/6/2024
+Version 4.0, 2/18/2025
 }
 \examples{
 shoes_identify_seas <- 

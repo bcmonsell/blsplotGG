@@ -3,7 +3,7 @@
 #' Generates a \code{ggplot} object with a time series facet plot that compares 
 #' an X-13 seasonal adjustment and trend, optionally including the original series.
 #'
-#' Version 1.10, 12/17/2024
+#' Version 4.3, 6/27/2025
 #'
 #' @param seas_obj \code{seas} object generated from a call of \code{seas} on a single time series
 #'        This is a required entry.
@@ -15,10 +15,23 @@
 #' @param sub_title Subtitle for the plot. Optional entry.
 #' @param this_x_label Label for X-axis.  Default is \code{"Time"}
 #' @param this_y_label Label for Y-axis.  Default is \code{" "}
+#' @param do_grid Logical scalar; indicates if certain plots will have grid lines. 
+#'        Default is no grid lines. 
+#' @param do_background Logical scalar; indicates grey background included in plot.
+#'        Default is no grey background;
 #' @param line_color Character vector of length 2 (if \code{plot_ori} is \code{FALSE})
 #'        or 3 (if \code{plot_ori} is \code{TRUE}); color used for lines in the plot,
-#'        in the order of seasonally adjusted series, trend, original series. 
+#'        in the order of original series (if specified), seasonally adjusted series, trend. 
 #'        Default is generated from the \code{RColorBrewer} palette \code{"Dark2"}.
+#' @param this_palette Character string; default \code{RColorBrewer} palette.
+#'        Deault is \code{"Dark2"}.
+#' @param line_label Caracter vector of length 2; labels used for lines in the plot,
+#'        in the order of original series, seasonally adjusted series. 
+#'        Default is \code{c("Ori", "SA", "Trend")} (if original series plotted) or
+#'        \code{c("SA", "Trend")}.
+#' @param this_scale Character scalar; set the scale for the y-axis of the facet plots. 
+#'        Default is \code{"fixed"}.  To set axis to be different for the different plots,
+#'        set \code{this_scale = "free_y"}.
 #' @param remove_legend Logical scalar; if TRUE, plot legend will be removed.
 #'        Default is FALSE.
 #' @return A \code{ggplot} object that generates a facet plot comparing a 
@@ -60,9 +73,14 @@ plot_sadj_and_trend_facet <-
              sub_title = NULL, 
              this_x_label = "Time", 
              this_y_label = " ", 
+             do_grid = FALSE,
+             do_background = FALSE,
              line_color = NULL,
-			 remove_legend = FALSE) {
-    # Author: Brian C. Monsell (OEUS) Version 1.10, 12/17/2024
+             this_palette = "Dark2",
+             line_label = NULL,
+             this_scale = "fixed",
+             remove_legend = FALSE) {
+    # Author: Brian C. Monsell (OEUS) Version 4.3, 6/27/2025
 
     # check if a value is specified for \code{seas_obj}
     if (is.null(seas_obj)) {
@@ -80,6 +98,13 @@ plot_sadj_and_trend_facet <-
 	this_trend <- seasonal::trend(seas_obj)
 	if (plot_ori) {
 		this_ori <- seasonal::original(seas_obj)
+		if (length(this_ori) > length(this_sadj)) {
+			this_start <- start(this_sadj)
+			this_end <- end(this_sadj)
+			this_frequency <- frequency(this_sadj)
+			this_ori <- 
+			  window(this_ori, start = this_start, end = this_end, frequency = this_frequency)
+		}
 	}
 	
 	if ("seatsadj" %in% names(seasonal::udg(seas_obj))) {
@@ -96,10 +121,17 @@ plot_sadj_and_trend_facet <-
     num_color <- 3
     if (!plot_ori) {
 		num_color <- 2
+		if (is.null(line_label)) { 
+			line_label <- c("SA", "Trend")
+		}
+	} else {
+		if (is.null(line_label)) { 
+			line_label <- c("Ori", "SA", "Trend")
+		}
     }
 	
     if (is.null(line_color)) {
-        line_color <- RColorBrewer::brewer.pal(3, "Dark2")[1:num_color]
+        line_color <- RColorBrewer::brewer.pal(3, this_palette)[1:num_color]
     } else {
         if (length(line_color) < num_color) {
 	    if (length(line_color) > 1) {
@@ -125,9 +157,11 @@ plot_sadj_and_trend_facet <-
 			ggplot2::geom_line() + 
 			ggplot2::scale_color_manual(values = c("sadj" = line_color[1], 
 				                                   "trend" = line_color[2]),
-                                        labels = c("SA", "Trend")) +
-			ggplot2::facet_grid(dplyr::case_when(.data$comp == "sadj" ~ "SA",
-                                                 .data$comp == "trend" ~ "Trend") ~ .) + 
+                                        labels = line_label) +
+			ggplot2::facet_grid(factor(comp, 
+								levels = c("sadj", "trend"),
+								labels = line_label) ~ .,
+								scale = this_scale) + 
 			ggplot2::labs(title = main_title,
 				          subtitle = sub_title,
 						  x = this_x_label,
@@ -150,10 +184,11 @@ plot_sadj_and_trend_facet <-
 			ggplot2::scale_color_manual(values = c("ori" = line_color[3],
 		                                           "sadj" = line_color[1], 
 				                                   "trend" = line_color[2]),
-                                        labels = c("Ori", "SA", "Trend")) +
-			ggplot2::facet_grid(dplyr::case_when(.data$comp == "ori" ~ "Ori",
-                                                .data$comp == "sadj" ~ "SA",
-                                                .data$comp == "trend" ~ "Trend") ~ .) + 
+                                        labels = line_label) +
+			ggplot2::facet_grid(factor(comp, 
+								levels = c("ori", "sadj", "trend"),
+								labels = line_label) ~ .,
+								scale = this_scale) + 
 			ggplot2::labs(title = main_title,
                           subtitle = sub_title,
                           x = this_x_label,
@@ -161,10 +196,22 @@ plot_sadj_and_trend_facet <-
     }
     
 
- 	if (remove_legend) {
+	# remove grey background if \code{do_background = FALSE} 
+    if (!do_background) {
+		p_sadj_trend_facet <- p_sadj_trend_facet + ggplot2::theme_bw()
+    }
+
+	# remove grid lines if \code{do_grid = FALSE}
+	if (!do_grid) {
+	    p_sadj_trend_facet <- p_sadj_trend_facet + 
+		    ggplot2::theme(panel.grid.major = ggplot2::element_blank(), 
+			               panel.grid.minor = ggplot2::element_blank())
+	}
+       
+  	if (remove_legend) {
 		p_sadj_trend_facet <- 
 			p_sadj_trend_facet + ggplot2::theme(legend.position = "none")
 	}
 	
-   return(p_sadj_trend_facet)
+	return(p_sadj_trend_facet)
 }

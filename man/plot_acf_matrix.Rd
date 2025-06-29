@@ -15,7 +15,8 @@ plot_acf_matrix(
   this_y_label = "ACF",
   this_x_axis_breaks = NULL,
   this_frequency = 12,
-  acf_color = "steelblue"
+  acf_color = "steelblue",
+  ci_color = "grey"
 )
 }
 \arguments{
@@ -33,7 +34,7 @@ Default is confidence intervals are added.}
 from the \code{udg}. Default: \code{1.6}.}
 
 \item{main_title}{Title for the plot.
-Default is character string \code{'ACF Plot'}.}
+Default is \code{"ACF Plot"}.}
 
 \item{sub_title}{Subtitle for the plot. Default is \code{NULL}, or no subtitle.}
 
@@ -49,6 +50,9 @@ Default is \code{12}.}
 
 \item{acf_color}{Color used for lines in ACF plot.
 Default is \code{"steelblue"}.}
+
+\item{ci_color}{Color used for confidence interval in ACF plot.
+Default is \code{"grey"}.}
 }
 \value{
 A \code{ggplot} object that produces an ACF, PACF, or squared ACF plot
@@ -59,7 +63,7 @@ Generate ACF, PACF, or squared ACF plot of the regARIMA model residuals
 from a matrix of the ACF.
 }
 \details{
-Version 2.6, 11/5/2024
+Version 3.1, 2/18/2025
 }
 \examples{
 ukgas_x11_seas <- 
