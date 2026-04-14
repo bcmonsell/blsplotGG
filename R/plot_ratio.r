@@ -2,7 +2,7 @@
 #'
 #' Generates a high-definition plot around a reference line other than zero.
 #'
-#' Version 3.3, 6/18/2025
+#' Version 3.4, 8/27/2025
 #'
 #' @param ratio_series Time series of ratios/factors for which you want to generate 
 #'        a high definition plot
@@ -59,7 +59,7 @@ plot_ratio <-
              add_line = TRUE, 
              ratio_mean = 1.0, 
              ratio_color = "steelblue") {
-    # Author: Brian C. Monsell (OEUS) Version 3.3, 6/18/2025
+    # Author: Brian C. Monsell (OEUS) Version 3.4, 8/27/2025
     
     # check if \code{ratio_series} is specified
     if (is.null(ratio_series)) {
@@ -71,10 +71,6 @@ plot_ratio <-
           return(NULL)
         }
       }
-	
-	if (is.null(this_y_label)) {
-	    this_y_label <- "Ratio"
-	}
 	
 	if (is.null(ratio_range)) {
 		ratio_range <- range(ratio_series)

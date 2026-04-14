@@ -6,6 +6,7 @@
 \usage{
 plot_changes_history(
   seas_obj = NULL,
+  this_change = "sa",
   plot_start = NULL,
   main_title = "SA Change History Graph",
   sub_title = NULL,
@@ -14,12 +15,21 @@ plot_changes_history(
   do_grid = FALSE,
   do_background = FALSE,
   line_color = NULL,
-  this_palette = "Paired"
+  this_palette = "Paired",
+  this_legend_title = "Filter",
+  this_legend_position = "right",
+  legend_title_size = 12,
+  legend_text_size = 10,
+  this_legend_space = NULL
 )
 }
 \arguments{
 \item{seas_obj}{\code{seas} object generated from a call of \code{seas} on a single time series
 This is a required entry.}
+
+\item{this_change}{Character string that determines whether the revisions of the changes of the
+seasonally adjustment (\code{"sa"}) or the trend (\code{"trend"}) is plotted.
+The default is \code{"sadj"}.}
 
 \item{plot_start}{Integer vector of length two. Start of the plot.
 Default is \code{NULL}, which defaults to the start of the history analysis.}
@@ -40,42 +50,69 @@ Default is no grid lines.}
 Default is no grey background;}
 
 \item{line_color}{Vector with colors used for lines in history plot.
-Should be of length 2.
+Should be of length 2. For a listing of R color codes,
+see \insertCite{rchartsColors;textual}{blsplotGG}.
 Default is \code{NULL}, which indicates that the palette specified
 in \code{this_palette} is used to generate colors for this plot.}
 
-\item{this_palette}{Color used for lines in plot. Default is \code{"Paired"}}
+\item{this_palette}{Colors used for lines in this plot.
+Default is the \code{RColorBrewer} palette \code{"Paired"} \insertCite{RColorBrewer}{blsplotGG}.}
+
+\item{this_legend_title}{Title for legend.  Default is \code{"Series"}}
+
+\item{this_legend_position}{Character string; indicates the position of the plot legend.
+Possible values are \code{"right"} (default), \code{"left"}, \code{"top"},
+\code{"bottom"}, and \code{"none"}}
+
+\item{legend_title_size}{integer scalar; Size of the legend title.
+Default is \code{12}.}
+
+\item{legend_text_size}{integer scalar; Size of the legend title.
+Default is \code{10}.}
+
+\item{this_legend_space}{integer scalar; Space between legend and plot in points.
+Default is determined by \code{ggplot2}.}
 }
 \value{
-A \code{ggplot}  object that produces a history plot of the seasonal adjustment
+A \code{ggplot}  object that produces a history plot of the seasonal adjustment or trend
 changes. The \code{seas} object in the \code{seas_obj} argument must contain
 output for a revisions history analysis for seasonal adjustment changes.
 }
 \description{
-Generates a \code{ggplot} object of estimates from a revisions history of a seasonal
-adjustment changes for a given series.
+Generates a \code{ggplot} object of estimates from a revisions history of either the seasonal
+adjustment or trend changes for a given series from a \code{seas} object. For more information
+on revisions history diagnostics, \insertCite{@see Sections 6.3 and 7.8 of @Census2025;textual}{blsplotGG}.
 }
 \details{
-Version 1.5, 11/6/2024
+Version 4.3, 2/17/2026
 }
 \examples{
 shoes_seas <-
-    seasonal::seas(shoes2008, x11.save = "d13",
-       x11 = "", transform.function = "log",
-       check.print = c("none", "+acf", "+acfplot", "+normalitytest"),
+    seasonal::seas(shoes2008, x11 = "", 
+       transform.function = "log",
        regression.aictest = c("td", "easter"),
-	  regression.save = c("td", "hol"),
        outlier.types = "all",
        arima.model = "(0 1 1)(0 1 1)",
        forecast.maxlead = 60,
-	   	  history.estimates = c("sadj", "sadjchng", "trend"),
+	   	  history.estimates = 
+		c("sadj", "sadjchng", "trend", "trendchng"),
 	      history.sadjlags = c(1,12),
+	      history.trendlags = c(1,2,3),
 	      history.print = "all",
-	      history.save = c("che", "chr"))
-p_shoes_sa_history <- 
+	      history.save = c("che", "tce"))
+p_shoes_sadjchng_history <- 
     plot_changes_history(shoes_seas, plot_start = c(2003, 1), 
         main_title = "Seasonal Adjustment Change History Graph",
         sub_title = "US Retail Sales of Shoes")
+p_shoes_trendchng_history <- 
+    plot_changes_history(shoes_seas, 
+        this_change = "trend",
+        plot_start = c(2003, 1), 
+        main_title = "Trend Change History Graph",
+        sub_title = "US Retail Sales of Shoes")
+}
+\references{
+\insertAllCited{}
 }
 \author{
 Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}

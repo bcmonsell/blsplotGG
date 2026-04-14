@@ -18,15 +18,18 @@ This is a required argument.}
 If visually significant peaks are found, a numeric vector of the position of the peak frequencies are returned. If no peaks found, the function returns 0.
 }
 \description{
-Determine positions of visual significant peaks in spectra
+Determine positions of visual significant peaks in spectra using the criteria of \insertCite{Soukup99;textual}{blsplotGG}.
 }
 \details{
-Version 3.0, 6/21/2024
+Version 3.2, 2/10/2026
 }
 \examples{
 air_seas <- seasonal::seas(AirPassengers, arima.model = '(0 1 1)(0 1 1)', x11='')
 this_flagged_peak_seas <- flag_peak(air_seas,'ori','s')
 this_flagged_peak_td <- flag_peak(air_seas,'ori','t')
+}
+\references{
+\insertAllCited{}
 }
 \author{
 Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}

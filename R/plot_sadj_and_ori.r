@@ -3,7 +3,7 @@
 #' Generates a \code{ggplot} object with a time series plot that compares an X-13 
 #' seasonal adjustment and trend, optionally including the original series.
 #'
-#' Version 2.2, 12/17/2024
+#' Version 2.4, 2/17/2026
 #'
 #' @param this_sa Time series of a seasonal adjustment. 
 #'        This is a required entry.
@@ -22,12 +22,19 @@
 #'        Default is no grey background;
 #' @param line_color Character vector of length 2; color used for lines in the plot,
 #'        in the order of original series, seasonally adjusted series. 
-#'        Default is \code{c("grey", "darkblue")}.
+#'        Default is \code{c("grey", "darkblue")}. For a listing of R color codes, 
+#'        see \insertCite{rchartsColors;textual}{blsplotGG}.
+#' @param line_label Caracter vector of length 2; labels used for lines in the plot,
+#'        in the order of original series, seasonally adjusted series. 
+#'        Default is \code{c("Ori", "SA")}.
 #' @param this_guide_legend Title for legend.  Default is \code{"Series"}
 #' @return A \code{ggplot} object that generates a plot comparing a 
 #'         seasonally adjusted series with the original series.
 #'
 #' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
+#'
+#' @references
+#'  \insertAllCited{}
 #'
 #' @examples
 #' ukgas_x11_seas   <- 
@@ -43,8 +50,9 @@
 #'                       main_title = "UK Gas Seasonal Adjustment",
 #'                       line_color = c("lightgrey", "forestgreen"))
 #' @importFrom rlang .data
-#' @export
 #' @importFrom magrittr %>%
+#' @importFrom Rdpack reprompt
+#' @export
 plot_sadj_and_ori <- 
     function(this_sa = NULL, 
 	         this_ori = NULL,
@@ -56,8 +64,9 @@ plot_sadj_and_ori <-
              do_grid = FALSE,
              do_background = FALSE,
              line_color = c("grey", "darkblue"), 
+			 line_label = c("Ori", "SA"),
              this_guide_legend = "Series") {
-    # Author: Brian C. Monsell (OEUS) Version 2.2, 12/17/2024
+    # Author: Brian C. Monsell (OEUS) Version 2.4, 2/17/2026
 
     # check if a value is specified for \code{this_sa}
     if (is.null(this_sa)) {
@@ -100,7 +109,7 @@ plot_sadj_and_ori <-
             ggplot2::geom_line(ggplot2::aes(x = .data$date, 
                                             y = .data$value, 
                                             color = .data$comp)) + 
-            ggplot2::scale_color_manual(labels = c("Ori", "SA"), 
+            ggplot2::scale_color_manual(labels = line_label, 
                                         values = line_color) +
             ggplot2::labs(title = main_title,
                           subtitle = sub_title,

@@ -2,7 +2,7 @@
 #'
 #' Generates the maximum of the absolute value of a numeric vector.
 #'
-#' Version 1.1, 3/29/2021
+#' Version 1.3, 3/29/2021
 #'
 #' @param x vector of numbers
 #' @return Maximum of the absolute value of a vector

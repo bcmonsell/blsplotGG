@@ -15,10 +15,10 @@ Vector of length 2 with the range of the data used to generate a given
 \code{ggplot} object of a time series plot.
 }
 \description{
-Computes the range of all data plotted in given ggplot object
+Computes the range of all data plotted in given \code{ggplot} object.
 }
 \details{
-Version 1.2, 10/19/2023
+Version Version 2.1, 12/30/2025
 }
 \examples{
 air_seas <- 

@@ -1,9 +1,12 @@
 #' Compare spans from the sliding spans analysis
 #'
 #' Generates a \code{ggplot} object with a time series plot that compares the series from
-#' each of the sliding spans generated from a sliding spans analysis
+#' each of the sliding spans generated from a sliding spans analysis. 
+#' For more information on sliding spans analysis, 
+#' \insertCite{@see Sections 6.2 and 7.13 of @Census2025;textual}{blsplotGG}, with more
+#' details in \insertCite{Findley90;textual}{blsplotGG}.
 #'
-#' Version 1.7, 11/7/2024
+#' Version 2.5, 2/17/2026
 #'
 #' @param seas_obj \code{seas} object generated from a call of \code{seas} on a single time series
 #'        This is a required entry.
@@ -20,14 +23,28 @@
 #' @param do_background Logical scalar; indicates grey background included in plot.
 #'        Default is no grey background;
 #' @param line_color Character vector of length 2 to 4 based on the number of spans.
-#'        Default is generated from the \code{RColorBrewer} palette \code{"Dark2"}.
+#'        For a listing of R color codes, 
+#'        see \insertCite{rchartsColors;textual}{blsplotGG}.
+#'        Default is the \code{RColorBrewer} palette \code{"Dark"} \insertCite{RColorBrewer}{blsplotGG}. 
 #' @param this_palette Character string; default \code{RColorBrewer} palette.
 #'        Deault is \code{"Dark2"}.
-#' @param this_guide_legend Title for legend.  Default is \code{"Sliding Spans"}
+#' @param this_legend_title Title for legend.  Default is \code{"Sliding Spans"}
+#' @param this_legend_title_size integer scalar; Size of the legend title.
+#'        Default is \code{12}.
+#' @param this_legend_text_size integer scalar; Size of the legend title.
+#'        Default is \code{10}.
+#' @param this_legend_position character String; The position of the legend, which can be one of
+#'        \code{top}, \code{bottom}, \code{left}, \code{right}.
+#'        Default is \code{right}.
+#' @param this_legend_space integer scalar; Space between legend and plot in points.
+#'        Default is \code{10}.
 #' @return A \code{ggplot} object that generates a plot compares the series from
 #'         each of the sliding spans generated from a sliding spans analysis
 #'
 #' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
+#'
+#' @references
+#'  \insertAllCited{}
 #'
 #' @examples
 #' shoes_sspan_seas <- 
@@ -42,8 +59,9 @@
 #'                        sub_title = "US Shoe Sales",
 #'                        this_palette = "Set1")
 #' @importFrom rlang .data
-#' @export
 #' @importFrom magrittr %>%
+#' @importFrom Rdpack reprompt
+#' @export
 plot_sliding_spans <- 
     function(seas_obj = NULL, 
              this_series = "sfs", 
@@ -53,22 +71,48 @@ plot_sliding_spans <-
              do_background = FALSE,
              line_color = NULL, 
              this_palette = "Dark2",
-             this_guide_legend = "Sliding Spans") {
-    # Author: Brian C. Monsell (OEUS) Version 1.7 11/7/2024
+             this_legend_title = "Sliding Spans",
+			 this_legend_title_size = 12,
+			 this_legend_text_size = 10,
+			 this_legend_position = "right",
+			 this_legend_space = 10) {
+    # Author: Brian C. Monsell (OEUS) Version 2.5, 2/17/2026
 	
     # check if a value is specified for \code{seas_obj}
     if (is.null(seas_obj)) {
-        stop("must specify a seas object")
+        cat("must specify a seas object")
+		return(NULL)
     } else {
     # check if a seas object is specified for \code{seas_obj}
         if (!inherits(seas_obj, "seas")) {
-            stop("First argument must be a seas object")
-        }
+            cat("First argument must be a seas object")
+			return(NULL)
+       }
     }
 
     spans_type_all <- c("sfs", "chs", "sis", "cis")
 	if(sum(match(spans_type_all, this_series), na.rm = TRUE) == 0) {
-        stop(paste("Sliding spans series type not valid:", this_series))
+        cat(paste("Sliding spans series type not valid:", this_series))
+		return(NULL)
+	}
+	
+	# check legend options 
+	position_all <- c("top", "bottom", "left", "right")
+	if(sum(match(position_all, this_legend_position), na.rm = TRUE) == 0) {
+        cat(paste("Legend position choice not valid:", this_legend_position))
+		return(NULL)
+	}
+	
+	if(this_legend_text_size <= 0) {
+        cat(paste("Legend text size not valid (must be greater than zero):", 
+		           this_legend_text_size))
+		return(NULL)
+	}
+	
+	if(this_legend_title_size <= 0) {
+        cat(paste("Legend title text size not valid (must be greater than zero):", 
+		           this_legend_title_size))
+		return(NULL)
 	}
 	
 	this_matrix <- seasonal::series(seas_obj, this_series)
@@ -123,7 +167,7 @@ plot_sliding_spans <-
             ggplot2::labs(title = main_title,
                           subtitle = sub_title,
                           x = NULL, y = NULL) +
-            ggplot2::guides(color = ggplot2::guide_legend(this_guide_legend)) +
+            ggplot2::guides(color = ggplot2::guide_legend(this_legend_title)) +
             ggplot2::theme(legend.position = "bottom")
 
 	# remove grey background if \code{do_background = FALSE} 
@@ -137,6 +181,13 @@ plot_sliding_spans <-
 		    ggplot2::theme(panel.grid.major = ggplot2::element_blank(), 
 			               panel.grid.minor = ggplot2::element_blank())
 	}
+	
+	p_spans <- p_spans +
+		ggplot2::theme(legend.text = ggplot2::element_text(size = this_legend_text_size),
+					   legend.title = ggplot2::element_text(size = this_legend_title_size),
+					   legend.position = this_legend_position,
+					   legend.box.spacing = ggplot2::unit(this_legend_space, "pt"))
+
        
 	return(p_spans)
 }

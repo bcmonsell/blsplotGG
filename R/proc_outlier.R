@@ -1,8 +1,9 @@
+
 #' Extract dates from outlier text
 #'
-#' Process name of outlier regressor to extract the dates associated with the outlier
+#' Process name of outlier regressor to extract the dates associated with the outlier.
 #'
-#' Version 2.1, 5/2/2024
+#' Version 3.1, 12/30/2025
 #'
 #' @param this_outlier Character string; outlier regressor.
 #'        This is a required entry.
@@ -24,11 +25,12 @@
 #' this_outlier      <- proc_outlier(this_auto_outlier)
 #' @export
 proc_outlier <- function(this_outlier = NULL, this_freq = 12, add_type = TRUE) {
-    # Author: Brian C. Monsell (OEUS) Version 2.1, 5/2/2024
+    # Author: Brian C. Monsell (OEUS) Version 3.1, 12/30/2025
     
     # check if a value is specified for \code{this_outlier}
     if (is.null(this_outlier)) {
-        stop("must specify an outlier")
+        cat("must specify an outlier")
+		return(NULL)
     }
     
     # generate the code for the outlier
@@ -41,8 +43,9 @@ proc_outlier <- function(this_outlier = NULL, this_freq = 12, add_type = TRUE) {
             first_string == "so" | first_string == "tl" | first_string == "qi" | first_string == "qd") {
             this_code <- first_string
         } else {
-            stop("must specify an outlier - string must start with ao, ls, tc, so, rp, tl, aos, lss, qi, qd")
-        }
+            cat("must specify an outlier - string must start with ao, ls, tc, so, rp, tl, aos, lss, qi, qd")
+			return(NULL)
+       }
     }
     
     # get length of outlier name, outlier code

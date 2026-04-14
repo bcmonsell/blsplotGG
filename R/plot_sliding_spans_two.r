@@ -3,8 +3,11 @@
 #' Generates a \code{ggplot} object comparing the time series of the maximum percent difference from
 #' the sliding spans analysis of seasonal factors or changes for two sliding spans runs.
 #' The sliding spans analysis for both series should have the same length of spans.
+#' For more information on sliding spans analysis, 
+#' \insertCite{@see Sections 6.2 and 7.13 of @Census2025;textual}{blsplotGG}, with more
+#' details in \insertCite{Findley90;textual}{blsplotGG}.
 #'
-#' Version 1.5, 12/11/2024
+#' Version 2.6, 2/18/2026
 #'
 #' @param seas_obj_one \code{seas} object generated from a call of \code{seas} on a single time series
 #'        This is a required entry.
@@ -24,22 +27,28 @@
 #'        Default is no grid lines. 
 #' @param do_background Logical scalar; indicates grey background included in plot.
 #'        Default is no grey background;
-#' @param line_color Color used for lines in the maximum percentage difference plot.  
-#'        Default is \code{"steelblue"}.
 #' @param cut_color Color use to show the slidings spans cut off for this type of series.  
 #'        Default is \code{"red"}.
 #' @param this_legend_title Character string; indicates title of legend. 
 #'        Default is \code{'Sliding Spans'}.
 #' @param this_legend_entry Character array; entries for the legend. 
 #'        Default is \code{c("ss1", "ss2")}.
-#' @param legend_title_size integer scalar; Size of the legend title.
+#' @param this_legend_title_size integer scalar; Size of the legend title.
 #'        Default is \code{12}.
-#' @param legend_text_size integer scalar; Size of the legend title.
+#' @param this_legend_text_size integer scalar; Size of the legend title.
+#'        Default is \code{10}.
+#' @param this_legend_position character String; The position of the legend, which can be one of
+#'        \code{top}, \code{bottom}, \code{left}, \code{right}.
+#'        Default is \code{right}.
+#' @param this_legend_space integer scalar; Space between legend and plot in points.
 #'        Default is \code{10}.
 #' @return A \code{ggplot} object that generates a plot of the maximum percent difference
 #'         from a sliding spans analysis of seasonal factors or changes.
 #'
 #' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
+#'
+#' @references
+#'  \insertAllCited{}
 #'
 #' @examples
 #' shoes_sspan_seas <- 
@@ -63,10 +72,10 @@
 #'     plot_sliding_spans_two(shoes_sspan_seas, shoes_sspan_x11_seas, "sfs",
 #'     		main_title = "Maximum Difference of the Seasonal Factors",
 #'          sub_title = "US Retail Shoe Sales",
-#'          line_color = "black", 
 #'          cut_color = "purple",
 #'          this_legend_entry = c("Seats", "X-11"))
 #' @importFrom rlang .data
+#' @importFrom Rdpack reprompt
 #' @export
 plot_sliding_spans_two <- 
     function(seas_obj_one = NULL, seas_obj_two = NULL,
@@ -77,42 +86,69 @@ plot_sliding_spans_two <-
              this_y_label = " ", 
              do_grid = FALSE,
              do_background = FALSE,
-             line_color = "grey",
 			 cut_color = "red",
 			 this_legend_title = "Sliding Spans",
 			 this_legend_entry = c("ss1", "ss2"),
-			 legend_title_size = 12,
-			 legend_text_size = 10) {
-    # Author: Brian C. Monsell (OEUS) Version 1.5, 12/11/2024
+			 this_legend_title_size = 12,
+			 this_legend_text_size = 10,
+			 this_legend_position = "right",
+			 this_legend_space = 10) {
+    # Author: Brian C. Monsell (OEUS) Version 2.6, 2/18/2026
     # check if a value is specified for \code{seas_obj}
     if (is.null(seas_obj_one)) {
-        stop("must specify a seas object")
+        cat("must specify a seas object")
+		return(NULL)
     } else {
     # check if a seas object is specified for \code{seas_obj}
         if (!inherits(seas_obj_one, "seas")) {
-            stop("First argument must be a seas object")
+            cat("First argument must be a seas object")
+			return(NULL)
         }
     }
 	
     if (is.null(seas_obj_two)) {
-        stop("must specify a seas object")
+        cat("must specify a seas object")
+		return(NULL)
     } else {
     # check if a seas object is specified for \code{seas_obj}
         if (!inherits(seas_obj_two, "seas")) {
-            stop("Second argument must be a seas object")
-        }
+            cat("Second argument must be a seas object")
+			return(NULL)
+       }
     }
 	
 	if(seasonal::udg(seas_obj_one, "sspans") != "yes") {
-		stop("First seasonal object has no sliding spans analysis results.")
+		cat("First seasonal object has no sliding spans analysis results.")
+		return(NULL)
 	}
 	if(seasonal::udg(seas_obj_two, "sspans") != "yes") {
-		stop("Second seasonal object has no sliding spans analysis results.")
+		cat("Second seasonal object has no sliding spans analysis results.")
+		return(NULL)
 	}
 	
 	maxpct_type_all <- c("sfs", "chs", "sis", "cis")
 	if(sum(match(maxpct_type_all, this_series), na.rm = TRUE) == 0) {
-        stop(paste("Sliding spans series type not valid:", this_series))
+        cat(paste("Sliding spans series type not valid:", this_series))
+		return(NULL)
+	}
+	
+	# check legend options 
+	position_all <- c("top", "bottom", "left", "right")
+	if(sum(match(position_all, this_legend_position), na.rm = TRUE) == 0) {
+        cat(paste("Legend position choice not valid:", this_legend_position))
+		return(NULL)
+	}
+	
+	if(this_legend_text_size <= 0) {
+        cat(paste("Legend text size not valid (must be greater than zero):", 
+		           this_legend_text_size))
+		return(NULL)
+	}
+	
+	if(this_legend_title_size <= 0) {
+        cat(paste("Legend title text size not valid (must be greater than zero):", 
+		           this_legend_title_size))
+		return(NULL)
 	}
 	
 	if(sum(match(c("chs", "cis"), this_series), na.rm = TRUE) == 0) {
@@ -126,7 +162,8 @@ plot_sliding_spans_two <-
 	
 	if (sum(seasonal::udg(seas_obj_one, "ssa") == 
 	        seasonal::udg(seas_obj_two, "ssa")) < 4) {
-		stop("Number, length, and starting date for sliding spans must be identifcal")
+		cat("Number, length, and starting date for sliding spans must be identifcal")
+		return(NULL)
 	}
 	
 	# extract maximum difference
@@ -156,15 +193,15 @@ plot_sliding_spans_two <-
 	                          time(max_pct_two)),
 				   value2 = c(as.double(max_pct_one), 
 			                  as.double(max_pct_two)),
-				   category1 = c(rep("x11", len_max_pct), 
-			                     rep("seats", len_max_pct)),
-				   category2 = c(seq(0, len_max_pct-1), 
-			                     seq(0, len_max_pct-1)))
+				   category1 = factor(c(rep("x11", len_max_pct), 
+			                     rep("seats", len_max_pct))),
+				   category2 = factor(c(seq(0, len_max_pct-1), 
+			                     seq(0, len_max_pct-1))))
 
 	p_sspan_two <- 
 		ggplot2::ggplot(sspan_two_df, ggplot2::aes(.data$value1, .data$value2)) + 
 		ggplot2::geom_point(ggplot2::aes(color= .data$category1)) + 
-		ggplot2::geom_line(ggplot2::aes(group = .data$category2, color= line_color)) +
+		ggplot2::geom_line(ggplot2::aes(group = .data$category2)) +
 		ggplot2::labs(title = main_title,
 					  subtitle = sub_title,
 					  x = this_x_label,
@@ -172,8 +209,7 @@ plot_sliding_spans_two <-
 		ggplot2::scale_colour_discrete(name = this_legend_title, 
 		                               labels = this_legend_entry) +
 		ggplot2::geom_hline(yintercept = this_cut, color = cut_color) +
-		ggplot2::theme(legend.text = ggplot2::element_text(size = legend_text_size),
-					   legend.title = ggplot2::element_text(size = legend_title_size))
+		ggplot2::geom_hline(yintercept = 0.0, color = "lightgrey")
 
 		
 	# remove grey background if \code{do_background = FALSE} 
@@ -187,5 +223,12 @@ plot_sliding_spans_two <-
 		    ggplot2::theme(panel.grid.major = ggplot2::element_blank(), 
 			               panel.grid.minor = ggplot2::element_blank())
     }
+
+	p_sspan_two <- p_sspan_two +
+		ggplot2::theme(legend.text = ggplot2::element_text(size = this_legend_text_size),
+					   legend.title = ggplot2::element_text(size = this_legend_title_size),
+					   legend.position = this_legend_position,
+					   legend.box.spacing = ggplot2::unit(this_legend_space, "pt"))
+
 	return(p_sspan_two)	
 }

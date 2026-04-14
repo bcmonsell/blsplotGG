@@ -13,7 +13,11 @@ plot_sliding_spans(
   do_background = FALSE,
   line_color = NULL,
   this_palette = "Dark2",
-  this_guide_legend = "Sliding Spans"
+  this_legend_title = "Sliding Spans",
+  this_legend_title_size = 12,
+  this_legend_text_size = 10,
+  this_legend_position = "right",
+  this_legend_space = 10
 )
 }
 \arguments{
@@ -38,12 +42,27 @@ Default is no grid lines.}
 Default is no grey background;}
 
 \item{line_color}{Character vector of length 2 to 4 based on the number of spans.
-Default is generated from the \code{RColorBrewer} palette \code{"Dark2"}.}
+For a listing of R color codes,
+see \insertCite{rchartsColors;textual}{blsplotGG}.
+Default is the \code{RColorBrewer} palette \code{"Dark"} \insertCite{RColorBrewer}{blsplotGG}.}
 
 \item{this_palette}{Character string; default \code{RColorBrewer} palette.
 Deault is \code{"Dark2"}.}
 
-\item{this_guide_legend}{Title for legend.  Default is \code{"Sliding Spans"}}
+\item{this_legend_title}{Title for legend.  Default is \code{"Sliding Spans"}}
+
+\item{this_legend_title_size}{integer scalar; Size of the legend title.
+Default is \code{12}.}
+
+\item{this_legend_text_size}{integer scalar; Size of the legend title.
+Default is \code{10}.}
+
+\item{this_legend_position}{character String; The position of the legend, which can be one of
+\code{top}, \code{bottom}, \code{left}, \code{right}.
+Default is \code{right}.}
+
+\item{this_legend_space}{integer scalar; Space between legend and plot in points.
+Default is \code{10}.}
 }
 \value{
 A \code{ggplot} object that generates a plot compares the series from
@@ -51,10 +70,13 @@ each of the sliding spans generated from a sliding spans analysis
 }
 \description{
 Generates a \code{ggplot} object with a time series plot that compares the series from
-each of the sliding spans generated from a sliding spans analysis
+each of the sliding spans generated from a sliding spans analysis.
+For more information on sliding spans analysis,
+\insertCite{@see Sections 6.2 and 7.13 of @Census2025;textual}{blsplotGG}, with more
+details in \insertCite{Findley90;textual}{blsplotGG}.
 }
 \details{
-Version 1.7, 11/7/2024
+Version 2.5, 2/17/2026
 }
 \examples{
 shoes_sspan_seas <- 
@@ -68,6 +90,9 @@ p_shoes_spans_sf <-
                        main_title = "Spans of Seasonal Factors",
                        sub_title = "US Shoe Sales",
                        this_palette = "Set1")
+}
+\references{
+\insertAllCited{}
 }
 \author{
 Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}

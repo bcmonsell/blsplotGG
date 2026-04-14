@@ -1,8 +1,8 @@
 #' Extract range of data from ggplot object
 #'
-#' Computes the range of all data plotted in given ggplot object
+#' Computes the range of all data plotted in given \code{ggplot} object.
 #'
-#' Version 1.2, 10/19/2023
+#' Version Version 2.1, 12/30/2025
 #'
 #' @param this_p \code{ggplot} object of a time series plot. 
 #'        This is a required entry.
@@ -32,15 +32,15 @@
 #' air_short_range <- extract_range_from_ggplot(air_short_p)
 #' @export
 extract_range_from_ggplot <- function(this_p = NULL) {
-    # Author: Brian C. Monsell (OEUS) 
+    # Author: Brian C. Monsell (OEUS) Version 2.1, 12/30/2025
 
 #   check if \code{this_p} is specified and is a list object
     if (is.null(this_p)) {
         cat("must specify a ggplot object")
         return(NULL)
     } else {
-        if (!is.list(this_p)) {
-            cat("this is not a list object; must specify a ggplot object")
+        if (!ggplot2::is_ggplot(this_p)) {
+            cat("this is not a ggplot object; must specify a ggplot object")
             return(NULL)
         }
     }

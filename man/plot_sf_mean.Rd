@@ -19,12 +19,16 @@ plot_sf_mean(
   this_scale = "free_y",
   y_limit = NULL,
   forecast = 0,
+  this_legend_entry = colnames(this_sf_matrix),
   this_legend_title = "SF Means",
-  this_legend_entry = colnames(this_sf_matrix)
+  this_legend_title_size = 12,
+  this_legend_text_size = 10,
+  this_legend_position = "right",
+  this_legend_space = 10
 )
 }
 \arguments{
-\item{this_sf_matrix}{time series object of the seasonal factors from a seasonal adjustment}
+\item{this_sf_matrix}{time series matrix object of the seasonal factors from a number of seasonal adjustments.}
 
 \item{main_title}{Character string; main title of plot.  Default is  \code{'Mean of Seasonal Factors'}.}
 
@@ -41,8 +45,9 @@ Default is no grid lines.}
 Default is no grey background;}
 
 \item{line_color}{Character scalar; color used for plot. User should specify one
-color for each column of the matrix specified.
-Default is the \code{RColorBrewer} palette \code{"Dark2"}.}
+color for each column of the matrix specified. For a listing of R color codes,
+see \insertCite{rchartsColors;textual}{blsplotGG}.
+Default is the \code{RColorBrewer} palette \code{"Dark2"} \insertCite{RColorBrewer}{blsplotGG}.}
 
 \item{this_palette}{Character string; default \code{RColorBrewer} palette
 Deault is \code{"Dark2"}.}
@@ -62,43 +67,51 @@ Default is range of the seasonal factors.}
 
 \item{forecast}{Integer scalar; Number of forecasts appended to the seasonal factors. Default is 0.}
 
-\item{this_legend_title}{Character string; indicates title of legend. Default is \code{'Series'}.}
-
 \item{this_legend_entry}{Character array; entries for the legend. When \code{do_facet = TRUE},
 entries are used as the facet labels.
 Default is \code{colnames(this_sf_matrix)}}
+
+\item{this_legend_title}{Character string; indicates title of legend. Default is \code{'Series'}.}
+
+\item{this_legend_title_size}{integer scalar; Size of the legend title.
+Default is \code{12}.}
+
+\item{this_legend_text_size}{integer scalar; Size of the legend title.
+Default is \code{10}.}
+
+\item{this_legend_position}{character String; The position of the legend, which can be one of
+\code{top}, \code{bottom}, \code{left}, \code{right}.
+Default is \code{right}.}
+
+\item{this_legend_space}{integer scalar; Space between legend and plot in points.
+Default is \code{10}.}
 }
 \value{
 Generate plot of the means of seasonal factors by period.
 If seasonal factors not specified, print out error message and return NULL.
 }
 \description{
-Generates a plot of the means of the seasonal factors
+Generates a plot of the means of a matrix of seasonal factors.
+Each column of the matrix should be a \code{ts} object.
 }
 \details{
-Version 3.1, 1/7/2025
+Version 5.6, 2/20/2026
 }
 \examples{
 EM_individual_seas <-
- seasonal::seas(
+ seasonal::seas(employment_list,
     x11 = "", transform.function = "log",
     check.print = c("none", "+acf", "+acfplot", "+normalitytest"),
     regression.aictest = NULL,
     outlier.types = "all",
     arima.model = "(0 1 1)(0 1 1)",
     forecast.maxlead = 60,
-    list = list(
-        list(x = employment_list$n2000013),
-        list(x = employment_list$n2000014),
-        list(x = employment_list$n2000025),
-        list(x = employment_list$n2000026)
-    )
 )
-EM_names <- names(employment_list)
 # Use Filter function to grab seas objects
 EM_individual_seas_only <-
   Filter(function(x) inherits(x, "seas"), EM_individual_seas)
 
+EM_names <- names(employment_list)
 names(EM_individual_seas_only) <- EM_names
 
 EM_Comp_Sf <-
@@ -124,6 +137,9 @@ em_plot_facet <- blsplotGG::plot_sf_mean(EM_Comp_Sf,
   this_scale = "fixed",
   this_legend_entry = c("M 16-19", "F 16-19", "M 20+", "F 20+")
   )
+}
+\references{
+\insertAllCited{}
 }
 \author{
 Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}

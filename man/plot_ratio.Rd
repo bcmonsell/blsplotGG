@@ -69,7 +69,7 @@ A \code{ggplot} object that produces a ratio plot of a time series.
 Generates a high-definition plot around a reference line other than zero.
 }
 \details{
-Version 3.3, 6/18/2025
+Version 3.4, 8/27/2025
 }
 \examples{
 ukgas_x11_seas <- 

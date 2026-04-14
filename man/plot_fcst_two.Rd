@@ -17,7 +17,11 @@ plot_fcst_two(
   do_grid = FALSE,
   do_background = FALSE,
   this_palette = c("darkgrey", "steelblue", "darkgreen"),
-  this_guide_legend = "Forecast"
+  this_legend_title = "Forecast",
+  this_legend_title_size = 12,
+  this_legend_text_size = 10,
+  this_legend_position = "right",
+  this_legend_space = 10
 )
 }
 \arguments{
@@ -58,16 +62,30 @@ Default is no grey background;}
 forecast, and upper and lower forecast bounds.
 Default is \code{c("darkgrey", "steelblue", "darkgreen")}.}
 
-\item{this_guide_legend}{Title for legend.  Default is \code{"Forecast"}}
+\item{this_legend_title}{Title for legend.  Default is \code{"Forecast"}}
+
+\item{this_legend_title_size}{integer scalar; Size of the legend title.
+Default is \code{12}.}
+
+\item{this_legend_text_size}{integer scalar; Size of the legend title.
+Default is \code{10}.}
+
+\item{this_legend_position}{character String; The position of the legend, which can be one of
+\code{top}, \code{bottom}, \code{left}, \code{right}.
+Default is \code{right}.}
+
+\item{this_legend_space}{integer scalar; Space between legend and plot in points.
+Default is \code{10}.}
 }
 \value{
 A \code{ggplot} object of the regARIMA forecasts for two models of the same series.
 }
 \description{
-Generates plot that compares regARIMA forecasts for two models of the same series
+Generates plot that compares regARIMA forecasts for two models of the same series.
+The forecasts are extracted from two seas objects generated from the same series.
 }
 \details{
-Version 1.7, 11/6/2024
+Version 3.1, 12/30/2025
 }
 \examples{
 shoes_seas_one <- 

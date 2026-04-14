@@ -10,24 +10,25 @@ color_blind_palette(with_grey = TRUE, brewer_palette = NULL)
 \item{with_grey}{Logical scalar; whether color blind pallate contains \code{'grey'},
 otherwise the palette contains \code{black}. Default is TRUE.}
 
-\item{brewer_palette}{Character string; a \code{RColorBrewer} palette.
+\item{brewer_palette}{Character string; a \code{RColorBrewer} palette \insertCite{RColorBrewer}{blsplotGG}.
 There is no default - must be a color-blind friendly palette.}
 }
 \value{
 Vector of hexadecimal color codes that form a color palette that can be distinguished by color-blind people.
 }
 \description{
-Color palettes that can be used that can be distinguished by color-blind people (either from \code{RColorBrewer}
-or Cookbook for R - Colors (ggplot2)).
+Color palettes that can be used that can be distinguished by color-blind people
+(either from \insertCite{RColorBrewer;textual}{blsplotGG}
+or \insertCite{cookbookrColorsggplot2;textual}{blsplotGG}).
 }
 \details{
-Version 2.2, 8/2/2024
+Version 3.2, 2/10/2026
 }
 \examples{
 this_color_blind <- color_blind_palette(FALSE, brewer_palette = "Dark2")
 }
 \references{
-\url{https://CRAN.R-project.org/package=RColorBrewer}, \url{http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/}
+\insertAllCited{}
 }
 \author{
 Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}

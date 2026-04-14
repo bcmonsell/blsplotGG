@@ -1,6 +1,6 @@
 #' Update vector.
 #'
-#' Fill unspecified elements of a vector with the first element of the input series
+#' Fill unspecified elements of a vector with the first element of the input series.
 #'
 #' Version 2.3, 5/25/2023
 #'
@@ -20,14 +20,17 @@ update_vector <- function(this_series = NULL, this_num = NULL) {
     # Author: Brian C. Monsell (OEUS) Version 2.3, 5/25/2023
     
     if (is.null(this_series)) {
-        stop("Argument this_series must be specified.")
+        cat("Argument this_series must be specified.")
+		return(NULL)
     }
     if (is.null(this_num)) {
-        stop("Argument this_num must be specified.")
+        cat("Argument this_num must be specified.")
+		return(NULL)
     }
  
     if (length(this_series) > this_num) {
-        stop("value of this_num must be greater than the length of the input series")
+        cat("value of this_num must be greater than the length of the input series")
+		return(NULL)
     }
 
     # intialize vector to hold the updates

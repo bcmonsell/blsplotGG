@@ -1,8 +1,9 @@
 #' Forecast plot for two models
 #'
-#' Generates plot that compares regARIMA forecasts for two models of the same series
+#' Generates plot that compares regARIMA forecasts for two models of the same series.
+#' The forecasts are extracted from two seas objects generated from the same series.
 #'
-#' Version 1.7, 11/6/2024
+#' Version 3.1, 12/30/2025
 #'
 #' @param seas_obj_one \code{seas} object generated from a call of \code{seas} 
 #'        on a single time series
@@ -29,7 +30,16 @@
 #' @param this_palette Array of character strings; color used for original series, 
 #'        forecast, and upper and lower forecast bounds. 
 #'        Default is \code{c("darkgrey", "steelblue", "darkgreen")}. 
-#' @param this_guide_legend Title for legend.  Default is \code{"Forecast"}
+#' @param this_legend_title Title for legend.  Default is \code{"Forecast"}
+#' @param this_legend_title_size integer scalar; Size of the legend title.
+#'        Default is \code{12}.
+#' @param this_legend_text_size integer scalar; Size of the legend title.
+#'        Default is \code{10}.
+#' @param this_legend_position character String; The position of the legend, which can be one of
+#'        \code{top}, \code{bottom}, \code{left}, \code{right}.
+#'        Default is \code{right}.
+#' @param this_legend_space integer scalar; Space between legend and plot in points.
+#'        Default is \code{10}.
 #' @return A \code{ggplot} object of the regARIMA forecasts for two models of the same series.
 #'
 #' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
@@ -66,31 +76,59 @@ plot_fcst_two <-
 			 do_grid = FALSE, 
              do_background = FALSE, 
              this_palette = c("darkgrey", "steelblue", "darkgreen"), 
-			 this_guide_legend = "Forecast") {
-    # Author: Brian C. Monsell (OEUS) Version 1.7, 11/6/2024
-    
+			 this_legend_title = "Forecast",
+			 this_legend_title_size = 12,
+			 this_legend_text_size = 10,
+			 this_legend_position = "right",
+			 this_legend_space = 10) {
+    # Author: Brian C. Monsell (OEUS) Version 3.1, 12/30/2025
+	    
     # check if a value is specified for \code{seas_obj}
     if (is.null(seas_obj_one)) {
-        stop("must specify a seas object")
+        cat("must specify a seas object")
+		return(NULL)
     } else {
     # check if a seas object is specified for \code{seas_obj_one}
         if (!inherits(seas_obj_one, "seas")) {
-            stop("First argument must be a seas object")
+            cat("First argument must be a seas object")
+			return(NULL)
         }
     }
 	
     if (is.null(seas_obj_two)) {
-        stop("must specify a seas object")
+        cat("must specify a seas object")
+		return(NULL)
     } else {
     # check if a seas object is specified for \code{seas_obj_two}
         if (!inherits(seas_obj_two, "seas")) {
-            stop("Second argument must be a seas object")
+            cat("Second argument must be a seas object")
+			return(NULL)
         }
     }
 	
    if (is.null(main_title)) {
        sub_title <- NULL
     }
+	
+	# check legend options 
+	position_all <- c("top", "bottom", "left", "right")
+	if(sum(match(position_all, this_legend_position), na.rm = TRUE) == 0) {
+        cat(paste("Legend position choice not valid:", this_legend_position))
+		return(NULL)
+	}
+	
+	if(this_legend_text_size <= 0) {
+        cat(paste("Legend text size not valid (must be greater than zero):", 
+		           this_legend_text_size))
+		return(NULL)
+	}
+	
+	if(this_legend_title_size <= 0) {
+        cat(paste("Legend title text size not valid (must be greater than zero):", 
+		           this_legend_title_size))
+		return(NULL)
+	}
+
 
     # extract forecasts, original series
     fcst_one <- seasonal::series(seas_obj_one, "fct")
@@ -100,10 +138,12 @@ plot_fcst_two <-
 	
 	a1_equal <- tryCatch(a1 == a1_two, error = function(e) { NULL })
 	if (is.null(a1_equal)) {
-        stop("Series not the same for both models")
+        cat("Series not the same for both models")
+		return(NULL)
 	} else {
 		if (!(sum(a1_equal) == length(a1_equal))) {
-			stop("Series not the same for both models")
+			cat("Series not the same for both models")
+			return(NULL)
 		}
 	}
    
@@ -153,9 +193,8 @@ plot_fcst_two <-
                       subtitle = sub_title,
                       x = this_x_label,
                       y = this_y_label) +
-        ggplot2::guides(color = ggplot2::guide_legend(this_guide_legend))
+        ggplot2::guides(color = ggplot2::guide_legend(this_legend_title))
 
-    
 	# remove grey background if \code{do_background = FALSE} 
     if (!do_background) {
 		p_fcst_two <- p_fcst_two + ggplot2::theme_bw()
@@ -168,5 +207,11 @@ plot_fcst_two <-
 			               panel.grid.minor = ggplot2::element_blank())
 	}
     
+	p_fcst_two <- p_fcst_two +
+		ggplot2::theme(legend.text = ggplot2::element_text(size = this_legend_text_size),
+					   legend.title = ggplot2::element_text(size = this_legend_title_size),
+					   legend.position = this_legend_position,
+					   legend.box.spacing = ggplot2::unit(this_legend_space, "pt"))
+
 	return(p_fcst_two)
 }

@@ -36,11 +36,11 @@ Default is \code{FALSE}.}
 generate alt text for plot produced by \code{gg_object}
 }
 \description{
-Generates alt text for ggplot graph objects using the \code{BrailleR} package and adding
-text suggested by Amy Casale in her article "Writing Alt Text for Data Visualization".
+Generates alt text for ggplot graph objects using the \code{BrailleR} package \insertCite{BrailleR2023}{blsplotGG}
+or adding text as suggested by Amy Casale in her article "Writing Alt Text for Data Visualization" \insertCite{Cesal2020}{blsplotGG}.
 }
 \details{
-Version 3.1, 9/9/2024
+Version 4.3, 2/10/2026
 }
 \examples{
 air_seas <- seasonal::seas(AirPassengers, arima.model = "(0 1 1)(0 1 1)", x11="")
@@ -63,7 +63,7 @@ air_alt_text <-
                      "compare seasonal adjustment and trend to original series")
 }
 \references{
-\url{https://CRAN.R-project.org/package=BrailleR} and   \url{https://medium.com/nightingale/writing-alt-text-for-data-visualization-2a218ef43f81}
+\insertAllCited{}
 }
 \author{
 Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}

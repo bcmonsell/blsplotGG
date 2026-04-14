@@ -17,6 +17,11 @@ plot_matrix(
   line_color = NULL,
   this_palette = "Dark2",
   this_line_type = "solid",
+  this_legend_title = "Series",
+  this_legend_title_size = 12,
+  this_legend_text_size = 10,
+  this_legend_position = "right",
+  this_legend_space = 10,
   do_facet = FALSE,
   reset_facet_y_axis = FALSE
 )
@@ -47,13 +52,29 @@ Default is no grey background;}
 
 \item{line_color}{Character scalar; color used for plot.
 User should specify one color for each column of the matrix specified.
-Default is the \code{RColorBrewer} palette \code{"Dark2"}.}
+Default is the \code{RColorBrewer} palette \code{"Dark2"}. For a listing of R color codes,
+see \insertCite{rchartsColors;textual}{blsplotGG}.}
 
-\item{this_palette}{Character string; default \code{RColorBrewer} palette.
+\item{this_palette}{Character string; default \code{RColorBrewer} palette \insertCite{RColorBrewer}{blsplotGG}.
 Deault is \code{"Dark2"}.}
 
 \item{this_line_type}{Character string; indicates line type of each plot produced.
 Default is \code{"solid"}.}
+
+\item{this_legend_title}{Title for legend.  Default is \code{"Forecast"}}
+
+\item{this_legend_title_size}{integer scalar; Size of the legend title.
+Default is \code{12}.}
+
+\item{this_legend_text_size}{integer scalar; Size of the legend title.
+Default is \code{10}.}
+
+\item{this_legend_position}{character String; The position of the legend, which can be one of
+\code{top}, \code{bottom}, \code{left}, \code{right}.
+Default is \code{right}.}
+
+\item{this_legend_space}{integer scalar; Space between legend and plot in points.
+Default is \code{10}.}
 
 \item{do_facet}{Logical scalar; indicates if a facet plot is generated of the
 different colums.
@@ -64,14 +85,17 @@ reset to \code{y_limit}
 Default is \code{FALSE}.}
 }
 \value{
-A \code{ggplot} object that produces a plot of user-specified time series.
+A \code{ggplot} object that produces a plot of user-specified time series
+in columns of \code{this_matrix}, either all on the same axis or as a facet plot.
+This function uses the \code{autoplot} function of the \code{forecast} package
+\insertCite{forecast2008,forecast2025}{blsplotGG}.
 If matrix not specified, print out error message and return NULL.
 }
 \description{
 Generate plot of a matrix of user-specified time series.
 }
 \details{
-Version 4.2, 11/6/2024
+Version 6.3, 2/17/2026
 }
 \examples{
 BP_Region_Matrix <-
@@ -86,6 +110,9 @@ p_BP_facet <- blsplotGG::plot_matrix(BP_Region_Matrix, this_y_label = 'Building 
    main_title = "US Building Permits, 1 Family Units",
    do_grid = FALSE, do_facet = TRUE,
    line_color = c("orange", "steelblue", "forestgreen", "brown"))
+}
+\references{
+\insertAllCited{}
 }
 \author{
 Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}

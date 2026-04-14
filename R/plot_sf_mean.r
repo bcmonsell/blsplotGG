@@ -1,10 +1,11 @@
 #' Seasonal factor mean plot using ggplot
 #'
-#' Generates a plot of the means of the seasonal factors
+#' Generates a plot of the means of a matrix of seasonal factors. 
+#' Each column of the matrix should be a \code{ts} object.
 #'
-#' Version 2.8, 11/6/2024
+#' Version 5.6, 2/20/2026
 #'
-#' @param this_sf_matrix time series object of the seasonal factors from a seasonal adjustment
+#' @param this_sf_matrix time series matrix object of the seasonal factors from a number of seasonal adjustments.
 #' @param main_title Character string; main title of plot.  Default is  \code{'Mean of Seasonal Factors'}.
 #' @param sub_title Character string; subtitle of plot. There is no default subtitle.
 #' @param this_y_label Character string; y-axis label for plot, if specified.
@@ -14,49 +15,57 @@
 #' @param do_background Logical scalar; indicates grey background included in plot.
 #'        Default is no grey background;
 #' @param line_color Character scalar; color used for plot. User should specify one 
-#'        color for each column of the matrix specified.
-#'        Default is the \code{RColorBrewer} palette \code{"Dark2"}.
-#' @param this_palette Character string; default \code{RColorBrewer} palette
+#'        color for each column of the matrix specified. For a listing of R color codes, 
+#'        see \insertCite{rchartsColors;textual}{blsplotGG}.
+#'        Default is the \code{RColorBrewer} palette \code{"Dark2"} \insertCite{RColorBrewer}{blsplotGG}. 
+#' @param this_palette Character string; default \code{RColorBrewer} palette 
 #'        Deault is \code{"Dark2"}.
 #' @param this_line_type Character string; indicates line type of each plot produced. 
 #'        Default is \code{rep("solid", ncol(this_sf_matrix))}.
 #' @param do_facet Logical scalar; indicates if a facet plot is generated of the different colums. 
 #'        Default is \code{FALSE}.
-#' @param reset_facet_y_axis Logical scalar; indicates if y-axis for facet plots reset to \code{y_limit}
-#'        Default is \code{FALSE}.
+#' @param this_scale Character scalar; set the scale for the y-axis of the facet plots. 
+#'        Default is \code{"free_y"}.  To set axis to be the same for the different plots,
+#'        set \code{this_scale = "fixed"}.
 #' @param y_limit Numeric vector of length 2; Range of values you wish the plot to be plotted over. 
 #'        Default is range of the seasonal factors.
-#' @param this_legend_title Character string; indicates title of legend. Default is \code{'Series'}.
 #' @param forecast Integer scalar; Number of forecasts appended to the seasonal factors. Default is 0.
 #' @param this_legend_entry Character array; entries for the legend. When \code{do_facet = TRUE}, 
 #'        entries are used as the facet labels.
 #'        Default is \code{colnames(this_sf_matrix)}
+#' @param this_legend_title Character string; indicates title of legend. Default is \code{'Series'}.
+#' @param this_legend_title_size integer scalar; Size of the legend title.
+#'        Default is \code{12}.
+#' @param this_legend_text_size integer scalar; Size of the legend title.
+#'        Default is \code{10}.
+#' @param this_legend_position character String; The position of the legend, which can be one of
+#'        \code{top}, \code{bottom}, \code{left}, \code{right}.
+#'        Default is \code{right}.
+#' @param this_legend_space integer scalar; Space between legend and plot in points.
+#'        Default is \code{10}.
 #' @return Generate plot of the means of seasonal factors by period.
 #'         If seasonal factors not specified, print out error message and return NULL.
 #'
 #' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #'
+#' @references
+#'  \insertAllCited{}
+#'
 #' @examples
 #' EM_individual_seas <-
-#'  seasonal::seas(
+#'  seasonal::seas(employment_list,
 #'     x11 = "", transform.function = "log",
 #'     check.print = c("none", "+acf", "+acfplot", "+normalitytest"),
 #'     regression.aictest = NULL,
 #'     outlier.types = "all",
 #'     arima.model = "(0 1 1)(0 1 1)",
 #'     forecast.maxlead = 60,
-#'     list = list(
-#'         list(x = employment_list$n2000013),
-#'         list(x = employment_list$n2000014),
-#'         list(x = employment_list$n2000025),
-#'         list(x = employment_list$n2000026)
-#'     )
 #' )
-#' EM_names <- names(employment_list)
 #' # Use Filter function to grab seas objects
 #' EM_individual_seas_only <-
 #'   Filter(function(x) inherits(x, "seas"), EM_individual_seas)
 #' 
+#' EM_names <- names(employment_list)
 #' names(EM_individual_seas_only) <- EM_names
 #' 
 #' EM_Comp_Sf <-
@@ -79,10 +88,11 @@
 #'   sub_title = 'X-11 Seasonals',
 #'   forecast = 60, 
 #'   do_facet = TRUE, 
-#'   reset_facet_y_axis = TRUE,
+#'   this_scale = "fixed",
 #'   this_legend_entry = c("M 16-19", "F 16-19", "M 20+", "F 20+")
 #'   )
 #' @import graphics
+#' @importFrom Rdpack reprompt
 #' @export
 plot_sf_mean <- 
     function(this_sf_matrix = NULL, 
@@ -96,15 +106,20 @@ plot_sf_mean <-
 			 this_palette = "Dark2", 
 			 this_line_type = rep("solid", ncol(this_sf_matrix)), 
 			 do_facet = FALSE, 
-			 reset_facet_y_axis = FALSE, 
+			 this_scale = "free_y", 
 			 y_limit = NULL, 
 			 forecast = 0, 
-			 this_legend_title = "SF Means", 
-			 this_legend_entry = colnames(this_sf_matrix)) {
-    # Author: Brian C. Monsell (OEUS) Version 2.8, 11/6/2024
+			 this_legend_entry = colnames(this_sf_matrix),
+			 this_legend_title = "SF Means",
+			 this_legend_title_size = 12,
+			 this_legend_text_size = 10,
+			 this_legend_position = "right",
+			 this_legend_space = 10) {
+    # Author: Brian C. Monsell (OEUS) Version 5.6, 2/20/2026
 
     if (is.null(this_sf_matrix)) {
-        stop("Argument this_sf_matrix must be specified.")
+        cat("Argument this_sf_matrix must be specified.")
+		return(NULL)
     }
 	
 	if (forecast > 0) {
@@ -125,7 +140,27 @@ plot_sf_mean <-
 	}
 	this_sum <- sum(check_mode_vec)
 	if (this_sum > 0 && this_sum < num_series) {
-		stop("Seasonal factors should be all multiplicative or all additive")
+		cat("Seasonal factors should be all multiplicative or all additive")
+		return(NULL)
+	}
+
+	# check legend options 
+	position_all <- c("top", "bottom", "left", "right")
+	if(sum(match(position_all, this_legend_position), na.rm = TRUE) == 0) {
+        cat(paste("Legend position choice not valid:", this_legend_position))
+		return(NULL)
+	}
+	
+	if(this_legend_text_size <= 0) {
+        cat(paste("Legend text size not valid (must be greater than zero):", 
+		           this_legend_text_size))
+		return(NULL)
+	}
+	
+	if(this_legend_title_size <= 0) {
+        cat(paste("Legend title text size not valid (must be greater than zero):", 
+		           this_legend_title_size))
+		return(NULL)
 	}
 	
 	this_cycle <- cycle(this_sf_matrix)
@@ -151,6 +186,7 @@ plot_sf_mean <-
             warning("Remaining elements set to be the first entry.")
 		}
         this_line_type <- update_vector(this_line_type, num_series)
+		if (is.null(this_line_type)) { return(NULL) }
     }
 
 	if (is.null(line_color)) {
@@ -191,12 +227,12 @@ plot_sf_mean <-
                                        colour = .data$name)) + 
 		ggplot2::geom_line() +
 		ggplot2::geom_point() +
-		ggplot2::scale_colour_manual(values = line_color) +
+		ggplot2::scale_colour_manual(values = line_color, 
+		                             labels = this_legend_entry) +
 		ggplot2::labs(title = main_title, 
 		              subtitle = sub_title, 
-					  y = this_y_label) + 
-		ggplot2::scale_colour_discrete(name = this_legend_title, 
-		                               labels = this_legend_entry)
+					  y = this_y_label,
+					  colour = this_legend_title)
 
 # generate x-axis
 	if (this_freq == 12) {
@@ -233,16 +269,17 @@ plot_sf_mean <-
     }
 
 	if (do_facet) {
-		if (reset_facet_y_axis) {
-			if (is.null(y_limit)) {
-				y_limit <- range(this_sf_matrix)
-			}
-			this_plot <- this_plot + ggplot2::ylim(y_limit)
-		}
 		legend_factor <- factor(this_legend_entry)
 		this_plot <- 
-			this_plot + ggplot2::facet_grid(legend_factor[name] ~ .) + 
+			this_plot + ggplot2::facet_grid(legend_factor[name] ~ ., 
+											scale = this_scale) + 
 						ggplot2::theme(legend.position = "none")
+	} else {
+		this_plot <- this_plot +
+			ggplot2::theme(legend.text = ggplot2::element_text(size = this_legend_text_size),
+					   legend.title = ggplot2::element_text(size = this_legend_title_size),
+					   legend.position = this_legend_position,
+					   legend.box.spacing = ggplot2::unit(this_legend_space, "pt"))
 	}
 
 	return(this_plot)

@@ -2,13 +2,16 @@
 #'
 #' Get the names of outliers identified in the \code{seas} object for a single series.
 #'
-#' Version 3.0, 5/14/2024
+#' Version 5.0, 1/7/2026
 #'
 #' @param seas_obj A \code{seas} object for a single series generated from the 
 #'        \code{seasonal} package. This is a required entry.
-#' @return Character string containing a summary of the outliers identified in the 
-#'         regARIMA model. If no regressors or automatic outliers in the model, the routine 
-#'         will return a blank character.
+#' @param return_string Logical scalar; if TRUE, results returned as a character string (default).
+#'                      Else, results returned as a character array.
+#' @return Character string (or array if \code{return_string} is \code{TRUE}) containing a summary 
+#'         of the outliers identified in the regARIMA model.
+#'         If no regressors or automatic outliers in the model, the routine 
+#'         will return a blank character (or blank vector).
 #'
 #' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #'
@@ -16,16 +19,18 @@
 #' air_seas <- seasonal::seas(AirPassengers, arima.model = "(0 1 1)(0 1 1)", x11="")
 #' this_auto_outlier <- get_auto_outlier_string(air_seas)
 #' @export
-get_auto_outlier_string <- function(seas_obj = NULL) {
-    # Author: Brian C. Monsell (OEUS) Version 3.0, 5/14/2024
+get_auto_outlier_string <- function(seas_obj = NULL, return_string = TRUE) {
+    # Author: Brian C. Monsell (OEUS) Version 5.0, 11/7/2026
     
     # check if a value is specified for \code{seas_obj}
     if (is.null(seas_obj)) {
-        stop("must specify a seas object")
+        cat("must specify a seas object")
+		return(NULL)
     } else {
     # check if a seas object is specified for \code{seas_obj}
         if (!inherits(seas_obj, "seas")) {
-           stop("First argument must be a seas object")
+			cat("First argument must be a seas object")
+			return(NULL)
         }
     }
     
@@ -38,12 +43,14 @@ get_auto_outlier_string <- function(seas_obj = NULL) {
     
     # If number of regressors equals number of automatic outliers, extract names of outliers
     if (this_nreg == this_auto_outlier) {
-        this_string <- get_reg_string(seas_obj)
+        this_reg <- get_reg_string(seas_obj, return_string)
+		if (is.null(this_reg)) { return(NULL) }
     } else {
         # If number of automatic outliers greater than zero, get the position of the 
         # \code{nreg} code in UDG data
         if (this_auto_outlier > 0) {
             this_reg_index <- get_udg_index(seasonal::udg(seas_obj), "nreg")
+			if (is.null(this_reg_index)) { return(NULL) }
             
             # get UDG keywords for individual regressors
             this_reg_names <- names(seas_obj$udg)[seq(1, this_nreg) + this_reg_index]
@@ -53,8 +60,11 @@ get_auto_outlier_string <- function(seas_obj = NULL) {
             reg_type_vec <- unlist(strsplit(this_reg_names, "[$]"))[seq(1, 2 * this_nreg, 2)]
             
             # extract names of automatic outliers into \code{this_string}
-            this_string <- paste(reg_vec[reg_type_vec == "AutoOutlier"], collapse = " ")
+			this_reg <- reg_vec[reg_type_vec == "AutoOutlier"]
+			if (return_string) {
+				this_reg <- paste(this_reg, collapse = " ")
+			} 
         }
     }
-    return(this_string)
+    return(this_reg)
 }

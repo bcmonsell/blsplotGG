@@ -1,8 +1,10 @@
 #' Generate forecast history plot
 #'
 #' Generate forecast history plot, which compares the sum of squared forecast errors for two models. 
+#' This follows the theory established in \insertCite{Findley2005;textual}{blsplotGG}.
+#' For more information on history analysis, \insertCite{@see Chapters 6.3 and 7.8 of @Census2025;textual}{blsplotGG}.
 #'
-#' Version 2.5 11/6/2024
+#' Version 4.2, 2/10/2026
 #'
 #' @param seas_mdl1 \code{seas} object generated from a call of \code{seas} 
 #'        on a single time series for the first model 
@@ -24,11 +26,23 @@
 #' @param this_y_label Label for Y-axis.  Default is \code{" "}
 #' @param this_palette Character array of length 2; color used for each forecast lag. 
 #'        Default is \code{c("steelblue", "darkgreen")}. 
-#' @param this_guide_legend Title for legend.  Default is \code{"Fcst History"}
+#' @param this_legend_title Title for legend.  Default is \code{"Fcst History"}
+#' @param this_legend_title_size integer scalar; Size of the legend title.
+#'        Default is \code{12}.
+#' @param this_legend_text_size integer scalar; Size of the legend title.
+#'        Default is \code{10}.
+#' @param this_legend_position character String; The position of the legend, which can be one of
+#'        \code{top}, \code{bottom}, \code{left}, \code{right}.
+#'        Default is \code{right}.
+#' @param this_legend_space integer scalar; Space between legend and plot in points.
+#'        Default is \code{10}.
 #' @return A \code{ggplot} object that produces a forecast history plot. 
 #'         If series not specified, print out error message and return NULL.
 #'
 #' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
+#'
+#' @references
+#'  \insertAllCited{}
 #'
 #' @examples
 #' air_seas_mdl <- 
@@ -49,6 +63,7 @@
 #'          name_mdl1 = 'Airline model', name_mdl2 = 'Airline model + regressors')
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
+#' @importFrom Rdpack reprompt
 #' @export
 plot_fcst_history <- 
     function(seas_mdl1 = NULL, seas_mdl2 = NULL, 
@@ -59,8 +74,12 @@ plot_fcst_history <-
              this_x_label = "Time", 
              this_y_label = " ",
              this_palette = c("steelblue", "darkgreen"),
-             this_guide_legend = "Fcst History") {
-    # Author: Brian C. Monsell (OEUS) Version 2.5 11/6/2024
+             this_legend_title = "Fcst History",
+			 this_legend_title_size = 12,
+			 this_legend_text_size = 10,
+			 this_legend_position = "right",
+			 this_legend_space = 10) {
+    # Author: Brian C. Monsell (OEUS) Version 4.2, 2/10/2026
     
     # check if seas objects for both models are specified if not, return NULL
     if (is.null(seas_mdl1)) {
@@ -69,21 +88,41 @@ plot_fcst_history <-
     } else {
         # check if a seas object is specified for \code{seas_mdl1}
         if (!inherits(seas_mdl1, "seas")) {
-            stop("First argument must be a seas object")
+            cat("First argument must be a seas object")
+			return(NULL)
         }
     }
 
-    
     if (is.null(seas_mdl2)) {
         cat("must specify seas objects for both models")
         return(NULL)
     } else {
         # check if a seas object is specified for \code{seas_mdl2}
         if (!inherits(seas_mdl2, "seas")) {
-            stop("Second argument must be a seas object")
+            cat("Second argument must be a seas object")
+			return(NULL)
         }
     }
-    
+
+	# check legend options 
+	position_all <- c("top", "bottom", "left", "right")
+	if(sum(match(position_all, this_legend_position), na.rm = TRUE) == 0) {
+        cat(paste("Legend position choice not valid:", this_legend_position))
+        return(NULL)
+	}
+	
+	if(this_legend_text_size <= 0) {
+        cat(paste("Legend text size not valid (must be greater than zero):", 
+		           this_legend_text_size))
+        return(NULL)
+	}
+	
+	if(this_legend_title_size <= 0) {
+        cat(paste("Legend title text size not valid (must be greater than zero):", 
+		           this_legend_title_size))
+        return(NULL)
+	}
+	
     # extract udg information from seas objects
     udg_mdl1 <- seasonal::udg(seas_mdl1)
     udg_mdl2 <- seasonal::udg(seas_mdl2)
@@ -194,10 +233,10 @@ plot_fcst_history <-
                        subtitle = stringr::str_to_title(sub_title),
                               x = stringr::str_to_title(this_x_label),
                               y = stringr::str_to_title(this_y_label)) +
-            ggplot2::guides(color = ggplot2::guide_legend(this_guide_legend)) + 
+            ggplot2::guides(color = ggplot2::guide_legend(this_legend_title)) + 
 		    ggplot2::geom_hline(yintercept = 0, 
-                                  linetype = "solid", 
-                                     color = "lightgrey")
+                                linetype = "solid", 
+                                color = "lightgrey")
 
 
     } else {
@@ -231,6 +270,13 @@ plot_fcst_history <-
 		    ggplot2::theme(panel.grid.major = ggplot2::element_blank(), 
 			               panel.grid.minor = ggplot2::element_blank())
 	}
+	
+	p_fcst_hist <- p_fcst_hist +
+		ggplot2::theme(legend.text = ggplot2::element_text(size = this_legend_text_size),
+		               legend.title = ggplot2::element_text(size = this_legend_title_size),
+					   legend.position = this_legend_position,
+					   legend.box.spacing = ggplot2::unit(this_legend_space, "pt"))
+
     
 	return(p_fcst_hist)
     

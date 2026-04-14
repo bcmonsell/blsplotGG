@@ -46,7 +46,8 @@ Default is no grey background;}
 
 \item{line_color}{Character vector of length 2; color used for lines in the plot,
 in the order of original series, seasonally adjusted series.
-Default is \code{c("grey", "darkblue")}.}
+Default is \code{c("grey", "darkblue")}. For a listing of R color codes,
+see \insertCite{rchartsColors;textual}{blsplotGG}.}
 
 \item{line_label}{Caracter vector of length 2; labels used for lines in the plot,
 in the order of original series, seasonally adjusted series.
@@ -63,7 +64,7 @@ Generates a \code{ggplot} object with a time series plot that compares an X-13
 seasonal adjustment and trend, optionally including the original series.
 }
 \details{
-Version 2.3, 1/2/2025
+Version 2.4, 2/17/2026
 }
 \examples{
 ukgas_x11_seas   <- 
@@ -78,6 +79,9 @@ ukgas_sa_ori_p <-
 					 this_sa_type = "X-11",
                       main_title = "UK Gas Seasonal Adjustment",
                       line_color = c("lightgrey", "forestgreen"))
+}
+\references{
+\insertAllCited{}
 }
 \author{
 Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}

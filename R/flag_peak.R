@@ -1,8 +1,8 @@
 #' Flag visual significant peaks in spectra
 #'
-#' Determine positions of visual significant peaks in spectra
+#' Determine positions of visual significant peaks in spectra using the criteria of \insertCite{Soukup99;textual}{blsplotGG}.
 #'
-#' Version 3.0, 6/21/2024
+#' Version 3.2, 2/10/2026
 #'
 #' @param seas_obj \code{seas} object generated from a call of \code{seas} on a single time series
 #'        This is a required argument.
@@ -12,30 +12,38 @@
 #'
 #' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #'
+#' @references
+#'  \insertAllCited{}
+#'
 #' @examples
 #' air_seas <- seasonal::seas(AirPassengers, arima.model = '(0 1 1)(0 1 1)', x11='')
 #' this_flagged_peak_seas <- flag_peak(air_seas,'ori','s')
 #' this_flagged_peak_td <- flag_peak(air_seas,'ori','t')
+#' @importFrom Rdpack reprompt
 #' @export
 flag_peak <- function(seas_obj = NULL, spec_type = NULL, spec_freq_code = NULL) {
-    # Author: Brian C. Monsell (OEUS) Version 3.0, 6/21/2024
+    # Author: Brian C. Monsell (OEUS) Version 3.2, 2/10/2026
     
     # check if a value is specified for \code{seas_obj}
     if (is.null(seas_obj)) {
-        stop("must specify a seas object")
+        cat("must specify a seas object")
+		return(NULL)
     } else {
     # check if a seas object is specified for \code{seas_obj}
         if (!inherits(seas_obj, "seas")) {
-            stop("First argument must be a seas object")
-        }
+            cat("First argument must be a seas object")
+			return(NULL)
+       }
     }
     
     if (is.null(spec_freq_code)) {
-        stop("must specify either s (for seasonal) or t (for trading day)")
+        cat("must specify either s (for seasonal) or t (for trading day)")
+		return(NULL)
     }
     
     if (is.null(spec_type)) {
-        stop("must specify a type of spectrum")
+        cat("must specify a type of spectrum")
+		return(NULL)
     } 
 
     if (spec_freq_code == "s") { 
@@ -44,7 +52,8 @@ flag_peak <- function(seas_obj = NULL, spec_type = NULL, spec_freq_code = NULL) 
         if (spec_freq_code == "t") { 
            max_freq <- 2 
         } else {
-            stop("must specify either s (for seasonal) or t (for trading day) for spec_freq_code")
+            cat("must specify either s (for seasonal) or t (for trading day) for spec_freq_code")
+			return(NULL)
         }
     }
     

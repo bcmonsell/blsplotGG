@@ -20,8 +20,10 @@ plot_sf_two(
   first_year = NULL,
   this_legend_title = "SF Plot",
   this_legend_text = c("SF One", "SF Mean One", "SF Two", "SF Mean Two"),
-  legend_title_size = 12,
-  legend_text_size = 10
+  this_legend_title_size = 12,
+  this_legend_text_size = 10,
+  this_legend_position = "right",
+  this_legend_space = 10
 )
 }
 \arguments{
@@ -55,7 +57,8 @@ in \code{this_palette} is used to generate colors for this plot.}
 Default is \code{NULL}, which indicates that the palette specified
 in \code{this_palette} is used to generate colors for this plot.}
 
-\item{this_palette}{Color used for lines in plot. Default is \code{"Paired"}}
+\item{this_palette}{Color used for lines in plot.
+Default is the \code{RColorBrewer} palette \code{"Paired"} \insertCite{RColorBrewer}{blsplotGG}.}
 
 \item{first_year}{Integer scalar; First year used in plot. Default is start of the series.}
 
@@ -64,10 +67,17 @@ in \code{this_palette} is used to generate colors for this plot.}
 \item{this_legend_text}{Array of character strings; indicates text for each seasonal factor in plot.
 Default is \code{c("SF One", "SF Mean One", "SF Two", "SF Mean Two"))}.}
 
-\item{legend_title_size}{integer scalar; Size of the legend title.
+\item{this_legend_title_size}{integer scalar; Size of the legend title.
 Default is \code{12}.}
 
-\item{legend_text_size}{integer scalar; Size of the legend title.
+\item{this_legend_text_size}{integer scalar; Size of the legend title.
+Default is \code{10}.}
+
+\item{this_legend_position}{character String; The position of the legend, which can be one of
+\code{top}, \code{bottom}, \code{left}, \code{right}.
+Default is \code{right}.}
+
+\item{this_legend_space}{integer scalar; Space between legend and plot in points.
 Default is \code{10}.}
 }
 \value{
@@ -79,7 +89,7 @@ Generates a plot of the seasonal factors grouped by month/quarter
 for two adjustments.
 }
 \details{
-Version 1.2, 12/11/2024
+Version 2.4, 2/10/2026
 }
 \examples{
 air_seas_x11    <- 
@@ -93,8 +103,11 @@ air_sf_seats    <- seasonal::series(air_seas_seats, 's10')
 plot_air_sf_two <- plot_sf_two(air_sf_x11, air_sf_seats,
    main_title = 'Air Passengers Seasonal Sub-Plots',
    this_legend_text = c('X-11 sf', 'X-11 mean', 'SEATS sf', 'SEATS mean'),
-   legend_title_size = 10,
-   legend_text_size = 8)
+   this_legend_title_size = 10,
+   this_legend_text_size = 8)
+}
+\references{
+\insertAllCited{}
 }
 \author{
 Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}

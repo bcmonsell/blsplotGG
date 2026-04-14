@@ -1,9 +1,11 @@
 #' Maximum percent difference plot
 #'
 #' Generates a \code{ggplot} object with a time series of the maximum percent difference from
-#' a sliding spans analysis of seasonal factors or changes.
+#' a sliding spans analysis of seasonal factors or changes. For more information on sliding spans
+#' analysis, \insertCite{@see Sections 6.2 and 7.13 of @Census2025;textual}{blsplotGG}, with more
+#' details on sliding spans analysis in \insertCite{Findley90;textual}{blsplotGG}.
 #'
-#' Version 1.4, 11/7/2024
+#' Version 3.0, 2/18/2026
 #'
 #' @param seas_obj \code{seas} object generated from a call of \code{seas} on a single time series
 #'        This is a required entry.
@@ -22,13 +24,19 @@
 #' @param do_background Logical scalar; indicates grey background included in plot.
 #'        Default is no grey background;
 #' @param line_color Color used for lines in the maximum percentage difference plot.  
-#'        Default is \code{"steelblue"}.
+#'        Default is \code{"steelblue"}. For a listing of R color codes, 
+#'        see \insertCite{rchartsColors;textual}{blsplotGG}.
 #' @param cut_color Color use to show the slidings spans cut off for this type of series.  
 #'        Default is \code{"red"}.
+#' @param zero_color Color use to show zero line.  
+#'        Default is \code{"lightgrey"}.
 #' @return A \code{ggplot} object that generates a plot of the maximum percent difference
 #'         from a sliding spans analysis of seasonal factors or changes.
 #'
 #' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
+#'
+#' @references
+#'  \insertAllCited{}
 #'
 #' @examples
 #' shoes_sspan_seas <- 
@@ -41,8 +49,11 @@
 #'     plot_maximum_percent_difference(shoes_sspan_seas, "sfs",
 #'                        main_title = "Maximum Percent Difference Plot of Seasonal Factors",
 #'                        sub_title = "US Shoe Sales",
-#'                        line_color = "blue", cut_color = "purple")
+#'                        line_color = "blue", 
+#'                        cut_color = "purple",
+#'                        zero_color = "black")
 #' @importFrom rlang .data
+#' @importFrom Rdpack reprompt
 #' @export
 plot_maximum_percent_difference <- 
     function(seas_obj = NULL, 
@@ -54,21 +65,25 @@ plot_maximum_percent_difference <-
              do_grid = FALSE,
              do_background = FALSE,
              line_color = "steelblue",
-			 cut_color = "red") {
-    # Author: Brian C. Monsell (OEUS) Version 1.4, 11/7/2024
+			 cut_color = "red",
+			 zero_color = "lightgrey") {
+    # Author: Brian C. Monsell (OEUS) Version 3.0, 2/18/2026
     # check if a value is specified for \code{seas_obj}
     if (is.null(seas_obj)) {
-        stop("must specify a seas object")
+        cat("must specify a seas object")
+		return(NULL)
     } else {
     # check if a seas object is specified for \code{seas_obj}
         if (!inherits(seas_obj, "seas")) {
-            stop("First argument must be a seas object")
+            cat("First argument must be a seas object")
+			return(NULL)
         }
     }
 
     maxpct_type_all <- c("sfs", "chs", "sis", "cis")
 	if(sum(match(maxpct_type_all, this_series), na.rm = TRUE) == 0) {
-        stop(paste("Sliding spans series type not valid:", this_series))
+        cat(paste("Sliding spans series type not valid:", this_series))
+		return(NULL)
 	}
 	
 	# extract maximum difference
@@ -116,7 +131,10 @@ plot_maximum_percent_difference <-
                       subtitle = sub_title, 
                       y = this_y_label,
 					  x = this_x_label)	+
-		ggplot2::ylim(this_range)
+		ggplot2::ylim(this_range) +
+		    ggplot2::geom_hline(yintercept = 0.0, 
+                                linetype = "solid", 
+                                color = zero_color)
 	
 	# add cut line
 	if (!is.null(this_cut)) {

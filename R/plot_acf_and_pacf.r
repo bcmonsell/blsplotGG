@@ -1,8 +1,8 @@
 #' Generate ACF and PACF plot of the regARIMA model residuals.
 #'
-#' Generate a single plot with ACF and PACF of the regARIMA model residuals.
+#' Generate a single plot with ACF and PACF of the regARIMA model residuals using a \code{seas} object as input.
 #' 
-#' Version 3.1, 11/6/2024
+#' Version 4.1, 12/30/2025
 #'
 #' @param seas_obj \code{seas} object generated from a call of \code{seas} on a single time series
 #'        This is a required entry.
@@ -25,6 +25,8 @@
 #'        Default is no grey background;
 #' @param acf_color Color used for lines in ACF plot.  
 #'        Default is \code{"steelblue"}.
+#' @param ci_color Color used for confidence interval in ACF plot.  
+#'        Default is \code{"grey"}.
 #' @return A \code{ggplot} object that produces an ACF and PACF plot for the regARIMA
 #'         model residuals.
 #'
@@ -56,16 +58,19 @@ plot_acf_and_pacf <-
 			 this_x_axis_breaks = NULL,
 			 do_grid = FALSE,
 			 do_background = FALSE,			 
-			 acf_color = "steelblue") {
-    # Author: Brian C. Monsell (OEUS) Version 3.1, 11/6/2024
+			 acf_color = "steelblue",
+			 ci_color = "grey") {
+    # Author: Brian C. Monsell (OEUS) Version 4.1, 12/30/2025
  
     # check if a value is specified for \code{seas_obj}
     if (is.null(seas_obj)) {
-        stop("must specify a seas object")
+        cat("must specify a seas object")
+		return(NULL)
     } else {
     # check if a seas object is specified for \code{seas_obj}
         if (!inherits(seas_obj, "seas")) {
-            stop("First argument must be a seas object")
+            cat("First argument must be a seas object")
+			return(NULL)
         }
     }
 	
@@ -96,7 +101,8 @@ plot_acf_and_pacf <-
 			 this_y_label = this_y_label[1], 
 			 this_frequency = this_freq,
 			 this_x_axis_breaks = this_x_axis_breaks,
-			 acf_color = acf_color)
+			 acf_color = acf_color,
+			 ci_color = ci_color)
 			 
 	# remove grey background if \code{do_background = FALSE} 
     if (!do_background) {
@@ -120,7 +126,8 @@ plot_acf_and_pacf <-
 			 this_y_label = this_y_label[2], 
 			 this_frequency = this_freq,
 			 this_x_axis_breaks = this_x_axis_breaks,
-			 acf_color = acf_color)
+			 acf_color = acf_color,
+			 ci_color = ci_color)
 
 	# remove grey background if \code{do_background = FALSE} 
     if (!do_background) {

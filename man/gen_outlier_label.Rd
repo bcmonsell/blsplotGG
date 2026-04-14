@@ -24,7 +24,7 @@ Character string with description of outliers for x-axis label of a \code{ggplot
 Generate an x-axis label when adding lines for outliers to a \code{ggplot} plot object
 }
 \details{
-Version 1.1, 5/15/2024
+Version 2.0, 12/9/2025
 }
 \examples{
 air_seas <- 

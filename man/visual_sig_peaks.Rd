@@ -17,19 +17,23 @@ This entry is required.}
 Default is \code{'seas'}.}
 }
 \value{
-If visually significant peaks found, a numveric vector of the position of the peak frequecies. If no peaks found, 0.
+If visually significant peaks found using the criteria of \insertCite{Soukup99;textual}{blsplotGG},
+a numveric vector of the position of the peak frequecies. If no peaks found, 0.
 }
 \description{
-Determine positions of visual significant peaks in spectra
+Determine positions of visual significant peaks in spectra.
 }
 \details{
-Version 3.4, 5/14/2024
+Version 4.1, 2/10/2026
 }
 \examples{
 air_seas <- seasonal::seas(AirPassengers, arima.model = '(0 1 1)(0 1 1)', x11='')
 vp_ori_seas <- visual_sig_peaks(air_seas, spec_type = 'ori')
 vp_ori_td   <- visual_sig_peaks(air_seas, spec_type = 'sa',
                                 spec_freq_code = 'td')
+}
+\references{
+\insertAllCited{}
 }
 \author{
 Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}

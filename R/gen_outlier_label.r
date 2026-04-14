@@ -2,7 +2,7 @@
 #'
 #' Generate an x-axis label when adding lines for outliers to a \code{ggplot} plot object
 #'
-#' Version 1.1, 5/15/2024
+#' Version 2.0, 12/9/2025
 #'
 #' @param seas_obj \code{seas} object generated from a call of \code{seas} on a single time series. 
 #'        This is a required entry.
@@ -38,15 +38,17 @@
 #' @export
 gen_outlier_label <- function(seas_obj = NULL, 
                               this_color = c("red", "blue", "green", "brown", "grey", "yellow")) {
-  # Author: Brian C. Monsell (OEUS) Version 1.1, 5/15/2024
+  # Author: Brian C. Monsell (OEUS) Version 2.0, 12/9/2025
   
     # check if a value is specified for \code{seas_obj}
     if (is.null(seas_obj)) {
-        stop("must specify a seas object")
+        cat("must specify a seas object")
+		return(NULL)
     } else {
     # check if a seas object is specified for \code{seas_obj}
         if (!inherits(seas_obj, "seas")) {
-            stop("First argument must be a seas object")
+            cat("First argument must be a seas object")
+			return(NULL)
         }
     }
     

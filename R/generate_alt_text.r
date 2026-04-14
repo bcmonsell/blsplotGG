@@ -1,9 +1,9 @@
 #' Generate alt text for ggplot graphs
 #'
-#' Generates alt text for ggplot graph objects using the \code{BrailleR} package and adding
-#' text suggested by Amy Casale in her article "Writing Alt Text for Data Visualization".
+#' Generates alt text for ggplot graph objects using the \code{BrailleR} package \insertCite{BrailleR2023}{blsplotGG} 
+#' or adding text as suggested by Amy Casale in her article "Writing Alt Text for Data Visualization" \insertCite{Cesal2020}{blsplotGG}.
 #'
-#' Version 3.1, 9/9/2024
+#' Version 4.3, 2/10/2026
 #'
 #' @param gg_object \code{ggplot} object from which alt text will be generated. 
 #'                  Required entry if \code{short_alt = FALSE}.
@@ -21,7 +21,9 @@
 #'
 #' 
 #' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
-#' @references \url{https://CRAN.R-project.org/package=BrailleR} and   \url{https://medium.com/nightingale/writing-alt-text-for-data-visualization-2a218ef43f81}
+#'
+#' @references
+#'  \insertAllCited{}
 #'
 #' @examples
 #' air_seas <- seasonal::seas(AirPassengers, arima.model = "(0 1 1)(0 1 1)", x11="")
@@ -42,17 +44,18 @@
 #'                      "Time series plot", 
 #'                      "International Airline Passengers time series",
 #'                      "compare seasonal adjustment and trend to original series")
+#' @importFrom Rdpack reprompt
 #' @export
 generate_alt_text <- function(gg_object = NULL, chart_type = NULL, data_type = NULL, reason_text = NULL, 
                               short_alt = FALSE, BrailleR_only = FALSE) {
-    # Author: Brian C. Monsell (OEUS) Version 3.1, 9/9/2024
+    # Author: Brian C. Monsell (OEUS) Version 4.3, 2/10/2026
     
     if (!short_alt) {
         if (is.null(gg_object)) {
             cat("must specify ggplot graph object")
             return(NULL)
         } else {
-            if (!ggplot2::is.ggplot(gg_object)) {
+            if (!ggplot2::is_ggplot(gg_object)) {
                 cat("must specify ggplot graph object")
                 return(NULL)
             }

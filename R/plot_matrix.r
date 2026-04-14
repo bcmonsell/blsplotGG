@@ -2,7 +2,7 @@
 #'
 #' Generate plot of a matrix of user-specified time series.
 #' 
-#' Version 4.2, 11/6/2024
+#' Version 6.3, 2/17/2026
 #'
 #' @param this_matrix Numeric matrix; columns of time series object to be plotted.
 #' @param main_title Character string; main title of plot. 
@@ -20,21 +20,38 @@
 #'        Default is no grey background;
 #' @param line_color Character scalar; color used for plot. 
 #'        User should specify one color for each column of the matrix specified.
-#'        Default is the \code{RColorBrewer} palette \code{"Dark2"}.
-#' @param this_palette Character string; default \code{RColorBrewer} palette.
+#'        Default is the \code{RColorBrewer} palette \code{"Dark2"}. For a listing of R color codes, 
+#'        see \insertCite{rchartsColors;textual}{blsplotGG}.
+#' @param this_palette Character string; default \code{RColorBrewer} palette \insertCite{RColorBrewer}{blsplotGG}.
 #'        Deault is \code{"Dark2"}.
 #' @param this_line_type Character string; indicates line type of each plot produced. 
 #'        Default is \code{"solid"}.
+#' @param this_legend_title Title for legend.  Default is \code{"Forecast"}
+#' @param this_legend_title_size integer scalar; Size of the legend title.
+#'        Default is \code{12}.
+#' @param this_legend_text_size integer scalar; Size of the legend title.
+#'        Default is \code{10}.
+#' @param this_legend_position character String; The position of the legend, which can be one of
+#'        \code{top}, \code{bottom}, \code{left}, \code{right}.
+#'        Default is \code{right}.
+#' @param this_legend_space integer scalar; Space between legend and plot in points.
+#'        Default is \code{10}.
 #' @param do_facet Logical scalar; indicates if a facet plot is generated of the 
 #'        different colums. 
 #'        Default is \code{FALSE}.
 #' @param reset_facet_y_axis Logical scalar; indicates if y-axis for facet plots 
 #'        reset to \code{y_limit}
 #'        Default is \code{FALSE}.
-#' @return A \code{ggplot} object that produces a plot of user-specified time series. 
+#' @return A \code{ggplot} object that produces a plot of user-specified time series
+#'         in columns of \code{this_matrix}, either all on the same axis or as a facet plot. 
+#'         This function uses the \code{autoplot} function of the \code{forecast} package
+#'         \insertCite{forecast2008,forecast2025}{blsplotGG}.
 #'         If matrix not specified, print out error message and return NULL.
 #'
 #' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
+#'
+#' @references
+#'  \insertAllCited{}
 #'
 #' @examples
 #' BP_Region_Matrix <-
@@ -49,7 +66,7 @@
 #'    main_title = "US Building Permits, 1 Family Units",
 #'    do_grid = FALSE, do_facet = TRUE,
 #'    line_color = c("orange", "steelblue", "forestgreen", "brown"))
-#' @import ggfortify
+#' @importFrom Rdpack reprompt
 #' @export
 plot_matrix <- 
     function(this_matrix = NULL, 
@@ -63,13 +80,19 @@ plot_matrix <-
 			 do_background = FALSE,
 			 line_color = NULL, 
 			 this_palette = "Dark2", 
-			 this_line_type = "solid", 
+			 this_line_type = "solid",
+             this_legend_title = "Series",
+			 this_legend_title_size = 12,
+			 this_legend_text_size = 10,
+			 this_legend_position = "right",
+			 this_legend_space = 10, 
 			 do_facet = FALSE, 
 			 reset_facet_y_axis = FALSE) {
-    # Author: Brian C. Monsell (OEUS) Version 4.2, 11/6/2024
+    # Author: Brian C. Monsell (OEUS) Version 6.3, 2/17/2026
 
     if (is.null(this_matrix)) {
-        stop("Argument this_matrix must be specified.")
+        cat("Argument this_matrix must be specified.")
+		return(NULL)
     }
 
     num_series <- ncol(this_matrix)
@@ -80,6 +103,7 @@ plot_matrix <-
             warning("Remaining elements set to be the first entry.")
 		}
         this_line_type <- update_vector(this_line_type, num_series)
+		if (is.null(this_line_type)) { return(NULL) }
     }
 
 	if (is.null(line_color)) {
@@ -114,7 +138,7 @@ plot_matrix <-
     }
     
     this_plot <- 
-	    ggplot2::autoplot(this_matrix, facets = do_facet) + 
+	    suppressWarnings(forecast::autoplot(this_matrix, facets = do_facet)) + 
 		    ggplot2::scale_linetype_manual(values = this_line_type) +
 		    ggplot2::scale_colour_manual(values = line_color) + 
 		    ggplot2::labs(title = main_title, subtitle = sub_title, y = this_y_label,
@@ -140,6 +164,15 @@ plot_matrix <-
 			}
 			this_plot <- this_plot + ggplot2::ylim(y_limit)
 		}
+	}
+	
+	if (!do_facet) {
+		this_plot <- 
+			this_plot + ggplot2::guides(colour = ggplot2::guide_legend(this_legend_title)) +
+				ggplot2::theme(legend.text = ggplot2::element_text(size = this_legend_text_size),
+					   legend.title = ggplot2::element_text(size = this_legend_title_size),
+					   legend.position = this_legend_position,
+					   legend.box.spacing = ggplot2::unit(this_legend_space, "pt"))
 	}
 
 	return(this_plot)

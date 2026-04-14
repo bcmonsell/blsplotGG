@@ -4,22 +4,26 @@
 \alias{get_auto_outlier_string}
 \title{Get automatic outlier names}
 \usage{
-get_auto_outlier_string(seas_obj = NULL)
+get_auto_outlier_string(seas_obj = NULL, return_string = TRUE)
 }
 \arguments{
 \item{seas_obj}{A \code{seas} object for a single series generated from the
 \code{seasonal} package. This is a required entry.}
+
+\item{return_string}{Logical scalar; if TRUE, results returned as a character string (default).
+Else, results returned as a character array.}
 }
 \value{
-Character string containing a summary of the outliers identified in the
-regARIMA model. If no regressors or automatic outliers in the model, the routine
-will return a blank character.
+Character string (or array if \code{return_string} is \code{TRUE}) containing a summary
+of the outliers identified in the regARIMA model.
+If no regressors or automatic outliers in the model, the routine
+will return a blank character (or blank vector).
 }
 \description{
 Get the names of outliers identified in the \code{seas} object for a single series.
 }
 \details{
-Version 3.0, 5/14/2024
+Version 5.0, 1/7/2026
 }
 \examples{
 air_seas <- seasonal::seas(AirPassengers, arima.model = "(0 1 1)(0 1 1)", x11="")

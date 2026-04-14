@@ -1,9 +1,10 @@
 #' History Plot of All Trend Revisions
 #'
-#' Generates a ggplot2 object of estimates from a revisions history of a trend 
-#' component for a given series, incorporating all trend lag revisions.
+#' Generates a \code{ggplot2} object of estimates from a revisions history of a trend 
+#' component for a given series, incorporating all trend lag revisions. For more information
+#' on revisions history diagnostics, \insertCite{@see Sections 6.3 and 7.8 of @Census2025;textual}{blsplotGG}.
 #'
-#' Version 1.8.1, 3/4/2025
+#' Version 3.2, 2/17/2026
 #'
 #' @param seas_obj \code{seas} object generated from a call of \code{seas} on a single time series
 #'        This is a required entry.
@@ -17,7 +18,8 @@
 #' @param do_background Logical scalar; indicates grey background included in plot.
 #'        Default is no grey background;
 #' @param base_color Character scalar for plot of the initial trend. 
-#'        Default is \code{"darkblue"}.
+#'        Default is \code{"darkblue"}. For a listing of R color codes, 
+#'        see \insertCite{rchartsColors;textual}{blsplotGG}.
 #' @param whisker_color Character scalar for color used for lines representing 
 #'        lagged trend estimates in the trend history plot. 
 #'        Default is \code{"darkgrey"}
@@ -28,6 +30,9 @@
 #'         \code{history.trendlags = 1:4}.
 #'
 #' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
+#'
+#' @references
+#'  \insertAllCited{}
 #'
 #' @examples
 #' shoes_seas <-
@@ -48,8 +53,9 @@
 #'         main_title = "All Trend Revisions, Lags 1 to 4",
 #'         sub_title = "US Retail Sales of Shoes")
 #' @importFrom rlang .data
-#' @export
+#' @importFrom Rdpack reprompt
 #' @importFrom magrittr %>%
+#' @export
 plot_all_trend_lags <- 
 	function(seas_obj = NULL, 
 		this_trend_name = NULL,
@@ -61,7 +67,7 @@ plot_all_trend_lags <-
 		do_background = FALSE,
 		base_color = "darkblue",
 		whisker_color = "darkgrey") {
-	# Author: Brian C. Monsell (OEUS) Version 1.8.1, 3/4/2025
+	# Author: Brian C. Monsell (OEUS) Version 3.2, 2/17/2026
 
     # check if a value is specified for \code{seas_obj}
     if (is.null(seas_obj)) {
@@ -87,13 +93,14 @@ plot_all_trend_lags <-
   
 	p_base_trend <- 
 		blsplotGG::plot_series(this_trend_history[,1], 
-			this_trend_name, 
+			plot_range = range(this_trend_history[this_trend_history > 0]),
+			this_series_name = this_trend_name, 
 			main_title = main_title,
 			sub_title = sub_title,
 			this_x_label = this_x_label,
 			this_y_label = this_y_label,
-			y_limit = range(this_trend_history[this_trend_history > 0]),
-            do_grid, do_background,
+            do_grid = do_grid, 
+			do_background = do_background,
 			line_color = base_color)
 			
 	i1 <- this_trend_lags[n_trend_lags] + 1						   
@@ -107,13 +114,12 @@ plot_all_trend_lags <-
    
 		trend_df <- data.frame(
 			date = this_time,
-			trend = this_trend) %>% 
-			tidyr::drop_na()
+			trend = this_trend) %>% tidyr::drop_na()
    
 		p_base_trend <- p_base_trend +
-			ggplot2::geom_line(data=trend_df,
+			suppressWarnings(ggplot2::geom_line(data=trend_df,
 				ggplot2::aes(x=.data$date, y=.data$trend), 
-				color = whisker_color)
+				color = whisker_color))
 	}
 	
 	return(p_base_trend)

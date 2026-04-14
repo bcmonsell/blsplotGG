@@ -16,7 +16,11 @@ plot_sadj_and_trend(
   line_color = NULL,
   this_palette = "Dark2",
   line_label = NULL,
-  this_guide_legend = "Series"
+  this_legend_title = "Series",
+  this_legend_title_size = 12,
+  this_legend_text_size = 10,
+  this_legend_position = "right",
+  this_legend_space = 10
 )
 }
 \arguments{
@@ -45,9 +49,11 @@ Default is no grey background;}
 \item{line_color}{Character vector of length 2 (if \code{plot_ori} is \code{FALSE})
 or 3 (if \code{plot_ori} is \code{TRUE}); color used for lines in the plot,
 in the order of original series (if specified), seasonally adjusted series, trend.
-Default is generated from the \code{RColorBrewer} palette \code{"Dark2"}.}
+Default is generated from the \code{RColorBrewer} palette \code{"Dark2"}.
+For a listing of R color codes,
+see \insertCite{rchartsColors;textual}{blsplotGG}.}
 
-\item{this_palette}{Character string; default \code{RColorBrewer} palette.
+\item{this_palette}{Character string; default \code{RColorBrewer} palette \insertCite{RColorBrewer}{blsplotGG}.
 Deault is \code{"Dark2"}.}
 
 \item{line_label}{Caracter vector of length 2; labels used for lines in the plot,
@@ -55,7 +61,20 @@ in the order of original series, seasonally adjusted series.
 Default is \code{c("Ori", "SA", "Trend")} (if original series plotted) or
 \code{c("SA", "Trend")}.}
 
-\item{this_guide_legend}{Title for legend.  Default is \code{"Series"}}
+\item{this_legend_title}{Title for legend.  Default is \code{"Series"}}
+
+\item{this_legend_title_size}{integer scalar; Size of the legend title.
+Default is \code{12}.}
+
+\item{this_legend_text_size}{integer scalar; Size of the legend title.
+Default is \code{10}.}
+
+\item{this_legend_position}{character String; The position of the legend, which can be one of
+\code{top}, \code{bottom}, \code{left}, \code{right}.
+Default is \code{right}.}
+
+\item{this_legend_space}{integer scalar; Space between legend and plot in points.
+Default is \code{10}.}
 }
 \value{
 A \code{ggplot} object that generates a plot comparing a
@@ -64,10 +83,11 @@ X-13ARIMA-SEATS seasonal adjustment.
 }
 \description{
 Generates a \code{ggplot} object with a time series plot that compares an X-13
-seasonal adjustment and trend, optionally including the original series.
+seasonal adjustment and trend, extracted from a \code{seas} object.
+The plot optionally includes the original series.
 }
 \details{
-Version 2.3, 6/24/2025
+Version 3.5, 2/17/2026
 }
 \examples{
 ukgas_x11_seas   <- 
@@ -90,6 +110,9 @@ ukgas_seats_sadj_and_trend_p <-
                         main_title = "UK Gas Series",
                         sub_title = "SEATS Seasonal Adjustment",
                         line_color = c("steelblue", "forestgreen"))
+}
+\references{
+\insertAllCited{}
 }
 \author{
 Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}

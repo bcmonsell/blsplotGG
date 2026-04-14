@@ -13,8 +13,12 @@ plot_fcst(
   length_ori = 2,
   do_grid = FALSE,
   do_background = FALSE,
-  this_palette = c("darkgrey", "blue", "darkgreen", "darkgreen"),
-  this_guide_legend = "Forecast"
+  this_palette = c("steelblue", "blue", "darkgrey", "darkgrey"),
+  this_legend_title = "Forecast",
+  this_legend_title_size = 12,
+  this_legend_text_size = 10,
+  this_legend_position = "right",
+  this_legend_space = 10
 )
 }
 \arguments{
@@ -25,7 +29,8 @@ This is a required entry.}
 Default is \code{'ARIMA forecasts'}.}
 
 \item{sub_title}{Subtitle for the plot.
-Default is to generate the subtitle.}
+Default is to generate the subtitle with the value of the average absolute percentage error
+in within-sample forecasts (AAPE) for the last three years.}
 
 \item{this_x_label}{Label for X-axis.  Default is \code{"Time"}}
 
@@ -43,9 +48,22 @@ Default is no grey background;}
 
 \item{this_palette}{Array of character strings; color used for original series,
 forecast, and upper and lower forecast bounds.
-Default is \code{c("darkgrey", "blue", "darkgreen", "darkgreen")}.}
+Default is \code{c("steelblue", "blue", "darkgrey", "darkgrey")}.}
 
-\item{this_guide_legend}{Title for legend.  Default is \code{"Forecast"}}
+\item{this_legend_title}{Title for legend.  Default is \code{"Forecast"}}
+
+\item{this_legend_title_size}{integer scalar; Size of the legend title.
+Default is \code{12}.}
+
+\item{this_legend_text_size}{integer scalar; Size of the legend title.
+Default is \code{10}.}
+
+\item{this_legend_position}{character String; The position of the legend, which can be one of
+\code{top}, \code{bottom}, \code{left}, \code{right}.
+Default is \code{right}.}
+
+\item{this_legend_space}{integer scalar; Space between legend and plot in points.
+Default is \code{10}.}
 }
 \value{
 A \code{ggplot} object of the regARIMA forecasts with confidence bounds.
@@ -54,7 +72,7 @@ A \code{ggplot} object of the regARIMA forecasts with confidence bounds.
 Generates a \code{ggplot} plot of regARIMA forecasts with confidence bounds.
 }
 \details{
-Version 3.2, 11/6/2024
+Version 4.3, 1/7/2026
 }
 \examples{
 air_seas <- seasonal::seas(AirPassengers, arima.model = "(0 1 1)(0 1 1)",

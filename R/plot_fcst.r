@@ -2,14 +2,15 @@
 #'
 #' Generates a \code{ggplot} plot of regARIMA forecasts with confidence bounds.
 #'
-#' Version 3.2, 11/6/2024
+#' Version 4.3, 1/7/2026
 #'
 #' @param seas_obj \code{seas} object generated from a call of \code{seas} on a single time series
 #'        This is a required entry.
 #' @param main_title Character string; main title of plot.  
 #'        Default is \code{'ARIMA forecasts'}.
 #' @param sub_title Subtitle for the plot. 
-#'        Default is to generate the subtitle. 
+#'        Default is to generate the subtitle with the value of the average absolute percentage error 
+#'        in within-sample forecasts (AAPE) for the last three years. 
 #' @param this_x_label Label for X-axis.  Default is \code{"Time"}
 #' @param this_y_label Label for Y-axis.  Default is \code{" "}
 #' @param length_ori Integer scalar; number of years of the original series 
@@ -21,8 +22,17 @@
 #'        Default is no grey background;
 #' @param this_palette Array of character strings; color used for original series, 
 #'        forecast, and upper and lower forecast bounds. 
-#'        Default is \code{c("darkgrey", "blue", "darkgreen", "darkgreen")}. 
-#' @param this_guide_legend Title for legend.  Default is \code{"Forecast"}
+#'        Default is \code{c("steelblue", "blue", "darkgrey", "darkgrey")}. 
+#' @param this_legend_title Title for legend.  Default is \code{"Forecast"}
+#' @param this_legend_title_size integer scalar; Size of the legend title.
+#'        Default is \code{12}.
+#' @param this_legend_text_size integer scalar; Size of the legend title.
+#'        Default is \code{10}.
+#' @param this_legend_position character String; The position of the legend, which can be one of
+#'        \code{top}, \code{bottom}, \code{left}, \code{right}.
+#'        Default is \code{right}.
+#' @param this_legend_space integer scalar; Space between legend and plot in points.
+#'        Default is \code{10}.
 #' @return A \code{ggplot} object of the regARIMA forecasts with confidence bounds.
 #'
 #' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
@@ -46,23 +56,48 @@ plot_fcst <-
 			 length_ori = 2, 
 			 do_grid = FALSE, 
              do_background = FALSE, 
-             this_palette = c("darkgrey", "blue", "darkgreen", "darkgreen"), 
-			 this_guide_legend = "Forecast") {
-    # Author: Brian C. Monsell (OEUS) Version 3.2, 11/6/2024
+             this_palette = c("steelblue", "blue", "darkgrey", "darkgrey"), 
+			 this_legend_title = "Forecast",
+			 this_legend_title_size = 12,
+			 this_legend_text_size = 10,
+			 this_legend_position = "right",
+			 this_legend_space = 10) {
+    # Author: Brian C. Monsell (OEUS) Version 4.3, 1/7/2026
     
     # check if a value is specified for \code{seas_obj}
     if (is.null(seas_obj)) {
-        stop("must specify a seas object")
+        cat("must specify a seas object")
+		return(NULL)
     } else {
     # check if a seas object is specified for \code{seas_obj}
         if (!inherits(seas_obj, "seas")) {
-            stop("First argument must be a seas object")
+            cat("First argument must be a seas object")
+			return(NULL)
         }
     }
 	
     if (is.null(main_title)) {
        sub_title <- NULL
     }
+	
+	# check legend options 
+	position_all <- c("top", "bottom", "left", "right")
+	if(sum(match(position_all, this_legend_position), na.rm = TRUE) == 0) {
+        cat(paste("Legend position choice not valid:", this_legend_position))
+		return(NULL)
+	}
+	
+	if(this_legend_text_size <= 0) {
+        cat(paste("Legend text size not valid (must be greater than zero):", 
+		           this_legend_text_size))
+		return(NULL)
+	}
+	
+	if(this_legend_title_size <= 0) {
+        cat(paste("Legend title text size not valid (must be greater than zero):", 
+		           this_legend_title_size))
+		return(NULL)
+	}
 
     # extract forecasts, original series
     fcst <- seasonal::series(seas_obj, "fct")
@@ -116,7 +151,7 @@ plot_fcst <-
                       subtitle = sub_title,
                       x = this_x_label,
                       y = this_y_label) +
-        ggplot2::guides(color = ggplot2::guide_legend(this_guide_legend))
+        ggplot2::guides(color = ggplot2::guide_legend(this_legend_title))
 
     
 	# remove grey background if \code{do_background = FALSE} 
@@ -131,5 +166,11 @@ plot_fcst <-
 			               panel.grid.minor = ggplot2::element_blank())
 	}
     
+    p_fcst <- p_fcst +
+		ggplot2::theme(legend.text = ggplot2::element_text(size = this_legend_text_size),
+					   legend.title = ggplot2::element_text(size = this_legend_title_size),
+					   legend.position = this_legend_position,
+					   legend.box.spacing = ggplot2::unit(this_legend_space, "pt"))
+
 	return(p_fcst)
 }

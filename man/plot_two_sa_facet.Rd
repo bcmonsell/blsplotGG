@@ -13,9 +13,10 @@ plot_two_sa_facet(
   this_x_label = "Time",
   this_y_label = " ",
   line_color = "steelblue",
-  line_label = c("sadj1", "sadj2"),
-  this_scale = "fixed",
-  remove_legend = FALSE
+  this_sa_text = c("sadj1", "sadj2"),
+  do_grid = FALSE,
+  do_background = FALSE,
+  this_scale = "fixed"
 )
 }
 \arguments{
@@ -35,17 +36,23 @@ This is a required entry.}
 
 \item{this_y_label}{Label for Y-axis.  Default is \code{" "}}
 
-\item{line_color}{Color used for lines in plot.  Default is \code{"steelblue"}.}
+\item{line_color}{Color used for lines in plot.  Default is \code{"steelblue"}.
+For a listing of R color codes,
+see \insertCite{rchartsColors;textual}{blsplotGG}.}
 
-\item{line_label}{Caracter vector of length 2; labels used for lines in the plot,
+\item{this_sa_text}{Caracter vector of length 2; labels for different seasonal adjustments.
+Note that if \code{this_ori} is set, the label for that line will be set as \code{"Ori"}.
 Default is \code{c("sadj1", "sadj2")}.}
+
+\item{do_grid}{Logical scalar; indicates if certain plots will have grid lines.
+Default is no grid lines.}
+
+\item{do_background}{Logical scalar; indicates grey background included in plot.
+Default is no grey background;}
 
 \item{this_scale}{Character scalar; set the scale for the y-axis of the facet plots.
 Default is \code{"fixed"}.  To set axis to be different for the different plots,
 set \code{this_scale = "free_y"}.}
-
-\item{remove_legend}{Logical scalar; if TRUE, plot legend will be removed.
-Default is FALSE.}
 }
 \value{
 A \code{ggplot} object that generates a facet plot comparing two seasonal adjustments,
@@ -56,7 +63,7 @@ Generates a \code{ggplot} object with a time series facet plot that compares two
 seasonal adjustments of the same series, optionally including the original series.
 }
 \details{
-Version 4.0, 1/7/2025
+Version 7.4, 2/17/2026
 }
 \examples{
 ukgas_x11_seas   <- 
@@ -75,7 +82,10 @@ ukgas_two_sa_facet_p <-
                       this_sa_two = ukgas_seats_sa,
                       main_title = "UK Gas Seasonal Adjustments",
                       line_color = "forestgreen",
-                      line_label = c("X-11", "Seats"))
+                      this_sa_text = c("X-11", "Seats"))
+}
+\references{
+\insertAllCited{}
 }
 \author{
 Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}

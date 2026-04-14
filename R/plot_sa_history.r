@@ -1,9 +1,10 @@
 #' Revisions History Plot for Seasonal Adjustments
 #'
 #' Generates a ggplot2 object of estimates from a revisions history of a seasonal 
-#' adjustment for a given series.
+#' adjustment for a given series. For more information on revisions history diagnostics, 
+#' \insertCite{@see Sections 6.3 and 7.8 of @Census2025;textual}{blsplotGG}.
 #'
-#' Version 1.9, 11/6/2024
+#' Version 2.3, 2/17/2026
 #'
 #' @param seas_obj \code{seas} object generated from a call of \code{seas} on a single time series
 #'        This is a required entry.
@@ -21,13 +22,19 @@
 #'        Should be of length 4 (if \code{add_ori = FALSE}) or 5 (if \code{add_ori = TRUE})
 #'        Default is \code{NULL}, which indicates that the palette specified 
 #'        in \code{this_palette} is used to generate colors for this plot.
-#' @param this_palette Color used for lines in plot. Default is \code{"Dark2"}
+#'        For a listing of R color codes, 
+#'        see \insertCite{rchartsColors;textual}{blsplotGG}.
+#' @param this_palette Colors used for lines in plot. 
+#'        Default is \code{RColorBrewer} palette \code{"Dark2"} \insertCite{RColorBrewer}{blsplotGG}.
 #' @return A \code{ggplot} object that generates a history plot of the seasonal adjustment.
 #'         The seas object in the \code{seas_obj} argument must contain output for a
 #'         revisions history analysis for seasonal adjustments with \code{sadjlags}
 #'         set to 1 and 12 (for monthly series) or 4 (for quarterly series).
 #'
 #' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
+#'
+#' @references
+#'  \insertAllCited{}
 #'
 #' @examples
 #' shoes_seas <-
@@ -49,6 +56,7 @@
 #'         sub_title = "US Retail Sales of Shoes")
 #' @importFrom rlang .data
 #' @importFrom magrittr %>%
+#' @importFrom Rdpack reprompt
 #' @export
 plot_sa_history <-
     function(seas_obj = NULL, 
@@ -61,7 +69,7 @@ plot_sa_history <-
 			 do_background = FALSE, 
 	         line_color = NULL, 
 			 this_palette = "Dark2") {
-	# Author: Brian C. Monsell (OEUS) Version 1.9, 11/6/2024
+	# Author: Brian C. Monsell (OEUS) Version 2.3, 2/17/2026
 
     # check if a value is specified for \code{seas_obj}
     if (is.null(seas_obj)) {
@@ -126,12 +134,14 @@ plot_sa_history <-
 			      sa_history_lagS)
 		colnames(this_sa_history_matrix) <- 
 			c("ori", "initial_sa", "final_sa", "lag_1", "lag_S")
+		this_legend_entry <- c("Ori", "Initial SA", "Final SA", "Lag 1", "Lag S")
 	} else {
 		this_sa_history_matrix <-
 			cbind(this_sa_history[,1:2], sa_history_lag1, 
 			      sa_history_lagS)
 		colnames(this_sa_history_matrix) <- 
 			c("initial_sa", "final_sa", "lag_1", "lag_S")
+		this_legend_entry <- c("Initial SA", "Final SA", "Lag 1", "Lag S")
 	}
 		  		  
 	this_sa_history_df <- 
@@ -151,7 +161,8 @@ plot_sa_history <-
 			ggplot2::geom_point(ggplot2::aes(y = .data$lag_S, 
 				colour = "lag_S")) + 
 			ggplot2::scale_colour_manual("", 
-				breaks = colnames(this_sa_history_df)[1:n_colors],
+				breaks = colnames(this_sa_history_df)[1:n_colors], 
+		        labels = this_legend_entry,
 				values = line_color) +	
 			ggplot2::labs(title = main_title,
                   subtitle = sub_title,
@@ -170,6 +181,7 @@ plot_sa_history <-
 				colour = "lag_S")) + 
 			ggplot2::scale_colour_manual("", 
 				breaks = colnames(this_sa_history_df)[1:n_colors],
+		        labels = this_legend_entry,
 				values = line_color) +	
 			ggplot2::labs(title = main_title,
                   subtitle = sub_title,

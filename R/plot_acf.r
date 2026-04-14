@@ -1,8 +1,8 @@
 #' Generate ACF plot of the regARIMA model residuals.
 #'
-#' Generate ACF, PACF, or squared ACF plot of the regARIMA model residuals.
+#' Generate ACF, PACF, or squared ACF plot of the regARIMA model residuals using a \code{seas} object as input.
 #' 
-#' Version 3.2, 11/6/2024
+#' Version 5.1, 12/30/2025
 #'
 #' @param seas_obj \code{seas} object generated from a call of \code{seas} on a single time series
 #'        This is a required entry.
@@ -15,10 +15,11 @@
 #' @param add_ci Logical scalar; indicates if confidence intervals are added to the plot.
 #'        Default is confidence intervals are added. 
 #' @param main_title Title for the plot. 
-#'        Default is character string \code{'ACF Plot'}.
+#'        Default is generated based on the value of \code{this_plot}.
 #' @param sub_title Subtitle for the plot. Default is \code{NULL}, or no subtitle.
 #' @param this_x_label Label for X axis. Default is \code{"Lags"}.
-#' @param this_y_label Label for Y axis. Default is \code{"ACF"}.
+#' @param this_y_label Label for Y axis. 
+#'        Default is generated based on the value of \code{this_plot}.
 #' @param this_x_axis_breaks Numeric vector; sets the values for the x-axis.
 #'        Default uses the value of \code{this_frequency} to set x-axis.
 #' @param do_grid Logical scalar; indicates if certain plots will have grid lines.
@@ -27,6 +28,8 @@
 #'        Default is no grey background;
 #' @param acf_color Color used for lines in ACF plot.  
 #'        Default is \code{"steelblue"}.
+#' @param ci_color Color used for confidence interval in ACF plot.  
+#'        Default is \code{"grey"}.
 #' @return A \code{ggplot} object that produces an ACF, PACF, or squared ACF plot
 #'         of the regARIMA residuals.
 #'
@@ -67,22 +70,26 @@ plot_acf <-
 			 this_x_axis_breaks = NULL,
 			 do_grid = FALSE,
 			 do_background = FALSE,			 
-			 acf_color = "steelblue") {
-    # Author: Brian C. Monsell (OEUS) Version 3.2, 11/6/2024
+			 acf_color = "steelblue",
+			 ci_color = "grey") {
+    # Author: Brian C. Monsell (OEUS) Version 5.1, 12/30/2025
  
     # check if a value is specified for \code{seas_obj}
     if (is.null(seas_obj)) {
-        stop("must specify a seas object")
+        cat("must specify a seas object")
+		return(NULL)
     } else {
     # check if a seas object is specified for \code{seas_obj}
         if (!inherits(seas_obj, "seas")) {
-            stop("First argument must be a seas object")
+            cat("First argument must be a seas object")
+			return(NULL)
         }
     }
 
     acf_type_all <- c("acf", "pcf", "ac2")
 	if(sum(match(acf_type_all, this_plot), na.rm = TRUE) == 0) {
-        stop(paste("ACF plot type not valid:", this_plot))
+        cat(paste("ACF plot type not valid:", this_plot))
+		return(NULL)
 	}
 	
 	this_matrix <- seasonal::series(seas_obj, this_plot)
@@ -91,6 +98,30 @@ plot_acf <-
 	}
 	
 	this_freq <- seasonal::udg(seas_obj, "freq")
+	
+	if (is.null(main_title)) {
+		if (this_plot == "acf") {
+			main_title <- "ACF Plot"
+		} else {
+			if (this_plot == "pcf") {
+				main_title <- "PACF Plot"
+			} else {
+				main_title <- "Squared ACF Plot"
+			}
+		}
+	}
+	
+	if (is.null(this_y_label)) {
+		if (this_plot == "acf") {
+			this_y_label <- "ACF"
+		} else {
+			if (this_plot == "pcf") {
+				this_y_label <- "PACF"
+			} else {
+				this_y_label <- "ACF2"
+			}
+		}
+	}
 	
 #	generate ggplot object for acf plot
 	p_acf <- 
@@ -104,7 +135,8 @@ plot_acf <-
 						this_y_label = this_y_label,
 						this_frequency = this_freq,
 						this_x_axis_breaks = this_x_axis_breaks,
-						acf_color = acf_color)
+						acf_color = acf_color,
+						ci_color = ci_color)
 						
 	# remove grey background if \code{do_background = FALSE} 
     if (!do_background) {

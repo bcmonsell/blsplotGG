@@ -1,9 +1,9 @@
 #' First Difference Plot
 #'
-#' Generates a ggplot2 object of the first difference of a time series grouped
-#' by months or quarters.
+#' Generates a \code{ggplot2} object of the first difference of a time series grouped
+#' by months or quarters. The series must be a \code{ts} object.
 #'
-#' Version 1.1, 8/22/2024
+#' Version 2.3, 12/30/2025
 #'
 #' @param this_series \code{ts} object of a single time series
 #'        This is a required entry.
@@ -16,10 +16,13 @@
 #'        Default is \code{FALSE}, which keeps the y-axis labels and tick marks.
 #' @param x_title_size Integer scalar, size of the x-axis title. 
 #'        Default is \code{10}.
-#' @param geom_text_size Integer scalar, size of the plotting characters. 
+#' @param this_text_size Integer scalar, size of the plotting characters. 
 #'        Default is \code{2.5}.
-#' @param geom_text_color Character scalar, color of the plotting characters. 
+#' @param this_text_color Character scalar, color of the plotting characters. 
 #'        Default is \code{"steelblue"}.
+#' @param add_zero_line Logical scalar.
+#'        If \code{TRUE}, adds a horizontal line at zero for all plots. 
+#'        Default is \code{FALSE}, no horizontal reference line.
 #' @return A \code{ggplot} object that produces a plot of the first differences
 #'         of a series specified by \code{this_series} grouped by month or quarter.
 #'         The time series specified should be either a monthly or quarterly series.
@@ -40,7 +43,8 @@
 #' p_shoes_sa_diff <- 
 #'     plot_first_difference(shoesSA, 
 #'         main_title = "Seasonal Adjustment First Differences",
-#'         remove_y_axis = FALSE, x_title_size = 10)
+#'         remove_y_axis = FALSE, x_title_size = 10,
+#'         add_zero_line = TRUE)
 #' @importFrom rlang .data
 #' @export
 plot_first_difference <- function(
@@ -49,9 +53,10 @@ plot_first_difference <- function(
     main_title = "First Difference Plot",
 	remove_y_axis = TRUE,
 	x_title_size = 10,
-	geom_text_size = 2.5,
-	geom_text_color = "steelblue") {
-	# Author: Brian C. Monsell (OEUS) Version 1.2, 9/18/2024
+	this_text_size = 2.5,
+	this_text_color = "steelblue",
+	add_zero_line = FALSE) {
+	# Author: Brian C. Monsell (OEUS) Version 2.3, 12/30/2025
 	
     # check if a value is specified for \code{this_series}
     if (is.null(this_series)) {
@@ -114,7 +119,7 @@ plot_first_difference <- function(
 		this_p <- 
 			ggplot2::ggplot(this_df, 
 				ggplot2::aes(x = .data$X, y = .data$Y, label = .data$yr)) +
-			ggplot2::geom_text(size = geom_text_size, color=geom_text_color) +
+			ggplot2::geom_text(size = this_text_size, color=this_text_color) +
 			ggplot2::labs(title = NULL,
                   subtitle = NULL,
                   x = this_x_label[i],
@@ -131,6 +136,11 @@ plot_first_difference <- function(
 				ggplot2::theme(
 					axis.text.y  = ggplot2::element_blank(), #remove y axis labels
 					axis.ticks.y = ggplot2::element_blank()) #remove y axis ticks
+		}
+		
+		if (add_zero_line) {
+			this_p <- this_p + 
+				ggplot2::geom_hline(yintercept = 0, color = "grey")
 		}
   
 		this_key <- paste0("p",i)

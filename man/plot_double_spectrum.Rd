@@ -46,7 +46,7 @@ frequencies, respectively. Defaults are \code{c("violet", "brown")}.}
 Generate plot of spectrum of original series and seasonally adjusted series on same axis.
 }
 \details{
-Version 2.5, 7/1/2024
+Version 3.0, 12/9/2025
 }
 \examples{
 air_seas <- seasonal::seas(AirPassengers, arima.model = "(0 1 1)(0 1 1)", x11="",

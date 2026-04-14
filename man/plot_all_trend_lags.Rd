@@ -38,7 +38,8 @@ Default is no grid lines.}
 Default is no grey background;}
 
 \item{base_color}{Character scalar for plot of the initial trend.
-Default is \code{"darkblue"}.}
+Default is \code{"darkblue"}. For a listing of R color codes,
+see \insertCite{rchartsColors;textual}{blsplotGG}.}
 
 \item{whisker_color}{Character scalar for color used for lines representing
 lagged trend estimates in the trend history plot.
@@ -52,11 +53,12 @@ set to some values - these lags should be in sequence, such as
 \code{history.trendlags = 1:4}.
 }
 \description{
-Generates a ggplot2 object of estimates from a revisions history of a trend
-component for a given series, incorporating all trend lag revisions.
+Generates a \code{ggplot2} object of estimates from a revisions history of a trend
+component for a given series, incorporating all trend lag revisions. For more information
+on revisions history diagnostics, \insertCite{@see Sections 6.3 and 7.8 of @Census2025;textual}{blsplotGG}.
 }
 \details{
-Version 1.8.1, 3/4/2025
+Version 3.2, 2/17/2026
 }
 \examples{
 shoes_seas <-
@@ -76,6 +78,9 @@ p_shoes_trend_history <-
     plot_all_trend_lags(shoes_seas, this_trend_name = "shoes", 
         main_title = "All Trend Revisions, Lags 1 to 4",
         sub_title = "US Retail Sales of Shoes")
+}
+\references{
+\insertAllCited{}
 }
 \author{
 Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}

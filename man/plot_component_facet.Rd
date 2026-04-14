@@ -43,7 +43,8 @@ set \code{this_scale = "fixed"}. Note: Setting \code{this_scale = "fixed"}
 seasonal is not recommended for mulitplicative adjustments.}
 
 \item{line_color}{Color used for lines in component plot.
-Default is \code{"steelblue"}.}
+Default is \code{"steelblue"}. For a listing of R color codes,
+see \insertCite{rchartsColors;textual}{blsplotGG}.}
 }
 \value{
 A \code{ggplot} object that generates a facet plot for the
@@ -51,10 +52,12 @@ trend, seasonal, and irregular from the adjustment encapsulated in \code{seas_ob
 }
 \description{
 Generates a plot for the components of a seasonal adjustment - trend, seasonal, and
-irreglar.
+irreglar - from a \code{seas} object generated from a call of \code{seas} function
+of the \code{seasonal} package on a single time series
+\insertCite{seasonal2018,Sax2018}{blsplotGG}.
 }
 \details{
-Version 1.2, 3/27/2025
+Version 1.5, 2/17/2026
 }
 \examples{
 shoes_x11_seas <- 
@@ -68,6 +71,9 @@ shoes_comp_plot <-
                         main_title = "US Retail Shoe Sales",
                         sub_title = "X-11 (3x5 Seasonal filter)"
                         )
+}
+\references{
+\insertAllCited{}
 }
 \author{
 Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}

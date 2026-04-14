@@ -23,10 +23,11 @@ Default is \code{"pink"}.}
 \code{ggplot} object with shading for recession added.
 }
 \description{
-Add shading for US NBER recession dates ro ggplot plot object.
+Add shading for US NBER recession dates to \code{ggplot} plot object. Recession dates are
+are taken from the \code{nberDates} function of the \code{tis} package \insertCite{tis2021}{blsplotGG}.
 }
 \details{
-Version 3.2, 5/6/2024
+Version 4.2, 2/10/2026
 }
 \examples{
 air_seas <- 
@@ -47,6 +48,9 @@ this_p <- ggplot2::ggplot(air_df) +
     y = "Airline Passengers")
 this_p_with_recession_shading <-
     add_recession_shade(this_p, shade_color = "steelblue")
+}
+\references{
+\insertAllCited{}
 }
 \author{
 Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}

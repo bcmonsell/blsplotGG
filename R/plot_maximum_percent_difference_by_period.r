@@ -1,9 +1,11 @@
 #' Maximum percent difference for sliding spans by period
 #'
 #' Generate a plot of the maximum percent difference from a sliding spans analysis by 
-#' month or quarter.
+#' month or quarter.  For more information on sliding spans analysis, 
+#' \insertCite{@see Sections 6.2 and 7.13 of @Census2025;textual}{blsplotGG}, with more
+#' details on sliding spans analysis in \insertCite{Findley90;textual}{blsplotGG}.
 #'
-#' Version 1.4, 11/7/2024
+#' Version 4.6, 2/18/2026
 #'
 #' @param seas_obj \code{seas} object generated from a call of \code{seas} on a single time series
 #'        This is a required entry.
@@ -22,17 +24,31 @@
 #'        Default is no grid lines.
 #' @param do_background Logical scalar; indicates grey background included in plot.
 #'        Default is no grey background.
-#' @param line_color Character scalar; color used for plot. 
-#'        User should specify one color for each column of the matrix specified.
-#'        Default is the \code{RColorBrewer} palette \code{"Set3"}.
-#' @param this_palette Character string; default \code{RColorBrewer} palette.
+#' @param point_color Character scalar; color used for points in this plot. 
+#'        User should specify one color for each year of the sliding spans.
+#'        Default is the \code{RColorBrewer} palette \code{"Set3"}. For a listing of R color codes, 
+#'        see \insertCite{rchartsColors;textual}{blsplotGG}.
+#' @param this_palette Character string; default \code{RColorBrewer} palette \insertCite{RColorBrewer}{blsplotGG}.
 #'        Default is \code{"Set3"}.
 #' @param cut_color Color use to show the slidings spans cut off for this type of series.  
 #'        Default is \code{"red"}.
+#' @param this_legend_title Title for legend.  Default is \code{"Year"}.
+#' @param this_legend_position character String; The position of the legend, which can be one of
+#'        \code{top}, \code{bottom}, \code{left}, \code{right}.
+#'        Default is \code{right}.
+#' @param this_legend_size Numeric scalar; indicates the size of several attributes of the plot legend,
+#'        in centimeters. Default value is \code{1}.
+#' @param this_legend_order Character vector; indicates the order of entries in the legend.
+#'        Default order is determined by \code{ggplot2}.
+#' @param this_legend_space integer scalar; Space between legend and plot in points.
+#'        Default is \code{10}.
 #' @return Generate \code{ggplot} object generating a plot of the maximum percent 
 #'         difference from a sliding spans analysis by month or quarter 
 #'
 #' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
+#'
+#' @references
+#'  \insertAllCited{}
 #'
 #' @examples
 #' shoes_sspan_seas <- 
@@ -47,6 +63,7 @@
 #'                        sub_title = "US Shoe Sales",
 #'                        this_palette = "Paired")
 #' @importFrom rlang .data
+#' @importFrom Rdpack reprompt
 #' @export
 plot_maximum_percent_difference_by_period <- 
     function(seas_obj = NULL, 
@@ -57,24 +74,32 @@ plot_maximum_percent_difference_by_period <-
 			 this_x_label = NULL, 
 			 do_grid = FALSE, 
 			 do_background = FALSE, 
-			 line_color = NULL, 
+			 point_color = NULL, 
 			 this_palette = "Set3",
-			 cut_color = "red") {
-    # Author: Brian C. Monsell (OEUS) Version 1.4, 11/7/2024
+			 cut_color = "red", 
+			 this_legend_title = "Year",
+			 this_legend_position = "right",
+			 this_legend_size = NULL,
+			 this_legend_order = NULL,
+			 this_legend_space = NULL) {
+    # Author: Brian C. Monsell (OEUS) Version 4.6, 2/18/2026
 
     # check if a value is specified for \code{seas_obj}
     if (is.null(seas_obj)) {
-        stop("must specify a seas object")
+        cat("must specify a seas object")
+		return(NULL)
     } else {
     # check if a seas object is specified for \code{seas_obj}
         if (!inherits(seas_obj, "seas")) {
-            stop("First argument must be a seas object")
+            cat("First argument must be a seas object")
+			return(NULL)
         }
     }
 	
     maxpct_type_all <- c("sfs", "chs", "sis", "cis")
 	if(sum(match(maxpct_type_all, this_series), na.rm = TRUE) == 0) {
-        stop(paste("Sliding spans series type not valid:", this_plot))
+        cat(paste("Sliding spans series type not valid:", this_plot))
+		return(NULL)
 	}
 	
 	this_freq    <- seasonal::udg(seas_obj, "freq")
@@ -116,23 +141,23 @@ plot_maximum_percent_difference_by_period <-
 	
 	num_years <- length(unique(this_year))
 	
-	if (is.null(line_color)) {
+	if (is.null(point_color)) {
 	    this_palette_max <- RColorBrewer::brewer.pal.info[this_palette, "maxcolors"]
 	    if (num_years < 3) {
-			line_color <- RColorBrewer::brewer.pal(3, this_palette)[1:num_years]
+			point_color <- RColorBrewer::brewer.pal(3, this_palette)[1:num_years]
 		} else {
 			if (num_years <= this_palette_max) {
-				line_color <- RColorBrewer::brewer.pal(num_years, this_palette)
+				point_color <- RColorBrewer::brewer.pal(num_years, this_palette)
 			} else {
 				this_color <- RColorBrewer::brewer.pal(this_palette_max, this_palette)
-				line_color <- grDevices::colorRampPalette(this_color)(num_years)
+				point_color <- grDevices::colorRampPalette(this_color)(num_years)
 			}
 		}
 	} else {
-		if (length(line_color) < num_years) {
+		if (length(point_color) < num_years) {
 			warning("Number of line colors specified less than number of years.")
 			warning("Will use colorRampPalette to increase number of colors.")
-			line_color <- grDevices::colorRampPalette(line_color)(num_years)
+			point_color <- grDevices::colorRampPalette(point_color)(num_years)
 		}
 	}
 	
@@ -156,6 +181,13 @@ plot_maximum_percent_difference_by_period <-
 		           period = as.double(this_period), 
 				   year = as.factor(as.double(this_year)))
 
+	if (is.null(this_legend_order)) {
+		this_data$year <- factor(this_data$year)
+	} else {
+		this_data$year <- 
+			factor(this_data$year, levels = this_legend_order)
+	}
+	
 	this_plot <- ggplot2::ggplot(data = this_data, 
                           ggplot2::aes(x = as.factor(.data$period), 
                                        y = .data$value, 
@@ -163,7 +195,8 @@ plot_maximum_percent_difference_by_period <-
                                        colour = .data$year)) + 
 		ggplot2::geom_point() +
 		ggplot2::ylim(this_range) +
-		ggplot2::scale_colour_manual(values = line_color) +
+		ggplot2::scale_colour_manual(values = point_color, 
+		                             name = this_legend_title) +
 		ggplot2::labs(title = main_title, 
 		              subtitle = sub_title, 
 					  y = this_y_label)
@@ -209,7 +242,24 @@ plot_maximum_percent_difference_by_period <-
 		    ggplot2::theme(panel.grid.major = ggplot2::element_blank(), 
 			               panel.grid.minor = ggplot2::element_blank())
     }
-
+	
+    if (!is.null(this_legend_position)) {
+        this_plot <- this_plot +
+            ggplot2::theme(legend.position = this_legend_position)
+    }
+  
+    if (!is.null(this_legend_space)) {
+        this_plot <- this_plot +
+            ggplot2::theme(legend.box.spacing = ggplot2::unit(this_legend_space, "pt"))
+    }
+  
+    if (!is.null(this_legend_size)) {
+        this_plot <- this_plot + 
+            ggplot2::theme(legend.key.size = ggplot2::unit(this_legend_size, 'cm'), 
+                     legend.key.height = ggplot2::unit(this_legend_size, 'cm'), 
+                     legend.key.width = ggplot2::unit(this_legend_size, 'cm'))
+  }
+        
 	return(this_plot)
 	
 }

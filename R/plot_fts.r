@@ -1,8 +1,11 @@
 #' Final t-statistics for the outlier identification procedure plot
 #'
 #' Generates a plot of the final t-statistics for the outlier identification procedure.
+#' A description of the outlier identification procedure is given in the documentation of the 
+#' \code{outlier} spec in \insertCite{@Section 7.11 of of @Census2025;textual}{blsplotGG},
+#' with more details in \insertCite{@Appendix B of @Findley98;textual}{blsplotGG}.
 #'
-#' Version 2.6, 9/5/2024++
+#' Version 6.3, 2/10/2026
 #' 
 #' @param seas_obj \code{seas} object generated from a call of \code{seas} on a single time series
 #'                  This is a requited entry.
@@ -10,16 +13,33 @@
 #' @param main_title Character string; main title of plot.  Default is  \code{'Outlier T-Values'}.
 #' @param this_y_label Character string; y-axis label for plot, if specified.
 #' @param this_x_label Label for X axis. Default is \code{"Time"}.
-#' @param add_identified_otl Logical scalar; indicates if outlier plots will include identified outliers. 
-#'                           Default is not including identified outliers. 
+#' @param add_identified_outliers Logical scalar; indicates if outlier plots will include identified outliers. 
+#'                                Default is not including identified outliers. 
+#' @param do_grid Logical scalar; indicates if certain plots will have grid lines. 
+#'        Default is no grid lines. 
+#' @param do_background Logical scalar; indicates grey background included in plot.
+#'        Default is no grey background;
 #' @param color_otl Character array of length 3; color used for different outliers, with the order being \code{'ao','ls','tc'}. 
 #'        Default is NULL.
-#' @param this_palette Character string; default \code{RColorBrewer} palette.
+#' @param this_palette Character string; default \code{RColorBrewer} palette \insertCite{RColorBrewer}{blsplotGG}.
 #'        Deault is \code{"Dark2"}.
+#' @param this_legend_title Title for legend.  Default is \code{"Year"}.
+#' @param this_legend_title_size integer scalar; Size of the legend title.
+#'        Default is \code{12}.
+#' @param this_legend_text_size integer scalar; Size of the legend title.
+#'        Default is \code{10}.
+#' @param this_legend_position character String; The position of the legend, which can be one of
+#'        \code{top}, \code{bottom}, \code{left}, \code{right}.
+#'        Default is \code{right}.
+#' @param this_legend_space integer scalar; Space between legend and plot in points.
+#'        Default is \code{10}.
 #' @return A \code{ggplot} object which produces a plot of the final t-statistics 
 #'         from the automatic outlier identification procedure.
 #'
 #' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
+#'
+#' @references
+#'  \insertAllCited{}
 #'
 #' @examples
 #' air_seas_outlier <- 
@@ -28,22 +48,41 @@
 #' plot_fts_air <- 
 #'     plot_fts(air_seas_outlier, 
 #'              main_title = "Outlier T-Values for Airline Passengers")
+#' plot_fts_air_add_id_otl <- 
+#'     plot_fts(air_seas_outlier, 
+#'              main_title = "Outlier T-Values for Airline Passengers",
+#'              add_identified_outliers = TRUE)
 #' @importFrom magrittr %>%
-#' @importFrom rlang .data
+#' @importFrom rlang .data 
+#' @importFrom Rdpack reprompt
 #' @export
 plot_fts <- 
-	function(seas_obj = NULL, start_plot = NULL, main_title = "Outlier T-Values", 
-	         this_y_label = NULL, this_x_label = "Time", add_identified_otl = FALSE, 
-	         color_otl = NULL, this_palette = "Dark2") {
-    # Author: Brian C. Monsell (OEUS) Version 2.6, 9/5/2024
+	function(seas_obj = NULL, 
+			 start_plot = NULL, 
+			 main_title = "Outlier T-Values", 
+	         this_y_label = NULL, 
+			 this_x_label = "Time", 
+			 add_identified_outliers = FALSE, 
+			 do_grid = FALSE, 
+             do_background = FALSE, 
+	         color_otl = NULL, 
+			 this_palette = "Dark2", 
+			 this_legend_title = "Outlier",
+			 this_legend_title_size = 12,
+			 this_legend_text_size = 10,
+			 this_legend_position = "right",
+			 this_legend_space = 10) {
+    # Author: Brian C. Monsell (OEUS) Version 6.3, 2/10/2026
     
     # check if a value is specified for \code{seas_obj}
     if (is.null(seas_obj)) {
-        stop("must specify a seas object")
+        cat("must specify a seas object")
+		return(NULL)
     } else {
     # check if a seas object is specified for \code{seas_obj}
         if (!inherits(seas_obj, "seas")) {
-            stop("First argument must be a seas object")
+            cat("First argument must be a seas object")
+			return(NULL)
         }
     }
     
@@ -52,31 +91,8 @@ plot_fts <-
     point_lab <- substr(dimnames(this_fts)[[2]], 3, 4)
     
     # include identified outliers in plot
-    if (add_identified_otl) {
-        this_auto_outlier <- unlist(strsplit(get_auto_outlier_string(seas_obj), " "))
-        n_iter <- seasonal::udg(seas_obj, "addoutlier")
-        this_t_vec <- array(0, length(this_auto_outlier))
-        for (i in 1:n_iter) {
-            this_key <- paste("otlitr", i, "+", sep = ".")
-            this_oit <- array(seasonal::udg(seas_obj, this_key))
-            this_t_vec[!is.na(match(this_auto_outlier, this_oit[1]))] <- as.numeric(this_oit[4])
-        }
-        for (i in 1:length(this_auto_outlier)) {
-            this_out <- this_auto_outlier[i]
-            this_type <- substr(this_out, 1, 2)
-            this_year <- as.numeric(substr(this_out, 3, 6))
-            if (frequency(this_fts) == 12) {
-                this_per <- get_month_index(substr(this_out, 8, 10))
-                this_date <- this_year + (this_per - 1)/12
-            }
-            if (frequency(this_fts) == 4) {
-                this_per <- as.integer(stringr::str_sub(this_out, -1, -1))
-                this_date <- this_year + (this_per - 1)/4
-            }
-            this_col <- seq(1, length(point_lab))[!is.na(match(point_lab, this_type))]
-            this_row <- seq(1, length(this_fts[, 1]))[time(this_fts) == this_date]
-            this_fts[this_row, this_col] <- this_t_vec[i]
-        }
+    if (add_identified_outliers) {
+		this_fts <- update_fts(seas_obj)
     }
     
     # get subset of t-statistics if starting date is specified
@@ -147,17 +163,37 @@ plot_fts <-
 		              subtitle = sub_title,
 		              x = this_x_label,
 		              y = this_y_label) +
-		ggplot2::guides(color = ggplot2::guide_legend("Outlier")) +
 		ggplot2::ylim(range(fts_max, this_crit_vec))
     
     # lines for outlier critical values
     if (length(unique(this_crit_vec)) == 1) {
-        p_fts <- p_fts + ggplot2::geom_hline(yintercept = unique(this_crit_vec), color = "grey")
+        p_fts <- 
+			p_fts + ggplot2::geom_hline(yintercept = unique(this_crit_vec), color = "grey")
     } else {
-	for (i in 1:length(this_crit_vec)) {
-	     p_fts <- p_fts + ggplot2::geom_hline(yintercept = this_crit_vec[i], color = color_vec[i])
-	}
+		for (i in 1:length(this_crit_vec)) {
+			p_fts <- 
+				p_fts + ggplot2::geom_hline(yintercept = this_crit_vec[i], color = color_vec[i])
+		}
     }
+	
+	# remove grey background if \code{do_background = FALSE} 
+    if (!do_background) {
+		p_fts <- p_fts + ggplot2::theme_bw()
+    }
+
+	# remove grid lines if \code{do_grid = FALSE}
+	if (!do_grid) {
+	    p_fts <- p_fts + 
+		    ggplot2::theme(panel.grid.major = ggplot2::element_blank(), 
+			               panel.grid.minor = ggplot2::element_blank())
+	}
+    
+	p_fts <- p_fts + 
+		ggplot2::guides(colour = ggplot2::guide_legend(this_legend_title)) +
+		ggplot2::theme(legend.text = ggplot2::element_text(size = this_legend_text_size),
+			legend.title = ggplot2::element_text(size = this_legend_title_size),
+			legend.position = this_legend_position,
+			legend.box.spacing = ggplot2::unit(this_legend_space, "pt"))
 	
 	return(p_fts)
         

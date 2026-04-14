@@ -14,12 +14,13 @@ plot_sliding_spans_two(
   this_y_label = " ",
   do_grid = FALSE,
   do_background = FALSE,
-  line_color = "grey",
   cut_color = "red",
   this_legend_title = "Sliding Spans",
   this_legend_entry = c("ss1", "ss2"),
-  legend_title_size = 12,
-  legend_text_size = 10
+  this_legend_title_size = 12,
+  this_legend_text_size = 10,
+  this_legend_position = "right",
+  this_legend_space = 10
 )
 }
 \arguments{
@@ -50,9 +51,6 @@ Default is no grid lines.}
 \item{do_background}{Logical scalar; indicates grey background included in plot.
 Default is no grey background;}
 
-\item{line_color}{Color used for lines in the maximum percentage difference plot.
-Default is \code{"steelblue"}.}
-
 \item{cut_color}{Color use to show the slidings spans cut off for this type of series.
 Default is \code{"red"}.}
 
@@ -62,10 +60,17 @@ Default is \code{'Sliding Spans'}.}
 \item{this_legend_entry}{Character array; entries for the legend.
 Default is \code{c("ss1", "ss2")}.}
 
-\item{legend_title_size}{integer scalar; Size of the legend title.
+\item{this_legend_title_size}{integer scalar; Size of the legend title.
 Default is \code{12}.}
 
-\item{legend_text_size}{integer scalar; Size of the legend title.
+\item{this_legend_text_size}{integer scalar; Size of the legend title.
+Default is \code{10}.}
+
+\item{this_legend_position}{character String; The position of the legend, which can be one of
+\code{top}, \code{bottom}, \code{left}, \code{right}.
+Default is \code{right}.}
+
+\item{this_legend_space}{integer scalar; Space between legend and plot in points.
 Default is \code{10}.}
 }
 \value{
@@ -76,9 +81,12 @@ from a sliding spans analysis of seasonal factors or changes.
 Generates a \code{ggplot} object comparing the time series of the maximum percent difference from
 the sliding spans analysis of seasonal factors or changes for two sliding spans runs.
 The sliding spans analysis for both series should have the same length of spans.
+For more information on sliding spans analysis,
+\insertCite{@see Sections 6.2 and 7.13 of @Census2025;textual}{blsplotGG}, with more
+details in \insertCite{Findley90;textual}{blsplotGG}.
 }
 \details{
-Version 1.5, 12/11/2024
+Version 2.6, 2/18/2026
 }
 \examples{
 shoes_sspan_seas <- 
@@ -102,9 +110,11 @@ p_shoes_maxpct_sf <-
     plot_sliding_spans_two(shoes_sspan_seas, shoes_sspan_x11_seas, "sfs",
     		main_title = "Maximum Difference of the Seasonal Factors",
          sub_title = "US Retail Shoe Sales",
-         line_color = "black", 
          cut_color = "purple",
          this_legend_entry = c("Seats", "X-11"))
+}
+\references{
+\insertAllCited{}
 }
 \author{
 Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}

@@ -17,7 +17,12 @@ plot_year_over_year(
   line_color = NULL,
   this_palette = "Paired",
   detrend_series = FALSE,
-  detrend_lowess = FALSE
+  detrend_lowess = FALSE,
+  this_legend_title = "Years",
+  this_legend_position = "right",
+  this_legend_size = NULL,
+  this_legend_order = NULL,
+  this_legend_space = NULL
 )
 }
 \arguments{
@@ -46,33 +51,64 @@ Default is no grey background.}
 
 \item{line_color}{Character scalar; color used for plot.
 User should specify one color for each column of the matrix specified.
-Default is the \code{RColorBrewer} palette \code{"Paired"}.}
+Default is the \code{RColorBrewer} palette \code{"Paired"}.
+For a listing of R color codes,
+see \insertCite{rchartsColors;textual}{blsplotGG}.}
 
-\item{this_palette}{Character string; default \code{RColorBrewer} palette.
-Default is \code{"Paired"}.}
+\item{this_palette}{Character string; \code{RColorBrewer} palette used for this plot..
+Default is the \code{RColorBrewer} palette \code{"Paired"} \insertCite{RColorBrewer}{blsplotGG}.}
 
 \item{detrend_series}{Logical scalar; indicates if the series plotted is to be detrended.
 Default is the original series is plotted.}
 
 \item{detrend_lowess}{Logical scalar; indicates lowess is used to generate the trend
-used to detrend the series. Default is loess is not used.}
+used to detrend the series. Default setting is loess is not used to detrend the series;
+detrending doesn't happen unless \code{detrend_series = TRUE}.}
+
+\item{this_legend_title}{Character string; sets the title associated with the plot legend.
+Default title is \code{"Years"}.}
+
+\item{this_legend_position}{Character string; indicates the position of the plot legend.
+Possible values are \code{"right"} (default), \code{"left"}, \code{"top"},
+\code{"bottom"}, and \code{"none"}}
+
+\item{this_legend_size}{Numeric scalar; indicates the size of several attributes of the plot legend,
+in centimeters. Default value is \code{1}.}
+
+\item{this_legend_order}{Character vector; indicates the order of entries in the legend.
+Default order is determined by \code{ggplot2}.}
+
+\item{this_legend_space}{integer scalar; Space between legend and plot in points.
+Default is determined by \code{ggplot2}.}
 }
 \value{
 Generate \code{ggplot} object generating a year to year plot of a time series object.
 If time series object not specified, print out error message and return NULL.
+Note that this plot will likely produce warning messages - to suppress them, use \code{suppressWarnings}
+when printing out the plot.
 }
 \description{
-Generate year over year plot of a user-specified ts object.
+Generate year over year plot of a user-specified \code{ts} object.
 }
 \details{
-Version 3.2, 11/6/2024
+Version 7.2, 2/17/2026
 }
 \examples{
 this_yyplot <- 
     plot_year_over_year(AirPassengers, this_y_label = "Air", this_palette = "Dark2")
+legend_order <- 
+    as.character(as.vector(matrix(1949:1960, ncol = 4, byrow = TRUE)))
 this_yyplot_detrend <- 
     plot_year_over_year(AirPassengers, this_y_label = "Air", this_palette = "Dark2",
-                        detrend_series = TRUE, detrend_lowess = TRUE)
+                        main_title = "YY Plot of Loess Detrended Air Passenger Series",
+                        detrend_series = TRUE, detrend_lowess = TRUE, 
+                        this_legend_position = "bottom",
+                        this_legend_size = 0.25,
+                        this_legend_order = legend_order,
+                        this_legend_space = 0)
+}
+\references{
+\insertAllCited{}
 }
 \author{
 Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}

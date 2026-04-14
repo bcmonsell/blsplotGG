@@ -17,7 +17,11 @@ plot_two_sa(
   do_background = FALSE,
   line_color = NULL,
   this_palette = "Dark2",
-  this_guide_legend = "Series"
+  this_legend_title = "Series",
+  this_legend_title_size = 12,
+  this_legend_text_size = 10,
+  this_legend_position = "right",
+  this_legend_space = 10
 )
 }
 \arguments{
@@ -38,8 +42,9 @@ Default is character string \code{'Comparison of Seasonal Adjustments'}.}
 
 \item{this_y_label}{Label for Y-axis.  Default is \code{" "}}
 
-\item{this_sa_text}{Labels for different seasonal adjustments.
-Default is \code{c('X-11', 'SEATS')}}
+\item{this_sa_text}{Caracter vector of length 2; labels for different seasonal adjustments.
+Note that if \code{this_ori} is set, the label for that line will be set as \code{"Ori"}.
+Default is \code{c('X-11', 'SEATS')}.}
 
 \item{do_grid}{Logical scalar; indicates if certain plots will have grid lines.
 Default is no grid lines.}
@@ -48,13 +53,29 @@ Default is no grid lines.}
 Default is no grey background;}
 
 \item{line_color}{Character scalar; color used for plot.
-User should specify colors for each series in \code{this_sa_text}.
-Default is the \code{RColorBrewer} palette \code{"Dark2"}.}
+User should specify colors in the order of original series, first SA, and second SA
+if \code{this_ori} is set, first SA and second SA otherwise.
+Default is the \code{RColorBrewer} palette \code{"Dark2"}.
+For a listing of R color codes,
+see \insertCite{rchartsColors;textual}{blsplotGG}.}
 
 \item{this_palette}{Character string; default \code{RColorBrewer} palette.
-Deault is \code{"Dark2"}.}
+Default is the \code{RColorBrewer} palette \code{"Dark2"} \insertCite{RColorBrewer}{blsplotGG}.}
 
-\item{this_guide_legend}{Title for legend.  Default is \code{"Series"}}
+\item{this_legend_title}{Title for legend.  Default is \code{"Series"}}
+
+\item{this_legend_title_size}{integer scalar; Size of the legend title.
+Default is \code{12}.}
+
+\item{this_legend_text_size}{integer scalar; Size of the legend title.
+Default is \code{10}.}
+
+\item{this_legend_position}{character String; The position of the legend, which can be one of
+\code{top}, \code{bottom}, \code{left}, \code{right}.
+Default is \code{right}.}
+
+\item{this_legend_space}{integer scalar; Space between legend and plot in points.
+Default is \code{10}.}
 }
 \value{
 A \code{ggplot} object that generates a plot comparing two seasonal adjustments, trend, or factors.
@@ -64,7 +85,7 @@ Generates a \code{ggplot} object with a time series plot that compares two seaso
 of the same series, optionally including the original series.
 }
 \details{
-Version 2.5, 12/19/2024
+Version 3.7, 2/17/2026
 }
 \examples{
 ukgas_x11_seas   <- 
@@ -83,6 +104,9 @@ ukgas_seats_v_x11_p <-
                        main_title = "UK Gas Seasonal Adjustments",
                        sub_title = "X-11 - Blue, SEATS - Green",
                        line_color = c("steelblue", "forestgreen"))
+}
+\references{
+\insertAllCited{}
 }
 \author{
 Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}

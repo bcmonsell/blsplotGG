@@ -41,9 +41,12 @@ Default is no grey background;}
 \item{line_color}{Vector with colors used for lines in history plot.
 Should be of length 4 (if \code{add_ori = FALSE}) or 5 (if \code{add_ori = TRUE})
 Default is \code{NULL}, which indicates that the palette specified
-in \code{this_palette} is used to generate colors for this plot.}
+in \code{this_palette} is used to generate colors for this plot.
+For a listing of R color codes,
+see \insertCite{rchartsColors;textual}{blsplotGG}.}
 
-\item{this_palette}{Color used for lines in plot. Default is \code{"Dark2"}}
+\item{this_palette}{Colors used for lines in plot.
+Default is \code{RColorBrewer} palette \code{"Dark2"} \insertCite{RColorBrewer}{blsplotGG}.}
 }
 \value{
 A \code{ggplot} object that generates a history plot of the seasonal adjustment.
@@ -53,10 +56,11 @@ set to 1 and 12 (for monthly series) or 4 (for quarterly series).
 }
 \description{
 Generates a ggplot2 object of estimates from a revisions history of a seasonal
-adjustment for a given series.
+adjustment for a given series. For more information on revisions history diagnostics,
+\insertCite{@see Sections 6.3 and 7.8 of @Census2025;textual}{blsplotGG}.
 }
 \details{
-Version 1.9, 11/6/2024
+Version 2.3, 2/17/2026
 }
 \examples{
 shoes_seas <-
@@ -76,6 +80,9 @@ p_shoes_sa_history <-
     plot_sa_history(shoes_seas, add_ori = FALSE, 
         main_title = "SA History Graph, Lag 1 and 12",
         sub_title = "US Retail Sales of Shoes")
+}
+\references{
+\insertAllCited{}
 }
 \author{
 Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}

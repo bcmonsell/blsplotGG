@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_acf_matrix.r
 \name{plot_acf_matrix}
 \alias{plot_acf_matrix}
-\title{Generate ACF plot of the regARIMA model residuals from a matrix of the ACF.}
+\title{Generate ACF plot from a matrix of the ACF.}
 \usage{
 plot_acf_matrix(
   acf_matrix = NULL,
@@ -59,11 +59,13 @@ A \code{ggplot} object that produces an ACF, PACF, or squared ACF plot
 of the regARIMA residuals.
 }
 \description{
-Generate ACF, PACF, or squared ACF plot of the regARIMA model residuals
-from a matrix of the ACF.
+Generate ACF, PACF, or squared ACF plot of the regARIMA model residuals (or the transformed
+original series in the case of the \code{identify} output of X-13ARIMA-SEATS)
+from a matrix of the ACF. This matrix can be extracted from a seas object produced
+by the seasonal package \insertCite{seasonal2018}{blsplotGG}.
 }
 \details{
-Version 3.1, 2/18/2025
+Version 4.3, 2/10/2026
 }
 \examples{
 ukgas_x11_seas <- 
@@ -79,9 +81,12 @@ ukgas_acf_matrix   <-
    seasonal::series(ukgas_x11_seas, "acf")
 p_ukgas_acf_matrix   <- 
    plot_acf_matrix(ukgas_acf_matrix, 
-            main_title = "UK Gas Model Squared ACF",
+            main_title = "UK Gas Residual ACF",
             this_frequency = 4,
             acf_color = "darkblue")
+}
+\references{
+\insertAllCited{}
 }
 \author{
 Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}

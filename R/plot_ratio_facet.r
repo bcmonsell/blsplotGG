@@ -3,7 +3,7 @@
 #' Generates a high-definition plot for a number of X-13 factors around 
 #' a reference line other than zero.
 #'
-#' Version 4.2, 6/24/2025
+#' Version 4.3, 8/26/2025
 #'
 #' @param seas_obj \code{seas} object generated from a call of \code{seas} 
 #'        on a single time series
@@ -24,7 +24,7 @@
 #' @param add_line Logical scalar; add solid line for assumed mean. 
 #'        Default is \code{TRUE}. 
 #' @param this_scale Character scalar; set the scale for the y-axis of the facet plots. 
-#'        Default is \code{"fixed"}.  To set axis to be different for the different plots,
+#'        Default is \code{"fixed"}.  To set the y-axis to be different for the different plots,
 #'        set \code{this_scale = "free_y"}.
 #' @param ratio_mean Assumed mean value for the ratio.  Default is \code{1.0}
 #' @param remove_fcst Logical scalar; if TRUE, indicates forecasts to be removed from the series before plotting.
@@ -69,7 +69,7 @@ plot_ratio_facet <-
              ratio_mean = 1.0, 
              remove_fcst = FALSE,
              ratio_color = "steelblue") {
-    # Author: Brian C. Monsell (OEUS) Version 4.2, 6/24/2025
+    # Author: Brian C. Monsell (OEUS) Version 4.3, 8/26/2025
 
     # check if a value is specified for \code{seas_obj}
     if (is.null(seas_obj)) {
@@ -204,6 +204,10 @@ plot_ratio_facet <-
 		tidyr::gather(key = "series", value = "value", -date) %>% 
         tidyr::drop_na()
 
+    this_factor_df$series <- 
+      factor(this_factor_df$series, 
+             levels = ratio_tables)
+    
     p_ratio_facet <- 
 	    ggplot2::ggplot(this_factor_df) + 
         ggplot2::geom_segment(mapping=ggplot2::aes(x=.data$date, 

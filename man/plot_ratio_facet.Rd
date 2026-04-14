@@ -49,7 +49,7 @@ Default is no grey background;}
 Default is \code{TRUE}.}
 
 \item{this_scale}{Character scalar; set the scale for the y-axis of the facet plots.
-Default is \code{"fixed"}.  To set axis to be different for the different plots,
+Default is \code{"fixed"}.  To set the y-axis to be different for the different plots,
 set \code{this_scale = "free_y"}.}
 
 \item{ratio_mean}{Assumed mean value for the ratio.  Default is \code{1.0}}
@@ -69,7 +69,7 @@ Generates a high-definition plot for a number of X-13 factors around
 a reference line other than zero.
 }
 \details{
-Version 4.2, 6/24/2025
+Version 4.3, 8/26/2025
 }
 \examples{
 shoes_x11_seas <- 

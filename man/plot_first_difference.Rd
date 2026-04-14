@@ -10,8 +10,9 @@ plot_first_difference(
   main_title = "First Difference Plot",
   remove_y_axis = TRUE,
   x_title_size = 10,
-  geom_text_size = 2.5,
-  geom_text_color = "steelblue"
+  this_text_size = 2.5,
+  this_text_color = "steelblue",
+  add_zero_line = FALSE
 )
 }
 \arguments{
@@ -31,11 +32,15 @@ Default is \code{FALSE}, which keeps the y-axis labels and tick marks.}
 \item{x_title_size}{Integer scalar, size of the x-axis title.
 Default is \code{10}.}
 
-\item{geom_text_size}{Integer scalar, size of the plotting characters.
+\item{this_text_size}{Integer scalar, size of the plotting characters.
 Default is \code{2.5}.}
 
-\item{geom_text_color}{Character scalar, color of the plotting characters.
+\item{this_text_color}{Character scalar, color of the plotting characters.
 Default is \code{"steelblue"}.}
+
+\item{add_zero_line}{Logical scalar.
+If \code{TRUE}, adds a horizontal line at zero for all plots.
+Default is \code{FALSE}, no horizontal reference line.}
 }
 \value{
 A \code{ggplot} object that produces a plot of the first differences
@@ -43,11 +48,11 @@ of a series specified by \code{this_series} grouped by month or quarter.
 The time series specified should be either a monthly or quarterly series.
 }
 \description{
-Generates a ggplot2 object of the first difference of a time series grouped
-by months or quarters.
+Generates a \code{ggplot2} object of the first difference of a time series grouped
+by months or quarters. The series must be a \code{ts} object.
 }
 \details{
-Version 1.1, 8/22/2024
+Version 2.3, 12/30/2025
 }
 \examples{
 shoes_seas <-
@@ -63,7 +68,8 @@ shoesSA <- seasonal::final(shoes_seas)
 p_shoes_sa_diff <- 
     plot_first_difference(shoesSA, 
         main_title = "Seasonal Adjustment First Differences",
-        remove_y_axis = FALSE, x_title_size = 10)
+        remove_y_axis = FALSE, x_title_size = 10,
+        add_zero_line = TRUE)
 }
 \author{
 Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}

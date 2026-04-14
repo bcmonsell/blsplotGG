@@ -1,24 +1,28 @@
 #' Color-blind friendly color palette
 #'
-#' Color palettes that can be used that can be distinguished by color-blind people (either from \code{RColorBrewer} 
-#' or Cookbook for R - Colors (ggplot2)).
+#' Color palettes that can be used that can be distinguished by color-blind people 
+#' (either from \insertCite{RColorBrewer;textual}{blsplotGG}
+#' or \insertCite{cookbookrColorsggplot2;textual}{blsplotGG}).
 #'
-#' Version 2.2, 8/2/2024
+#' Version 3.2, 2/10/2026
 #'
 #' @param with_grey Logical scalar; whether color blind pallate contains \code{'grey'}, 
 #'        otherwise the palette contains \code{black}. Default is TRUE. 
-#' @param brewer_palette Character string; a \code{RColorBrewer} palette.
+#' @param brewer_palette Character string; a \code{RColorBrewer} palette \insertCite{RColorBrewer}{blsplotGG}.
 #'        There is no default - must be a color-blind friendly palette.
 #' @return Vector of hexadecimal color codes that form a color palette that can be distinguished by color-blind people.
 #'
 #' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
-#' @references \url{https://CRAN.R-project.org/package=RColorBrewer}, \url{http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/}
+#'
+#' @references
+#'  \insertAllCited{}
 #'
 #' @examples
 #' this_color_blind <- color_blind_palette(FALSE, brewer_palette = "Dark2")
+#' @importFrom Rdpack reprompt
 #' @export
 color_blind_palette <- function(with_grey = TRUE, brewer_palette = NULL) {
-    # Author: Brian C. Monsell (OEUS) Version 2.2, 8/2/2024
+    # Author: Brian C. Monsell (OEUS) Version 3.2, 2/10/2026
 	
 	# if \code{brewer_palette} is specified, return \code{RColorBrewer} palette if it is color-blind friendly
 	if (!is.null(brewer_palette)) {

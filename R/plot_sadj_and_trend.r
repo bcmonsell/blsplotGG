@@ -1,9 +1,10 @@
 #' Plot X-13 seasonal adjustment, trend on same axis
 #'
 #' Generates a \code{ggplot} object with a time series plot that compares an X-13 
-#' seasonal adjustment and trend, optionally including the original series.
+#' seasonal adjustment and trend, extracted from a \code{seas} object. 
+#' The plot optionally includes the original series.
 #'
-#' Version 2.3, 6/24/2025
+#' Version 3.5, 2/17/2026
 #'
 #' @param seas_obj \code{seas} object generated from a call of \code{seas} on a single time series
 #'        This is a required entry.
@@ -23,18 +24,32 @@
 #'        or 3 (if \code{plot_ori} is \code{TRUE}); color used for lines in the plot,
 #'        in the order of original series (if specified), seasonally adjusted series, trend. 
 #'        Default is generated from the \code{RColorBrewer} palette \code{"Dark2"}.
-#' @param this_palette Character string; default \code{RColorBrewer} palette.
+#'        For a listing of R color codes, 
+#'        see \insertCite{rchartsColors;textual}{blsplotGG}.
+#' @param this_palette Character string; default \code{RColorBrewer} palette \insertCite{RColorBrewer}{blsplotGG}.
 #'        Deault is \code{"Dark2"}.
 #' @param line_label Caracter vector of length 2; labels used for lines in the plot,
 #'        in the order of original series, seasonally adjusted series. 
 #'        Default is \code{c("Ori", "SA", "Trend")} (if original series plotted) or
 #'        \code{c("SA", "Trend")}.
-#' @param this_guide_legend Title for legend.  Default is \code{"Series"}
+#' @param this_legend_title Title for legend.  Default is \code{"Series"}
+#' @param this_legend_title_size integer scalar; Size of the legend title.
+#'        Default is \code{12}.
+#' @param this_legend_text_size integer scalar; Size of the legend title.
+#'        Default is \code{10}.
+#' @param this_legend_position character String; The position of the legend, which can be one of
+#'        \code{top}, \code{bottom}, \code{left}, \code{right}.
+#'        Default is \code{right}.
+#' @param this_legend_space integer scalar; Space between legend and plot in points.
+#'        Default is \code{10}.
 #' @return A \code{ggplot} object that generates a plot comparing a 
 #'         seasonally adjusted series with the trend generated from the same
 #'         X-13ARIMA-SEATS seasonal adjustment.
 #'
 #' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
+#'
+#' @references
+#'  \insertAllCited{}
 #'
 #' @examples
 #' ukgas_x11_seas   <- 
@@ -58,8 +73,9 @@
 #'                         sub_title = "SEATS Seasonal Adjustment",
 #'                         line_color = c("steelblue", "forestgreen"))
 #' @importFrom rlang .data
-#' @export
 #' @importFrom magrittr %>%
+#' @importFrom Rdpack reprompt
+#' @export
 plot_sadj_and_trend <- 
     function(seas_obj = NULL, 
              plot_ori = TRUE, 
@@ -72,8 +88,12 @@ plot_sadj_and_trend <-
              line_color = NULL, 
              this_palette = "Dark2",
              line_label = NULL,
-             this_guide_legend = "Series") {
-    # Author: Brian C. Monsell (OEUS) Version 2.3, 6/24/2025
+             this_legend_title = "Series",
+			 this_legend_title_size = 12,
+			 this_legend_text_size = 10,
+			 this_legend_position = "right",
+			 this_legend_space = 10) {
+    # Author: Brian C. Monsell (OEUS) Version 3.5, 2/17/2026
 
     # check if a value is specified for \code{seas_obj}
     if (is.null(seas_obj)) {
@@ -109,6 +129,25 @@ plot_sadj_and_trend <-
 	if (is.null(main_title)) {
 		main_title <- 
 			paste0(this_sa_type, " Seasonal Adjutment and Trend")
+	}
+	
+	# check legend options 
+	position_all <- c("top", "bottom", "left", "right")
+	if(sum(match(position_all, this_legend_position), na.rm = TRUE) == 0) {
+        cat(paste("Legend position choice not valid:", this_legend_position))
+		return(NULL)
+	}
+	
+	if(this_legend_text_size <= 0) {
+        cat(paste("Legend text size not valid (must be greater than zero):", 
+		           this_legend_text_size))
+		return(NULL)
+	}
+	
+	if(this_legend_title_size <= 0) {
+        cat(paste("Legend title text size not valid (must be greater than zero):", 
+		           this_legend_title_size))
+		return(NULL)
 	}
     
     num_color <- 3
@@ -177,7 +216,7 @@ plot_sadj_and_trend <-
     
     p_sadj_trend <- 
 		p_sadj_trend + 
-			ggplot2::guides(color = ggplot2::guide_legend(this_guide_legend))
+			ggplot2::guides(color = ggplot2::guide_legend(this_legend_title))
 	
 	# remove grey background if \code{do_background = FALSE} 
     if (!do_background) {
@@ -190,6 +229,12 @@ plot_sadj_and_trend <-
 		    ggplot2::theme(panel.grid.major = ggplot2::element_blank(), 
 			               panel.grid.minor = ggplot2::element_blank())
 	}
+
+	p_sadj_trend <- p_sadj_trend +
+		ggplot2::theme(legend.text = ggplot2::element_text(size = this_legend_text_size),
+		               legend.title = ggplot2::element_text(size = this_legend_title_size),
+					   legend.position = this_legend_position,
+					   legend.box.spacing = ggplot2::unit(this_legend_space, "pt"))
        
 	return(p_sadj_trend)
 }

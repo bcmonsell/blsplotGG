@@ -2,7 +2,7 @@
 #'
 #' Generate plot of spectrum of original series and seasonally adjusted series on same axis.
 #'
-#' Version 2.5, 7/1/2024
+#' Version 3.0, 12/9/2025
 #'
 #' @param seas_obj \code{seas} object generated from a call of \code{seas} on a single time series
 #'                  This is a required entry.
@@ -42,15 +42,17 @@ plot_double_spectrum <- function(seas_obj = NULL, xaxis_bls = TRUE,
                                  this_median_color = c("blue", "green"),
                                  this_freq_color = c("steelblue", "forestgreen"), 
                                  this_peak_color = c("violet", "brown")) {
-    # Author: Brian C. Monsell (OEUS) Version 2.5, 7/1/2024
+    # Author: Brian C. Monsell (OEUS) Version 3.0, 12/9/2025
 
     # check if a value is specified for \code{seas_obj}
     if (is.null(seas_obj)) {
-        stop("must specify a seas object")
+        cat("must specify a seas object")
+		return(NULL)
     } else {
     # check if a seas object is specified for \code{seas_obj}
         if (!inherits(seas_obj, "seas")) {
-            stop("First argument must be a seas object")
+            cat("First argument must be a seas object")
+			return(NULL)
         }
     }
 
@@ -61,7 +63,8 @@ plot_double_spectrum <- function(seas_obj = NULL, xaxis_bls = TRUE,
         sp1 <- seasonal::series(seas_obj, "s1s")
         # if not available, print error message and stop
         if (is.null(sp1)) {
-            stop("unable to extract spectrum of seasonally adjusted series")
+            cat("unable to extract spectrum of seasonally adjusted series")
+			return(NULL)
         }
     }
     
@@ -148,7 +151,9 @@ plot_double_spectrum <- function(seas_obj = NULL, xaxis_bls = TRUE,
 
     # determine if there are visually significant peaks in the spectrum of the original series.
     vp_ori_seas <- visual_sig_peaks(seas_obj, "ori")
+	if (is.null(vp_ori_seas)) { return(NULL) }
     vp_ori_td <-   visual_sig_peaks(seas_obj, "ori", "td")
+	if (is.null(vp_ori_td)) { return(NULL) }
 
     # Add stars for visually significant seasonal peaks.
     if (vp_ori_seas[1] > 0) {
@@ -172,7 +177,9 @@ plot_double_spectrum <- function(seas_obj = NULL, xaxis_bls = TRUE,
 
     # determine if there are visually significant peaks in the spectrum of the SA series.
     vp_sa_seas <- visual_sig_peaks(seas_obj, "sa")
+	if (is.null(vp_sa_seas)) { return(NULL) }
     vp_sa_td <-   visual_sig_peaks(seas_obj, "sa", "td")
+	if (is.null(vp_sa_td)) { return(NULL) }
 
     # Add stars for visually significant seasonal peaks.
     if (vp_sa_seas[1] > 0) {

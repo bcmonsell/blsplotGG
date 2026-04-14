@@ -7,20 +7,21 @@
 plot_ratio_two(
   ratio_one = NULL,
   ratio_two = NULL,
-  ratio_range = NULL,
+  ratio_range_one = NULL,
+  ratio_range_two = NULL,
   do_comparison_plot = TRUE,
   overall_title = NULL,
   ratio_one_title = "First Ratio Plot",
   ratio_two_title = "Second Ratio Plot",
+  title_size = 10,
   remove_fcst_one = NULL,
   remove_fcst_two = NULL,
   comparison_title = "Comparison Plot",
-  this_x_label = NULL,
-  this_y_label = NULL,
   do_grid = FALSE,
   do_background = FALSE,
   add_line = TRUE,
-  ratio_mean = c(1, 1),
+  ratio_mean_one = NULL,
+  ratio_mean_two = NULL,
   ratio_color = "steelblue"
 )
 }
@@ -33,8 +34,11 @@ This is a required entry.}
 a high definition plot.
 This is a required entry.}
 
-\item{ratio_range}{Range of values you wish the plot to be plotted over.
-Default is range of the series, if they are the same type of factor.}
+\item{ratio_range_one}{Range of values you wish the plot to be plotted over for the first ratio series.
+Default is range of the first series.}
+
+\item{ratio_range_two}{Range of values you wish the plot to be plotted over for the second ratio series.
+Default is range of the second series.}
 
 \item{do_comparison_plot}{Logical scalar. If TRUE, a ratio/difference plot of the two
 factors will be generated from \code{ratio_one} and \code{ratio_two},
@@ -50,6 +54,10 @@ Default is character string \code{'First Ratio Plot'}.}
 \item{ratio_two_title}{Title for the plot.
 Default is character string \code{'Second Ratio Plot'}.}
 
+\item{title_size}{integer scalar; Size of the component titles.
+The overall title size will be \code{title_size} + 2.
+Default is \code{10}.}
+
 \item{remove_fcst_one}{Integer scalar; indicates forecasts to be removed from
 \code{ratio_one} before plotting.
 Default is no forecasts removed;}
@@ -61,10 +69,6 @@ Default is no forecasts removed;}
 \item{comparison_title}{Title for the comparison plot, if requested.
 Default is character string \code{'Comparison Plot'}.}
 
-\item{this_x_label}{Label for X axis. Default is \code{"Time"}.}
-
-\item{this_y_label}{Label for Y axis. Default is \code{"Ratio"}.}
-
 \item{do_grid}{Logical scalar; indicates if certain plots will have grid lines.
 Default is no grid lines.}
 
@@ -74,8 +78,11 @@ Default is no grey background;}
 \item{add_line}{Logical scalar; add solid line for assumed mean.
 Default is \code{TRUE}.}
 
-\item{ratio_mean}{Numeric vector of length two; the assumed mean value for the
-ratio of each series.  Default is \code{c(1.0, 1.0)}}
+\item{ratio_mean_one}{Assumend mean for the first ratio series.
+Default is 1.0 if \code{ratio_range_one} has both elements greater than zero, zero otherwise.}
+
+\item{ratio_mean_two}{Assumend mean for the second ratio series.
+Default is 1.0 if \code{ratio_range_two} has both elements greater than zero, zero otherwise.}
 
 \item{ratio_color}{Color used for lines in ratio plot.
 Default is \code{"steelblue"}.}
@@ -88,7 +95,7 @@ Generates ratio plots for two series, and a third plot of the ratio/difference o
 the two series if the user requests it.
 }
 \details{
-Version 2.3, 6/18/2025
+Version 3.5, 1/6/2026
 }
 \examples{
 ukgas_x11_seas   <- 
@@ -110,6 +117,22 @@ ukgas_sf_two_plot <-
 		ratio_two_title = "SEATS Seasonal Factors",
 		comparison_title = "Ratio of Seasonal Factors (X11 / SEATS)",
          ratio_color = "darkgreen")
+
+ukgas_seats_add_seas <-
+   seasonal::seas(UKgas, series.period = 4, arima.model = "(0 1 1)(0 1 1)",
+                  transform.function = "none", forecast.maxlead = 20,
+                  seats.save = c("s10", "s11"), series.appendfcst = "no",
+                  check.print = c( 'pacf', 'pacfplot' ))
+ukgas_seats_add_sf    <- seasonal::series(ukgas_seats_add_seas, "s10")
+
+ukgas_sf_two_plot_add_mult <-
+    plot_ratio_two(ukgas_seats_add_sf, ukgas_seats_sf,
+         overall_title = "UK Gas Production",
+         ratio_one_title = "SEATS Additive Seasonal Factors",
+         ratio_two_title = "SEATS Seasonal Factors",
+         do_comparison_plot = FALSE,
+         ratio_color = "darkgreen")
+
 }
 \author{
 Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}

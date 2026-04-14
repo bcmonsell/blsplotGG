@@ -9,19 +9,23 @@ display_color_blind_palettes(this_category = NULL)
 \arguments{
 \item{this_category}{Character string; specify which catagory of color palette will be returned.
 Possible choices are \code{"div"} (diverging), \code{"qual"} (qualitative), \code{"seq"}.
-If not specified, all color palettes are returned}
+If not specified, all color palettes are returned.}
 }
 \value{
 Vector of color palette names from the \code{RColorBrewer} package that can be distinguished by color-blind people.
 }
 \description{
-Returns the names of color palettes from the \code{RColorBrewer} package that can be distinguished by color-blind people.
+Returns the names of color palettes from the \code{RColorBrewer} package \insertCite{RColorBrewer}{blsplotGG}
+that can be distinguished by color-blind people.
 }
 \details{
-Version 1.3, 3/6/2024
+Version 1.5, 2/10/2026
 }
 \examples{
 qual_color_blind_palettes <- display_color_blind_palettes("qual")
+}
+\references{
+\insertAllCited{}
 }
 \author{
 Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}

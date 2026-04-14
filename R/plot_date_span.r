@@ -3,7 +3,7 @@
 #' Shortens the time span of an existing time series \code{ggplot} object by limiting the 
 #' X axis to user specified dates.
 #' 
-#' Version 2.2, 8/29/2024
+#' Version 2.4, 12/30/2025
 #'
 #' @param this_p A \code{ggplot} object of a time series plot. 
 #'               This is a required entry.
@@ -38,7 +38,8 @@
 #'     x = "Time",
 #'     y = "Airline Passengers")
 #' air_short_p <- 
-#'    plot_date_span(air_p, "1-1-1956", "1-1-1962", reset_y_limit = TRUE)
+#'    plot_date_span(air_p, "1-1-1956", "12-31-1960", 
+#'                   reset_y_limit = TRUE)
 #' @export
 plot_date_span <- 
   function(this_p = NULL, 
@@ -47,14 +48,14 @@ plot_date_span <-
            this_date_breaks = "1 year",
            this_date_format = "%Y", 
            reset_y_limit = FALSE) {
-    # Author: Brian C. Monsell (OEUS) Version 2.2, 8/29/2024
+    # Author: Brian C. Monsell (OEUS) Version 2.4, 12/30/2025
  
 #  check if \code{this_p} is specified and is a list object
     if (is.null(this_p)) {
         cat("must specify ggplot graph object")
         return(NULL)
     } else {
-        if (!ggplot2::is.ggplot(this_p)) {
+        if (!ggplot2::is_ggplot(this_p)) {
             cat("must specify ggplot graph object")
             return(NULL)
         }

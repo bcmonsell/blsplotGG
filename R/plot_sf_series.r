@@ -2,7 +2,7 @@
 #'
 #' Generates a special plot of the seasonal factors grouped by month/quarter. 
 #'
-#' Version 2.3, 12/11/2024
+#' Version 3.1, 12/9/2024
 #'
 #' @param this_sf array of seasonal factors stored as a time series
 #' @param y_limit Numeric vector of length 2; Range of values you wish the plot to be plotted over. 
@@ -26,9 +26,14 @@
 #' @param this_legend_title Character string; indicates title of legend. Default is \code{'Series'}.
 #' @param this_legend_text Array of character strings; indicates text for each seasonal factor in plot. 
 #'        Default is \code{c("SF", "SF Mean")}.
-#' @param legend_title_size integer scalar; Size of the legend title.
+#' @param this_legend_title_size integer scalar; Size of the legend title.
 #'        Default is \code{12}.
-#' @param legend_text_size integer scalar; Size of the legend title.
+#' @param this_legend_text_size integer scalar; Size of the legend title.
+#'        Default is \code{10}.
+#' @param this_legend_position character String; The position of the legend, which can be one of
+#'        \code{top}, \code{bottom}, \code{left}, \code{right}.
+#'        Default is \code{right}.
+#' @param this_legend_space integer scalar; Space between legend and plot in points.
 #'        Default is \code{10}.
 #' @return A \code{ggplot} object which generates a plot of the seasonal factors 
 #'        (and the SI-ratios) grouped by month/quarter.
@@ -46,7 +51,9 @@
 #'    this_color_sf = 'darkgreen', 
 #'    this_color_mean = 'lightgreen',
 #'    this_legend_title = 'X-11 Seasonal',
-#'    this_legend_text = c('sf', 'mean'))
+#'    this_legend_text = c('sf', 'mean'),
+#'    this_legend_position = "bottom",
+#'    this_legend_space = 0)
 #' @import graphics
 #' @import stats
 #' @export
@@ -65,14 +72,37 @@ plot_sf_series <-
 			 add_mean_line = TRUE,
 			 this_legend_title = "SF Plot", 
 			 this_legend_text = c("SF", "SF Mean"),
-			 legend_title_size = 12,
-			 legend_text_size = 10) {
-    # Author: Brian C. Monsell (OEUS) Version 2.3, 12/11/2024
+			 this_legend_title_size = 12,
+			 this_legend_text_size = 10,
+			 this_legend_position = "right",
+			 this_legend_space = 10) {
+    # Author: Brian C. Monsell (OEUS) Version 3.1, 12/9/2024
 
     # check if a value is specified for \code{this_sf}
     if (is.null(this_sf)) {
-        stop("must specify a set of seasonal factors")
+        cat("must specify a set of seasonal factors")
+		return(NULL)
     }
+	
+	# check legend options 
+	position_all <- c("top", "bottom", "left", "right")
+	if(sum(match(position_all, this_legend_position), na.rm = TRUE) == 0) {
+        cat(paste("Legend position choice not valid:", this_legend_position))
+		return(NULL)
+	}
+	
+	if(this_legend_text_size <= 0) {
+        cat(paste("Legend text size not valid (must be greater than zero):", 
+		           this_legend_text_size))
+		return(NULL)
+	}
+	
+	if(this_legend_title_size <= 0) {
+        cat(paste("Legend title text size not valid (must be greater than zero):", 
+		           this_legend_title_size))
+		return(NULL)
+	}
+
 
     # Extract cycle and frequency
     sf_period <- cycle(this_sf)
@@ -170,14 +200,9 @@ plot_sf_series <-
                                     breaks = 1:freq, 
                                     labels = this_label) +
         ggplot2::scale_color_manual(values = c(this_color_mean, this_color_sf)) +
-		ggplot2::geom_hline(yintercept = h_bar)
+		ggplot2::geom_hline(yintercept = h_bar) +
+        ggplot2::guides(color = ggplot2::guide_legend(this_legend_title))
     
-    p_sf$labels$colour <- this_legend_title
-	p_sf <- p_sf + 
-		ggplot2::theme(legend.text = ggplot2::element_text(size = legend_text_size),
-					   legend.title = ggplot2::element_text(size = legend_title_size))
-
-
 	# remove grey background if \code{do_background = FALSE} 
     if (!do_background) {
 		p_sf <- p_sf + ggplot2::theme_bw()
@@ -189,6 +214,12 @@ plot_sf_series <-
 		    ggplot2::theme(panel.grid.major = ggplot2::element_blank(), 
 			               panel.grid.minor = ggplot2::element_blank())
     }
+
+	p_sf <- p_sf + 
+		ggplot2::theme(legend.text = ggplot2::element_text(size = this_legend_text_size),
+					   legend.title = ggplot2::element_text(size = this_legend_title_size),
+					   legend.position = this_legend_position,
+					   legend.box.spacing = ggplot2::unit(this_legend_space, "pt"))
 
 	return(p_sf)
 }

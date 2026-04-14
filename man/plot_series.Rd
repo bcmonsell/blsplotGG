@@ -6,6 +6,7 @@
 \usage{
 plot_series(
   this_series = NULL,
+  plot_range = NULL,
   this_series_name = NULL,
   main_title = NULL,
   sub_title = NULL,
@@ -23,8 +24,11 @@ plot_series(
 )
 }
 \arguments{
-\item{this_series}{Time series object;
+\item{this_series}{A \code{ts} object;
 This is a required entry.}
+
+\item{plot_range}{Range of values you wish the plot to be plotted over.
+Default is range of the series.}
 
 \item{this_series_name}{Character string; name of time series.
 No default.}
@@ -75,10 +79,10 @@ Generate \code{ggplot} plot of user-specified series.
 If series not specified, print out error message and return NULL.
 }
 \description{
-Generate plot of user-specified time series (ts) object.
+Generate plot of user-specified time series (\code{ts}) object.
 }
 \details{
-Version 2.5, 11/6/2024
+Version 3.0, 1/14/2026
 }
 \examples{
 air_seas <- 

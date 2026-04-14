@@ -13,9 +13,14 @@ plot_maximum_percent_difference_by_period(
   this_x_label = NULL,
   do_grid = FALSE,
   do_background = FALSE,
-  line_color = NULL,
+  point_color = NULL,
   this_palette = "Set3",
-  cut_color = "red"
+  cut_color = "red",
+  this_legend_title = "Year",
+  this_legend_position = "right",
+  this_legend_size = NULL,
+  this_legend_order = NULL,
+  this_legend_space = NULL
 )
 }
 \arguments{
@@ -44,15 +49,31 @@ Default is no grid lines.}
 \item{do_background}{Logical scalar; indicates grey background included in plot.
 Default is no grey background.}
 
-\item{line_color}{Character scalar; color used for plot.
-User should specify one color for each column of the matrix specified.
-Default is the \code{RColorBrewer} palette \code{"Set3"}.}
+\item{point_color}{Character scalar; color used for points in this plot.
+User should specify one color for each year of the sliding spans.
+Default is the \code{RColorBrewer} palette \code{"Set3"}. For a listing of R color codes,
+see \insertCite{rchartsColors;textual}{blsplotGG}.}
 
-\item{this_palette}{Character string; default \code{RColorBrewer} palette.
+\item{this_palette}{Character string; default \code{RColorBrewer} palette \insertCite{RColorBrewer}{blsplotGG}.
 Default is \code{"Set3"}.}
 
 \item{cut_color}{Color use to show the slidings spans cut off for this type of series.
 Default is \code{"red"}.}
+
+\item{this_legend_title}{Title for legend.  Default is \code{"Year"}.}
+
+\item{this_legend_position}{character String; The position of the legend, which can be one of
+\code{top}, \code{bottom}, \code{left}, \code{right}.
+Default is \code{right}.}
+
+\item{this_legend_size}{Numeric scalar; indicates the size of several attributes of the plot legend,
+in centimeters. Default value is \code{1}.}
+
+\item{this_legend_order}{Character vector; indicates the order of entries in the legend.
+Default order is determined by \code{ggplot2}.}
+
+\item{this_legend_space}{integer scalar; Space between legend and plot in points.
+Default is \code{10}.}
 }
 \value{
 Generate \code{ggplot} object generating a plot of the maximum percent
@@ -60,10 +81,12 @@ difference from a sliding spans analysis by month or quarter
 }
 \description{
 Generate a plot of the maximum percent difference from a sliding spans analysis by
-month or quarter.
+month or quarter.  For more information on sliding spans analysis,
+\insertCite{@see Sections 6.2 and 7.13 of @Census2025;textual}{blsplotGG}, with more
+details on sliding spans analysis in \insertCite{Findley90;textual}{blsplotGG}.
 }
 \details{
-Version 1.4, 11/7/2024
+Version 4.6, 2/18/2026
 }
 \examples{
 shoes_sspan_seas <- 
@@ -77,6 +100,9 @@ p_shoes_maxpct_sf <-
                        main_title = "Maximum Percent Difference Plot of Seasonal Factors",
                        sub_title = "US Shoe Sales",
                        this_palette = "Paired")
+}
+\references{
+\insertAllCited{}
 }
 \author{
 Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}

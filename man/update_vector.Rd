@@ -17,7 +17,7 @@ An updated vector of length \code{this_num} augmented with the first value of th
 input series.
 }
 \description{
-Fill unspecified elements of a vector with the first element of the input series
+Fill unspecified elements of a vector with the first element of the input series.
 }
 \details{
 Version 2.3, 5/25/2023

@@ -3,7 +3,7 @@
 #' Generates a \code{ggplot} object with a time series facet plot that compares two 
 #' seasonal adjustments of the same series, optionally including the original series.
 #'
-#' Version 3.3, 9/9/2024
+#' Version 7.4, 2/17/2026
 #'
 #' @param this_sa_one Time series of the first seasonal adjustment. 
 #'                    This is a required entry.
@@ -14,14 +14,26 @@
 #' @param sub_title Subtitle for the plot. Optional entry.
 #' @param this_x_label Label for X-axis.  Default is \code{"Time"}
 #' @param this_y_label Label for Y-axis.  Default is \code{" "}
-#' @param this_sa_text Labels for different seasonal adjustments.  Default is \code{c('X-11', 'SEATS')}
 #' @param line_color Color used for lines in plot.  Default is \code{"steelblue"}.
-#' @param remove_legend Logical scalar; if TRUE, plot legend will be removed.
-#'        Default is FALSE.
+#'        For a listing of R color codes, 
+#'        see \insertCite{rchartsColors;textual}{blsplotGG}.
+#' @param this_sa_text Caracter vector of length 2; labels for different seasonal adjustments.  
+#'        Note that if \code{this_ori} is set, the label for that line will be set as \code{"Ori"}.
+#'        Default is \code{c("sadj1", "sadj2")}.
+#' @param do_grid Logical scalar; indicates if certain plots will have grid lines. 
+#'        Default is no grid lines. 
+#' @param do_background Logical scalar; indicates grey background included in plot.
+#'        Default is no grey background;
+#' @param this_scale Character scalar; set the scale for the y-axis of the facet plots. 
+#'        Default is \code{"fixed"}.  To set axis to be different for the different plots,
+#'        set \code{this_scale = "free_y"}.
 #' @return A \code{ggplot} object that generates a facet plot comparing two seasonal adjustments,
 #'         trends, or factors.
 #'
 #' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
+#'
+#' @references
+#'  \insertAllCited{}
 #'
 #' @examples
 #' ukgas_x11_seas   <- 
@@ -36,62 +48,72 @@
 #' ukgas_x11_sa     <- seasonal::final(ukgas_x11_seas)
 #' ukgas_seats_sa   <- seasonal::final(ukgas_seats_seas)
 #' ukgas_two_sa_facet_p <- 
-#'     plot_two_sa_facet(this_sa_one = ukgas_x11_sa, this_sa_two = ukgas_seats_sa,
+#'     plot_two_sa_facet(this_sa_one = ukgas_x11_sa, 
+#'                       this_sa_two = ukgas_seats_sa,
 #'                       main_title = "UK Gas Seasonal Adjustments",
-#'                       line_color = "forestgreen")
+#'                       line_color = "forestgreen",
+#'                       this_sa_text = c("X-11", "Seats"))
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
-##' @export
+#' @importFrom Rdpack reprompt
+#' @export
 plot_two_sa_facet <- 
-    function(this_sa_one = NULL, this_sa_two = NULL, this_ori = NULL, 
-             main_title = "Compare X-11 and SEATS",  sub_title = NULL, 
-             this_x_label = "Time", this_y_label = " ", this_sa_text = c("X-11", "SEATS"),
-             line_color = "steelblue", remove_legend = FALSE) {
-    # Author: Brian C. Monsell (OEUS) Version 3.3, 9/9/2024
+    function(this_sa_one = NULL, 
+	         this_sa_two = NULL, 
+			 this_ori = NULL, 
+             main_title = "Compare X-11 and SEATS",  
+			 sub_title = NULL, 
+             this_x_label = "Time", 
+			 this_y_label = " ", 
+             line_color = "steelblue", 
+			 this_sa_text = c("sadj1", "sadj2"),
+			 do_grid = FALSE, 
+			 do_background = FALSE, 
+			 this_scale = "fixed") {
+    # Author: Brian C. Monsell (OEUS) Version 7.4, 2/17/2026
 
     if (is.null(this_sa_one)) {
         cat("must specify the first seasonally adjusted series")
         return(NULL)
     } else {
         # check if \code{this_sa_one} is a ts object
-	if (!is.ts(this_sa_one)) {
-	    cat("must specify a ts object")
+		if (!is.ts(this_sa_one)) {
+			cat("must specify a ts object")
             return(NULL)
-	}
+		}
     }
+	
     if (is.null(this_sa_two)) {
         cat("must specify the second seasonally adjusted series")
         return(NULL)
     } else {
         # check if \code{this_sa_two} is a ts object
-	if (!is.ts(this_sa_two)) {
-	    cat("must specify a ts object")
+		if (!is.ts(this_sa_two)) {
+			cat("must specify a ts object")
             return(NULL)
-	}
+		}
     }
-    
-    if (is.null(this_ori)) {
+	
+   if (is.null(this_ori)) {
         this_facet_df <- 
             data.frame(date = tsbox::ts_df(this_sa_one)$time, 
 	               one.sa = as.double(this_sa_one), 
 	               two.sa = as.double(this_sa_two)) %>%
 		dplyr::select(.data$date, .data$one.sa, .data$two.sa) %>%
 		tidyr::gather(key = "series", value = "value", -date)
-		
-	p_two_sa_facet <- 
-		ggplot2::ggplot(this_facet_df, 
-		                ggplot2::aes(y = .data$value, x = .data$date, 
+        
+		p_two_sa_facet <- 
+			ggplot2::ggplot(this_facet_df, 
+				ggplot2::aes(y = .data$value, x = .data$date, 
 		                             color = .data$series)) +  
-			ggplot2::geom_line() + 
-			ggplot2::scale_color_manual(values = c("one.sa" = line_color[1], 
-			                                       "two.sa" = line_color[2]), 
-			                            labels = this_sa_text) +								
-      ggplot2::facet_grid(dplyr::case_when(.data$series == "one.sa" ~ this_sa_text[1],
-                                           .data$series == "two.sa" ~ this_sa_text[2]) ~ .) +
-      ggplot2::labs(title = main_title,
+			ggplot2::geom_line(color = line_color) + 
+			ggplot2::facet_grid(factor(.data$series, 
+	                             levels = c("one.sa", "two.sa"), 
+								 labels = this_sa_text) ~ ., scale = this_scale) +
+			ggplot2::labs(title = main_title,
                     subtitle = sub_title,
                     x = this_x_label,
-                    y = this_y_label)
+                    y = this_y_label) 
         
     } else {
         this_facet_df <- 
@@ -102,28 +124,33 @@ plot_two_sa_facet <-
 	        dplyr::select(.data$date, .data$ori, .data$one.sa, .data$two.sa) %>%
 	        tidyr::gather(key = "series", value = "value", -date)
 	        
-	p_two_sa_facet <- 
-	   ggplot2::ggplot(this_facet_df, 
-	         ggplot2::aes(y = .data$value, x = .data$date, 
-	                      colour = .data$series)) +  
-           ggplot2::geom_line() + 
-		       ggplot2::scale_color_manual(values = c("ori" = line_color[1], 
-		                                          "one.sa" = line_color[2], 
-												                      "two.sa" = line_color[3]),
-                                   labels = this_sa_text) +								
-           ggplot2::facet_grid(dplyr::case_when(.data$series == "ori" ~ "Ori",
-                                                .data$series == "one.sa" ~ this_sa_text[1],
-                                                .data$series == "two.sa" ~ this_sa_text[1]) ~ .) + 
-           ggplot2::labs(title = main_title,
+		p_two_sa_facet <- 
+			ggplot2::ggplot(this_facet_df, 
+				ggplot2::aes(y = .data$value, x = .data$date, 
+	                     colour = .data$series)) +  
+			ggplot2::geom_line(color = line_color) + 
+			ggplot2::facet_grid(factor(.data$series, 
+	                             levels = c("ori", "one.sa", "two.sa"), 
+								 labels = c("Ori", this_sa_text)) ~ ., scale = this_scale) +
+			ggplot2::labs(title = main_title,
                          subtitle = sub_title,
                          x = this_x_label,
-                         y = this_y_label)
+                         y = this_y_label) 
     }
-    
-	if (remove_legend) {
-	    p_two_sa_facet <- 
-	      p_two_sa_facet + ggplot2::theme(legend.position = "none")
-	}
+        
+      # remove grey background if \code{do_background = FALSE} 
+    if (!do_background) {
+		p_two_sa_facet <- p_two_sa_facet + ggplot2::theme_bw()
+    }
+      
+      # remove grid lines if \code{do_grid = FALSE}
+    if (!do_grid) {
+        p_two_sa_facet <- p_two_sa_facet + 
+          ggplot2::theme(panel.grid.major = ggplot2::element_blank(), 
+                         panel.grid.minor = ggplot2::element_blank())
+    }
 	
+	p_two_sa_facet <- p_two_sa_facet + ggplot2::theme(legend.position = "none")
+      
     return(p_two_sa_facet)
 }

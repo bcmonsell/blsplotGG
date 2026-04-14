@@ -1,6 +1,6 @@
 Package: blsplotGG
 Title: Plots for Seasonal Adjustment Analysts using ggplot2
-Version: 2.1.2
+Version: 2.2
 Authors@R: 
     person(given = "Brian",
            family = "Monsell",
@@ -18,18 +18,19 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: TRUE
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Imports:
     astsa,
 	BrailleR,
     dplyr (>= 1.0.10),
-    ggfortify,
+    forecast (>= 3.5.0),
     ggplot2 (>= 3.0.0),
 	ggpubr,
 	grDevices,
     lubridate,
     magrittr (>= 1.5),
 	RColorBrewer,
+	Rdpack,
     rlang (>= 1.1.1),
 	scales (>= 1.3.0),
     seasonal (>= 1.10.0),
@@ -41,3 +42,4 @@ Suggests:
     zoo
 Depends: 
     R (>= 3.5)
+RdMacros: Rdpack

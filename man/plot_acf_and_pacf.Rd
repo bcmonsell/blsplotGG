@@ -60,10 +60,10 @@ A \code{ggplot} object that produces an ACF and PACF plot for the regARIMA
 model residuals.
 }
 \description{
-Generate a single plot with ACF and PACF of the regARIMA model residuals.
+Generate a single plot with ACF and PACF of the regARIMA model residuals using a \code{seas} object as input.
 }
 \details{
-Version 4.0, 2/18/2025
+Version 4.1, 12/30/2025
 }
 \examples{
 ukgas_x11_seas <- 

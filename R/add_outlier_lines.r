@@ -2,7 +2,7 @@
 #'
 #' add lines for outliers to a ggplot plot object
 #'
-#' Version 3.2, 9/5/2024
+#' Version 4.5, 2/17/2026
 #'
 #' @param this_p A \code{ggplot} object of a time series plot. 
 #'        This is a required entry.
@@ -10,8 +10,9 @@
 #'        This is a required entry.
 #' @param line_color Character array of length 6; color used for different outliers, with the order being 
 #'        \code{'ao', 'ls', 'tc', 'so', 'rp', 'tls'}. 
-#'        Default is the \code{RColorBrewer} palette \code{"Dark2"}.
-#' @param this_palette Character string; default \code{RColorBrewer} palette.
+#'        Default is the \code{RColorBrewer} palette \code{"Dark2"}. For a listing of R color codes, 
+#'        see \insertCite{rchartsColors;textual}{blsplotGG}.
+#' @param this_palette Character string; default \code{RColorBrewer} palette \insertCite{RColorBrewer}{blsplotGG}.
 #'        Deault is \code{"Dark2"}.
 #' @param this_line_type Character array of length 6; Line type used for different outliers, with the order being 
 #'        \code{'ao', 'ls', 'tc', 'so', 'rp', 'tls'}. 
@@ -19,6 +20,9 @@
 #' @return Revised \code{ggplot} object with lines for outliers added.
 #'
 #' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
+#'
+#' @references
+#'  \insertAllCited{}
 #'
 #' @examples
 #' air_seas <- 
@@ -45,6 +49,7 @@
 #'                       this_line_type = rep("dotted", 6))
 #' @importFrom rlang .data
 #' @import stats
+#' @importFrom Rdpack reprompt
 #' @export
 add_outlier_lines <- 
     function(this_p = NULL, 
@@ -52,14 +57,14 @@ add_outlier_lines <-
              line_color = c("red", "blue", 'orangered', "green", "steelblue", "blue"),
 			 this_palette = "Dark2", 
              this_line_type = c("dashed", "dotdash", "dashed", "twodash", "dotdash", "dotdash")) {
-    # Author: Brian C. Monsell (OEUS) Version 3.2, 9/5/2024
+    # Author: Brian C. Monsell (OEUS) Version 4.5, 2/17/2026
   
 #   check if \code{this_p} is specified and is a list object
     if (is.null(this_p)) {
         cat("must specify a ggplot object")
         return(NULL)
     } else {
-        if (!ggplot2::is.ggplot(this_p)) {
+        if (!ggplot2::is_ggplot(this_p)) {
             cat("this is not a ggplot object")
             return(NULL)
         }
@@ -72,8 +77,9 @@ add_outlier_lines <-
     } else {
     # check if a seas object is specified for \code{seas_obj}
         if (!inherits(seas_obj, "seas")) {
-            stop("Second argument must be a seas object")
-        }
+            cat("Second argument must be a seas object")
+			return(NULL)
+       }
     }
 	
 	if (is.null(line_color)) {
@@ -92,7 +98,9 @@ add_outlier_lines <-
     i_outliers <- 1:6
 
     # generate regressors, grab series frequency
-    this_reg <- unlist(strsplit(get_reg_string(seas_obj), " "))
+	this_reg_string <- get_reg_string(seas_obj)
+	if (is.null(this_reg_string)) { return(NULL) }
+    this_reg <- unlist(strsplit(this_reg_string, " "))
     this_freq <- seasonal::udg(seas_obj, "freq")
 	n_reg <- length(this_reg)
 
@@ -113,6 +121,7 @@ add_outlier_lines <-
             if (sum(match(all_outliers, this_code), na.rm = TRUE) > 0) {
                 # process name of regressor to get outlier date(s)
                 this_o <- proc_outlier(that_reg, this_freq)
+				if (is.null(this_o)) { return(NULL) }
 				this_o_period <- this_o$period
 				if (this_freq == 4) {
 				    this_o_period <- ((this_o_period - 1) * 3) + 1

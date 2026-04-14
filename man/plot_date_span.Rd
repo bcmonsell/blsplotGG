@@ -38,7 +38,7 @@ Shortens the time span of an existing time series \code{ggplot} object by limiti
 X axis to user specified dates.
 }
 \details{
-Version 2.2, 8/29/2024
+Version 2.4, 12/30/2025
 }
 \examples{
 air_seas <- 
@@ -59,7 +59,8 @@ air_p <- ggplot2::ggplot(air_df, ggplot2::aes(x=date)) +
     x = "Time",
     y = "Airline Passengers")
 air_short_p <- 
-   plot_date_span(air_p, "1-1-1956", "1-1-1962", reset_y_limit = TRUE)
+   plot_date_span(air_p, "1-1-1956", "12-31-1960", 
+                  reset_y_limit = TRUE)
 }
 \author{
 Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}

@@ -1,6 +1,6 @@
-#' US Employment Series, four main components in a list object
+#' US Employment Series, four main components in a list object.
 #'
-#' A list object of the four main components of US Employment expressed as time series objects that end in December, 2022
+#' A list object of the four main components of US Employment expressed as time series objects that end in December, 2022.
 #'
 #' @format A list object with 4 time series elements:
 #' \describe{

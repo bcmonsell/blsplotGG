@@ -20,10 +20,10 @@ List of either year and month/quarter of outlier, or year and month/quarter of
 start and end of outlier
 }
 \description{
-Process name of outlier regressor to extract the dates associated with the outlier
+Process name of outlier regressor to extract the dates associated with the outlier.
 }
 \details{
-Version 2.1, 5/2/2024
+Version 3.1, 12/30/2025
 }
 \examples{
 air_seas <- 

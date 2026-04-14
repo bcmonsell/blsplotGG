@@ -15,7 +15,11 @@ plot_fcst_history(
   this_x_label = "Time",
   this_y_label = " ",
   this_palette = c("steelblue", "darkgreen"),
-  this_guide_legend = "Fcst History"
+  this_legend_title = "Fcst History",
+  this_legend_title_size = 12,
+  this_legend_text_size = 10,
+  this_legend_position = "right",
+  this_legend_space = 10
 )
 }
 \arguments{
@@ -49,7 +53,20 @@ Default is no grey background.}
 \item{this_palette}{Character array of length 2; color used for each forecast lag.
 Default is \code{c("steelblue", "darkgreen")}.}
 
-\item{this_guide_legend}{Title for legend.  Default is \code{"Fcst History"}}
+\item{this_legend_title}{Title for legend.  Default is \code{"Fcst History"}}
+
+\item{this_legend_title_size}{integer scalar; Size of the legend title.
+Default is \code{12}.}
+
+\item{this_legend_text_size}{integer scalar; Size of the legend title.
+Default is \code{10}.}
+
+\item{this_legend_position}{character String; The position of the legend, which can be one of
+\code{top}, \code{bottom}, \code{left}, \code{right}.
+Default is \code{right}.}
+
+\item{this_legend_space}{integer scalar; Space between legend and plot in points.
+Default is \code{10}.}
 }
 \value{
 A \code{ggplot} object that produces a forecast history plot.
@@ -57,9 +74,11 @@ If series not specified, print out error message and return NULL.
 }
 \description{
 Generate forecast history plot, which compares the sum of squared forecast errors for two models.
+This follows the theory established in \insertCite{Findley2005;textual}{blsplotGG}.
+For more information on history analysis, \insertCite{@see Chapters 6.3 and 7.8 of @Census2025;textual}{blsplotGG}.
 }
 \details{
-Version 2.5 11/6/2024
+Version 4.2, 2/10/2026
 }
 \examples{
 air_seas_mdl <- 
@@ -78,6 +97,9 @@ plot_fcst_history_air <-
     plot_fcst_history(air_seas_mdl, air_seas_mdl2, 
          main_title = 'Differences in the Sum of Squared Forecast Errors for Airline Passengers',
          name_mdl1 = 'Airline model', name_mdl2 = 'Airline model + regressors')
+}
+\references{
+\insertAllCited{}
 }
 \author{
 Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}

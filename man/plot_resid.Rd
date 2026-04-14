@@ -56,23 +56,28 @@ Default has these plots as time series line plots.}
 Default is \code{TRUE}.}
 
 \item{line_color}{Character string; color used for residuals.
-Default is \code{"green"}.}
+Default is \code{"green"}. For a listing of R color codes,
+see \insertCite{rchartsColors;textual}{blsplotGG}.}
 }
 \value{
 Generates a \code{ggplot} object of a plot of the regARIMA residuals with
 diagnostic information in the sub-headers.
 }
 \description{
-Generates a plot of the regARIMA residuals with diagnostic information
+Generates a plot of the regARIMA residuals extracted from a \code{seas} object,
+with diagnostic information added to the subtitle.
 }
 \details{
-Version 2.6, 11/6/2024
+Version 3.6, 2/17/2026
 }
 \examples{
 air_seas <- seasonal::seas(AirPassengers, arima.model = "(0 1 1)(0 1 1)")
 plot_resid_air <-
      plot_resid(air_seas, main_title = "ARIMA Residuals for Airline Passengers", 
                 use_ratio = TRUE, line_color="darkblue")
+}
+\references{
+\insertAllCited{}
 }
 \author{
 Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}

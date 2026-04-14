@@ -1,9 +1,11 @@
-#' Generate ACF plot of the regARIMA model residuals from a matrix of the ACF.
+#' Generate ACF plot from a matrix of the ACF.
 #'
-#' Generate ACF, PACF, or squared ACF plot of the regARIMA model residuals 
-#' from a matrix of the ACF.
+#' Generate ACF, PACF, or squared ACF plot of the regARIMA model residuals (or the transformed 
+#' original series in the case of the \code{identify} output of X-13ARIMA-SEATS)
+#' from a matrix of the ACF. This matrix can be extracted from a seas object produced 
+#' by the seasonal package \insertCite{seasonal2018}{blsplotGG}.
 #' 
-#' Version 3.1, 2/18/2025
+#' Version 4.3, 2/10/2026
 #'
 #' @param acf_matrix Numeric matrix containing the ACF, PACF, or squared ACF with 
 #'        columns with SE, Ljung Box Q, lags, if associated with the file.
@@ -32,6 +34,9 @@
 #'
 #' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #'
+#' @references
+#'  \insertAllCited{}
+#'
 #' @examples
 #' ukgas_x11_seas <- 
 #'    seasonal::seas(UKgas, series.period = 4, 
@@ -46,10 +51,11 @@
 #'    seasonal::series(ukgas_x11_seas, "acf")
 #' p_ukgas_acf_matrix   <- 
 #'    plot_acf_matrix(ukgas_acf_matrix, 
-#'             main_title = "UK Gas Model Squared ACF",
+#'             main_title = "UK Gas Residual ACF",
 #'             this_frequency = 4,
 #'             acf_color = "darkblue")
 #' @importFrom rlang .data
+#' @importFrom Rdpack reprompt
 #' @export
 plot_acf_matrix <- 
 	function(acf_matrix = NULL,
@@ -64,7 +70,7 @@ plot_acf_matrix <-
 			 this_frequency = 12,
 			 acf_color = "steelblue",
 			 ci_color = "grey") {
-    # Author: Brian C. Monsell (OEUS) Version 3.1, 2/18/2025
+    # Author: Brian C. Monsell (OEUS) Version 4.3, 2/10/2026
 
 	this_cf     <- acf_matrix[,1]
 	if (add_ci) {
@@ -97,25 +103,22 @@ plot_acf_matrix <-
 
 	if (add_ci) {
 		acf_df <- data.frame(
-				lag = this_lag,
+				Lag = this_lag,
 				acf = this_cf,
 				lower = this_lowerCI,
 				upper = this_upperCI)
 					
 		p_acf <- ggplot2::ggplot(acf_df) + 
-			ggplot2::geom_segment(mapping=ggplot2::aes(x=.data$lag, 
+			ggplot2::geom_segment(mapping=ggplot2::aes(x=.data$Lag, 
                                         y=acf_level, 
-                                        xend=.data$lag, 
+                                        xend=.data$Lag, 
                                         yend=.data$acf), 
 								color = acf_color) +
-			ggplot2::labs(title = main_title, 
-                      subtitle = sub_title, 
-                      y = this_y_label) + 
 			ggplot2::ylim(acf_range) + 
-			ggplot2::geom_line(ggplot2::aes(x = .data$lag, 
+			ggplot2::geom_line(ggplot2::aes(x = .data$Lag, 
                                         y = .data$lower),
                                         color = ci_color) + 
-			ggplot2::geom_line(ggplot2::aes(x = .data$lag, 
+			ggplot2::geom_line(ggplot2::aes(x = .data$Lag, 
                                         y = .data$upper),
                                         color = ci_color) + 
 			ggplot2::geom_hline(yintercept = acf_level, 
@@ -125,18 +128,15 @@ plot_acf_matrix <-
 			                            lim = c(0, maxlag+1))
 	} else {
 		acf_df <- data.frame(
-				lag = this_lag,
+				Lag = this_lag,
 				acf = this_cf)
 					
 		p_acf <- ggplot2::ggplot(acf_df) + 
-			ggplot2::geom_segment(mapping=ggplot2::aes(x=.data$lag, 
+			ggplot2::geom_segment(mapping=ggplot2::aes(x=.data$Lag, 
                                         y=acf_level, 
-                                        xend=.data$lag, 
+                                        xend=.data$Lag, 
                                         yend=.data$acf), 
                             color = acf_color) +
-			ggplot2::labs(title = main_title, 
-                      subtitle = sub_title, 
-                      y = this_y_label) + 
 			ggplot2::ylim(acf_range) + 
 			ggplot2::geom_hline(yintercept = acf_level, 
                             linetype = "solid", 
@@ -144,6 +144,13 @@ plot_acf_matrix <-
 			ggplot2::scale_x_continuous(breaks = this_x_axis_breaks, 
 			                            lim = c(0, maxlag+1))
 	}
+	
+	p_acf <- p_acf + 
+		ggplot2::labs(title = main_title, 
+			subtitle = sub_title, 
+			y = this_y_label,
+			x = this_x_label)
+
 	
 	return(p_acf)
 }

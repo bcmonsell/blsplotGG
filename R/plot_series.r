@@ -1,11 +1,13 @@
 #' Plot time series object. 
 #'
-#' Generate plot of user-specified time series (ts) object. 
+#' Generate plot of user-specified time series (\code{ts}) object. 
 #'
-#' Version 2.5, 11/6/2024
+#' Version 3.0, 1/14/2026
 #'
-#' @param this_series Time series object; 
+#' @param this_series A \code{ts} object; 
 #'        This is a required entry.
+#' @param plot_range Range of values you wish the plot to be plotted over. 
+#'        Default is range of the series.
 #' @param this_series_name Character string; name of time series. 
 #'        No default.
 #' @param main_title Character string; main title of plot. 
@@ -54,7 +56,8 @@
 #' @importFrom rlang .data
 #' @export
 plot_series <- 
-    function(this_series = NULL, 
+    function(this_series = NULL,
+		     plot_range = NULL,
              this_series_name = NULL, 
              main_title = NULL, 
              sub_title = NULL, 
@@ -69,7 +72,7 @@ plot_series <-
              recess_sub = TRUE,  
              this_line_type = "solid", 
              line_color = "grey") {
-    # Author: Brian C. Monsell (OEUS) Version 2.5, 11/6/2024
+    # Author: Brian C. Monsell (OEUS) Version 3.0, 1/14/2026
     
     # check if a value is specified for \code{this_series}
     if (is.null(this_series)) {
@@ -147,6 +150,10 @@ plot_series <-
     }
 	
     this_plot <- this_plot + ggplot2::xlab(this_x_label)
+	
+	if (!is.null(plot_range)) {
+		this_plot <- this_plot + ggplot2::ylim(plot_range)
+	}
 	
     return(this_plot)
 	

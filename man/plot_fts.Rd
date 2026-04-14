@@ -10,9 +10,16 @@ plot_fts(
   main_title = "Outlier T-Values",
   this_y_label = NULL,
   this_x_label = "Time",
-  add_identified_otl = FALSE,
+  add_identified_outliers = FALSE,
+  do_grid = FALSE,
+  do_background = FALSE,
   color_otl = NULL,
-  this_palette = "Dark2"
+  this_palette = "Dark2",
+  this_legend_title = "Outlier",
+  this_legend_title_size = 12,
+  this_legend_text_size = 10,
+  this_legend_position = "right",
+  this_legend_space = 10
 )
 }
 \arguments{
@@ -27,14 +34,35 @@ This is a requited entry.}
 
 \item{this_x_label}{Label for X axis. Default is \code{"Time"}.}
 
-\item{add_identified_otl}{Logical scalar; indicates if outlier plots will include identified outliers.
+\item{add_identified_outliers}{Logical scalar; indicates if outlier plots will include identified outliers.
 Default is not including identified outliers.}
+
+\item{do_grid}{Logical scalar; indicates if certain plots will have grid lines.
+Default is no grid lines.}
+
+\item{do_background}{Logical scalar; indicates grey background included in plot.
+Default is no grey background;}
 
 \item{color_otl}{Character array of length 3; color used for different outliers, with the order being \code{'ao','ls','tc'}.
 Default is NULL.}
 
-\item{this_palette}{Character string; default \code{RColorBrewer} palette.
+\item{this_palette}{Character string; default \code{RColorBrewer} palette \insertCite{RColorBrewer}{blsplotGG}.
 Deault is \code{"Dark2"}.}
+
+\item{this_legend_title}{Title for legend.  Default is \code{"Year"}.}
+
+\item{this_legend_title_size}{integer scalar; Size of the legend title.
+Default is \code{12}.}
+
+\item{this_legend_text_size}{integer scalar; Size of the legend title.
+Default is \code{10}.}
+
+\item{this_legend_position}{character String; The position of the legend, which can be one of
+\code{top}, \code{bottom}, \code{left}, \code{right}.
+Default is \code{right}.}
+
+\item{this_legend_space}{integer scalar; Space between legend and plot in points.
+Default is \code{10}.}
 }
 \value{
 A \code{ggplot} object which produces a plot of the final t-statistics
@@ -42,9 +70,12 @@ from the automatic outlier identification procedure.
 }
 \description{
 Generates a plot of the final t-statistics for the outlier identification procedure.
+A description of the outlier identification procedure is given in the documentation of the
+\code{outlier} spec in \insertCite{@Section 7.11 of of @Census2025;textual}{blsplotGG},
+with more details in \insertCite{@Appendix B of @Findley98;textual}{blsplotGG}.
 }
 \details{
-Version 2.6, 9/5/2024++
+Version 6.3, 2/10/2026
 }
 \examples{
 air_seas_outlier <- 
@@ -53,6 +84,13 @@ air_seas_outlier <-
 plot_fts_air <- 
     plot_fts(air_seas_outlier, 
              main_title = "Outlier T-Values for Airline Passengers")
+plot_fts_air_add_id_otl <- 
+    plot_fts(air_seas_outlier, 
+             main_title = "Outlier T-Values for Airline Passengers",
+             add_identified_outliers = TRUE)
+}
+\references{
+\insertAllCited{}
 }
 \author{
 Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}

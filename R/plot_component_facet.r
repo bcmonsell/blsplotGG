@@ -1,9 +1,11 @@
 #' Component facet plot
 #'
 #' Generates a plot for the components of a seasonal adjustment - trend, seasonal, and
-#' irreglar.
+#' irreglar - from a \code{seas} object generated from a call of \code{seas} function  
+#' of the \code{seasonal} package on a single time series 
+#' \insertCite{seasonal2018,Sax2018}{blsplotGG}.
 #'
-#' Version 1.2, 3/27/2025
+#' Version 1.5, 2/17/2026
 #'
 #' @param seas_obj \code{seas} object generated from a call of \code{seas} 
 #'        on a single time series
@@ -25,11 +27,15 @@
 #'        set \code{this_scale = "fixed"}. Note: Setting \code{this_scale = "fixed"} 
 #'        seasonal is not recommended for mulitplicative adjustments.
 #' @param line_color Color used for lines in component plot.  
-#'        Default is \code{"steelblue"}.
+#'        Default is \code{"steelblue"}. For a listing of R color codes, 
+#'        see \insertCite{rchartsColors;textual}{blsplotGG}.
 #' @return A \code{ggplot} object that generates a facet plot for the 
 #'         trend, seasonal, and irregular from the adjustment encapsulated in \code{seas_obj}.
 #'
 #' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
+#'
+#' @references
+#'  \insertAllCited{}
 #'
 #' @examples
 #' shoes_x11_seas <- 
@@ -45,6 +51,7 @@
 #'                         )
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
+#' @importFrom Rdpack reprompt
 #' @export
 plot_component_facet <- 
     function(seas_obj = NULL, 
@@ -56,7 +63,7 @@ plot_component_facet <-
 	         do_background = FALSE, 
 			 this_scale = "free_y",
 			 line_color = "steelblue") {
-    # Author: Brian C. Monsell (OEUS) Version 1.2, 3/27/2025
+    # Author: Brian C. Monsell (OEUS) Version 1.5, 2/17/2026
 
     # check if a value is specified for \code{seas_obj}
     if (is.null(seas_obj)) {

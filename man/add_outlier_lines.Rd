@@ -21,9 +21,10 @@ This is a required entry.}
 
 \item{line_color}{Character array of length 6; color used for different outliers, with the order being
 \code{'ao', 'ls', 'tc', 'so', 'rp', 'tls'}.
-Default is the \code{RColorBrewer} palette \code{"Dark2"}.}
+Default is the \code{RColorBrewer} palette \code{"Dark2"}. For a listing of R color codes,
+see \insertCite{rchartsColors;textual}{blsplotGG}.}
 
-\item{this_palette}{Character string; default \code{RColorBrewer} palette.
+\item{this_palette}{Character string; default \code{RColorBrewer} palette \insertCite{RColorBrewer}{blsplotGG}.
 Deault is \code{"Dark2"}.}
 
 \item{this_line_type}{Character array of length 6; Line type used for different outliers, with the order being
@@ -37,7 +38,7 @@ Revised \code{ggplot} object with lines for outliers added.
 add lines for outliers to a ggplot plot object
 }
 \details{
-Version 3.2, 9/5/2024
+Version 4.5, 2/17/2026
 }
 \examples{
 air_seas <- 
@@ -62,6 +63,9 @@ this_x11_p <- ggplot2::ggplot() +
 this_x11_p_with_outlier_lines <- 
     add_outlier_lines(this_x11_p, air_seas, this_palette = "Paired",
                       this_line_type = rep("dotted", 6))
+}
+\references{
+\insertAllCited{}
 }
 \author{
 Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}

@@ -1,8 +1,9 @@
 #' Residual plot
 #'
-#' Generates a plot of the regARIMA residuals with diagnostic information
+#' Generates a plot of the regARIMA residuals extracted from a \code{seas} object,
+#' with diagnostic information added to the subtitle.
 #'
-#' Version 2.6, 11/6/2024
+#' Version 3.6, 2/17/2026
 #'
 #' @param seas_obj \code{seas} object generated from a call of \code{seas} on a single time series
 #'        This is a requited entry.
@@ -27,19 +28,23 @@
 #' @param add_line Logical scalar; add solid line for assumed mean. 
 #'        Default is \code{TRUE}. 
 #' @param line_color Character string; color used for residuals. 
-#'        Default is \code{"green"}.
+#'        Default is \code{"green"}. For a listing of R color codes, 
+#'        see \insertCite{rchartsColors;textual}{blsplotGG}.
 #' @return Generates a \code{ggplot} object of a plot of the regARIMA residuals with 
 #'         diagnostic information in the sub-headers.
 #'
 #' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
+#'
+#' @references
+#'  \insertAllCited{}
 #'
 #' @examples
 #' air_seas <- seasonal::seas(AirPassengers, arima.model = "(0 1 1)(0 1 1)")
 #' plot_resid_air <-
 #'      plot_resid(air_seas, main_title = "ARIMA Residuals for Airline Passengers", 
 #'                 use_ratio = TRUE, line_color="darkblue")
-#' @import ggfortify
 #' @import utils
+#' @importFrom Rdpack reprompt
 #' @export
 plot_resid <- 
     function(seas_obj = NULL, 
@@ -55,15 +60,17 @@ plot_resid <-
              use_ratio = FALSE, 
              add_line = TRUE, 
              line_color = "steelblue") {
-    # Author: Brian C. Monsell (OEUS) Version 2.6, 11/6/2024
+    # Author: Brian C. Monsell (OEUS) Version 3.6, 2/17/2026
 
     # check if a value is specified for \code{seas_obj}
     if (is.null(seas_obj)) {
-        stop("must specify a seas object")
+        cat("must specify a seas object")
+		return(NULL)
     } else {
     # check if a seas object is specified for \code{seas_obj}
         if (!inherits(seas_obj, "seas")) {
-            stop("First argument must be a seas object")
+            cat("First argument must be a seas object")
+			return(NULL)
         }
     }
     
@@ -159,13 +166,15 @@ plot_resid <-
 
     # generate subheader for diagnostics
     sub_title <- NULL
+	sub_title_size <- 11
     
 	if (!is.null(thisA)) {
         if (length(thisA) > 1) {
-            sub_title <- paste("Geary's a = ", sprintf("%4.1f", as.numeric(thisA[1])), " (", thisA[2],
+            sub_title <- paste("Geary's a = ", sprintf("%5.2f", as.numeric(thisA[1])), " (", thisA[2],
                 ")", sep = "")
+			sub_title_size <- 10
         } else {
-            sub_title <- paste("Geary's a = ", sprintf("%4.1f", thisA), sep = "")
+            sub_title <- paste("Geary's a = ", sprintf("%5.2f", thisA), sep = "")
         }
     }
 
@@ -173,6 +182,7 @@ plot_resid <-
         if (length(thisKurt) > 1) {
             sub2 <- paste("Excess Kurtosis = ", sprintf("%4.1f", as.numeric(thisKurt[1])), " (", thisKurt[2],
                 ")", sep = "")
+			sub_title_size <- 10
         } else {
             sub2 <- paste("Excess Kurtosis = ", sprintf("%4.1f", thisKurt), sep = "")
         }
@@ -185,10 +195,11 @@ plot_resid <-
 
     if (!is.null(thisSkew)) {
         if (length(thisSkew) > 1) {
-            sub3 <- paste("Skewness = ", sprintf("%4.1f", as.numeric(thisSkew[1])), " (", thisSkew[2],
+            sub3 <- paste("Skewness = ", sprintf("%5.2f", as.numeric(thisSkew[1])), " (", thisSkew[2],
                 ")", sep = "")
-        } else {
-            sub3 <- paste("Skewness = ", sprintf("%4.1f", thisSkew), sep = "")
+ 			sub_title_size <- 10
+       } else {
+            sub3 <- paste("Skewness = ", sprintf("%5.2f", thisSkew), sep = "")
         }
  		if (is.null(sub_title)) {
 		    sub_title <- sub3
@@ -198,8 +209,9 @@ plot_resid <-
     }
 
     # add subheader to plot
-    this_plot <- 
-	    this_plot + ggplot2::labs(subtitle = sub_title)
+    this_plot <- this_plot + 
+	    ggplot2::labs(subtitle = sub_title) +
+		ggplot2::theme(plot.subtitle = ggplot2::element_text(size = sub_title_size))
 
     # return ggplot object
     return(this_plot)	

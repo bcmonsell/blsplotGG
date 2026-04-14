@@ -1,6 +1,6 @@
 #' US Unemployment Series, four main components in an mts object
 #'
-#' An mts object of the four main components of US Employment expressed as time series objects that end in December, 2022
+#' An \code{mts} object of the four main components of US Employment expressed as time series objects that end in December, 2022.
 #'
 #' @format An mts object with 4 time series elements in four columns:
 #' \describe{

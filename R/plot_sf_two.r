@@ -4,7 +4,7 @@
 #' Generates a plot of the seasonal factors grouped by month/quarter
 #' for two adjustments. 
 #'
-#' Version 1.2, 12/11/2024
+#' Version 2.4, 2/10/2026
 #'
 #' @param this_sf_one array of seasonal factors stored as a time series
 #' @param this_sf_two array of seasonal factors stored as a time series
@@ -25,19 +25,28 @@
 #' @param this_color_mean Vector of character strings; color used for means of the seasonal factors. Should be of length two.
 #'        Default is \code{NULL}, which indicates that the palette specified 
 #'        in \code{this_palette} is used to generate colors for this plot.
-#' @param this_palette Color used for lines in plot. Default is \code{"Paired"}
+#' @param this_palette Color used for lines in plot. 
+#'        Default is the \code{RColorBrewer} palette \code{"Paired"} \insertCite{RColorBrewer}{blsplotGG}. 
 #' @param first_year Integer scalar; First year used in plot. Default is start of the series.
 #' @param this_legend_title Character string; indicates title of legend. Default is \code{'Series'}.
 #' @param this_legend_text Array of character strings; indicates text for each seasonal factor in plot. 
 #'        Default is \code{c("SF One", "SF Mean One", "SF Two", "SF Mean Two"))}.
-#' @param legend_title_size integer scalar; Size of the legend title.
+#' @param this_legend_title_size integer scalar; Size of the legend title.
 #'        Default is \code{12}.
-#' @param legend_text_size integer scalar; Size of the legend title.
+#' @param this_legend_text_size integer scalar; Size of the legend title.
+#'        Default is \code{10}.
+#' @param this_legend_position character String; The position of the legend, which can be one of
+#'        \code{top}, \code{bottom}, \code{left}, \code{right}.
+#'        Default is \code{right}.
+#' @param this_legend_space integer scalar; Space between legend and plot in points.
 #'        Default is \code{10}.
 #' @return A \code{ggplot} object which generates a plot of the seasonal factors 
 #'        (and the SI-ratios) grouped by month/quarter.
 #'
 #' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
+#'
+#' @references
+#'  \insertAllCited{}
 #'
 #' @examples
 #' air_seas_x11    <- 
@@ -51,10 +60,11 @@
 #' plot_air_sf_two <- plot_sf_two(air_sf_x11, air_sf_seats,
 #'    main_title = 'Air Passengers Seasonal Sub-Plots',
 #'    this_legend_text = c('X-11 sf', 'X-11 mean', 'SEATS sf', 'SEATS mean'),
-#'    legend_title_size = 10,
-#'    legend_text_size = 8)
+#'    this_legend_title_size = 10,
+#'    this_legend_text_size = 8)
 #' @import graphics
 #' @import stats
+#' @importFrom Rdpack reprompt
 #' @export
 plot_sf_two <- 
     function(this_sf_one = NULL, 
@@ -72,28 +82,54 @@ plot_sf_two <-
 			 first_year = NULL, 
 			 this_legend_title = "SF Plot", 
 			 this_legend_text = c("SF One", "SF Mean One", "SF Two", "SF Mean Two"),
-			 legend_title_size = 12,
-			 legend_text_size = 10) {
-    # Author: Brian C. Monsell (OEUS) Version 1.2, 12/11/2024
+			 this_legend_title_size = 12,
+			 this_legend_text_size = 10,
+			 this_legend_position = "right",
+			 this_legend_space = 10) {
+    # Author: Brian C. Monsell (OEUS) Version 2.4, 2/10/2026
 
     # check if a value is specified for \code{this_sf}
     if (is.null(this_sf_one)) {
-        stop("must specify a set of seasonal factors for this_sf_one")
+        cat("must specify a set of seasonal factors for this_sf_one")
+		return(NULL)
 		if (!is.ts(this_sf_one)) {
-			stop("must specify a ts object for this_sf_one")
+			cat("must specify a ts object for this_sf_one")
+			return(NULL)
 		}
     }
     if (is.null(this_sf_two)) {
-        stop("must specify a set of seasonal factors for this_sf_two")
+        cat("must specify a set of seasonal factors for this_sf_two")
+		return(NULL)
 		if (!is.ts(this_sf_two)) {
-			stop("must specify a ts object for this_sf_two")
+			cat("must specify a ts object for this_sf_two")
+			return(NULL)
 		}
     }
+	
+	# check legend options 
+	position_all <- c("top", "bottom", "left", "right")
+	if(sum(match(position_all, this_legend_position), na.rm = TRUE) == 0) {
+        cat(paste("Legend position choice not valid:", this_legend_position))
+		return(NULL)
+	}
+	
+	if(this_legend_text_size <= 0) {
+        cat(paste("Legend text size not valid (must be greater than zero):", 
+		           this_legend_text_size))
+		return(NULL)
+	}
+	
+	if(this_legend_title_size <= 0) {
+        cat(paste("Legend title text size not valid (must be greater than zero):", 
+		           this_legend_title_size))
+		return(NULL)
+	}
 
 	freq_one <- frequency(this_sf_one)
 	freq_two <- frequency(this_sf_two)
 	if (freq_one != freq_two) {
-		stop("Seasonal factors must have the same frequency")
+		cat("Seasonal factors must have the same frequency")
+		return(NULL)
 	} else {
 		freq <- freq_one
 	}
@@ -132,14 +168,16 @@ plot_sf_two <-
         this_sf_two <- window(this_sf_two, start = c(first_year, 1))
 	  } else {
 		  if (sum(start(this_sf_one) == start(this_sf_one)) < 2) {
-			stop("Seasonal factors must start on the same date")
+			cat("Seasonal factors must start on the same date")
+			return(NULL)
 		}
   }
 	length_sf_one <- length(this_sf_one)
 	length_sf_two <- length(this_sf_two)
 	
 	if (length_sf_one != length_sf_two) {
-		stop("Seasonal factors should be the same length")
+		cat("Seasonal factors should be the same length")
+		return(NULL)
 	} else {
 		length_sf <- length_sf_one
 	}
@@ -243,11 +281,8 @@ plot_sf_two <-
                                     labels = this_label) +
         ggplot2::scale_color_manual(values = c(this_color_mean, this_color_sf)) +
 		ggplot2::geom_hline(yintercept = h_bar) +
-		ggplot2::theme(legend.text = ggplot2::element_text(size = legend_text_size),
-					   legend.title = ggplot2::element_text(size = legend_title_size))
+        ggplot2::guides(color = ggplot2::guide_legend(this_legend_title))
     
-    p_sf$labels$colour <- this_legend_title
-
 	# remove grey background if \code{do_background = FALSE} 
     if (!do_background) {
 		p_sf <- p_sf + ggplot2::theme_bw()
@@ -259,6 +294,12 @@ plot_sf_two <-
 		    ggplot2::theme(panel.grid.major = ggplot2::element_blank(), 
 			               panel.grid.minor = ggplot2::element_blank())
     }
+	
+	p_sf <- p_sf +
+		ggplot2::theme(legend.text = ggplot2::element_text(size = this_legend_text_size),
+					   legend.title = ggplot2::element_text(size = this_legend_title_size),
+					   legend.position = this_legend_position,
+					   legend.box.spacing = ggplot2::unit(this_legend_space, "pt"))
 
 	return(p_sf)
 }

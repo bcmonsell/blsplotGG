@@ -16,7 +16,7 @@ Maximum of the absolute value of a vector
 Generates the maximum of the absolute value of a numeric vector.
 }
 \details{
-Version 1.1, 3/29/2021
+Version 1.3, 3/29/2021
 }
 \examples{
 r50 <- rnorm(50)

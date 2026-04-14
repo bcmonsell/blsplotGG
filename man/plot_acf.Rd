@@ -65,10 +65,10 @@ A \code{ggplot} object that produces an ACF, PACF, or squared ACF plot
 of the regARIMA residuals.
 }
 \description{
-Generate ACF, PACF, or squared ACF plot of the regARIMA model residuals.
+Generate ACF, PACF, or squared ACF plot of the regARIMA model residuals using a \code{seas} object as input.
 }
 \details{
-Version 4.2, 2/18/2025
+Version 5.1, 12/30/2025
 }
 \examples{
 ukgas_x11_seas <- 
