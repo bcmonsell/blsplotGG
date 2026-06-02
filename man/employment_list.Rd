@@ -14,7 +14,7 @@ A list object with 4 time series elements:
 }
 }
 \usage{
-employment_list
+data(employment_list)
 }
 \description{
 A list object of the four main components of US Employment expressed as time series objects that end in December, 2022.

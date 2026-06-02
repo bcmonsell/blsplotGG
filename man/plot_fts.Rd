@@ -13,6 +13,7 @@ plot_fts(
   add_identified_outliers = FALSE,
   do_grid = FALSE,
   do_background = FALSE,
+  plot_abs = TRUE,
   color_otl = NULL,
   this_palette = "Dark2",
   this_legend_title = "Outlier",
@@ -24,17 +25,20 @@ plot_fts(
 }
 \arguments{
 \item{seas_obj}{\code{seas} object generated from a call of \code{seas} on a single time series
-This is a requited entry.}
+This is a required entry.}
 
-\item{start_plot}{Integer vector of length 2; Starting date for plot. Default is starting date for the time series.}
+\item{start_plot}{Integer vector of length 2; Starting date for plot.
+Default is starting date for the time series.}
 
-\item{main_title}{Character string; main title of plot.  Default is  \code{'Outlier T-Values'}.}
+\item{main_title}{Character string; main title of plot.
+Default is  \code{'Outlier T-Values'}.}
 
 \item{this_y_label}{Character string; y-axis label for plot, if specified.}
 
 \item{this_x_label}{Label for X axis. Default is \code{"Time"}.}
 
-\item{add_identified_outliers}{Logical scalar; indicates if outlier plots will include identified outliers.
+\item{add_identified_outliers}{Logical scalar; indicates if outlier plots
+will include identified outliers.
 Default is not including identified outliers.}
 
 \item{do_grid}{Logical scalar; indicates if certain plots will have grid lines.
@@ -43,10 +47,17 @@ Default is no grid lines.}
 \item{do_background}{Logical scalar; indicates grey background included in plot.
 Default is no grey background;}
 
-\item{color_otl}{Character array of length 3; color used for different outliers, with the order being \code{'ao','ls','tc'}.
+\item{plot_abs}{Logical scalar; if \code{TRUE}, plot the maximum absolute value
+of the t-stats. If \code{FALSE},
+maintain the sign of the original t-statistic in the plot.
+Default is \code{TRUE}.}
+
+\item{color_otl}{Character array of length 3; color used for different outliers,
+with the order being \code{'ao','ls','tc'}.
 Default is NULL.}
 
-\item{this_palette}{Character string; default \code{RColorBrewer} palette \insertCite{RColorBrewer}{blsplotGG}.
+\item{this_palette}{Character string; default \code{RColorBrewer} palette
+\insertCite{RColorBrewer}{blsplotGG}.
 Deault is \code{"Dark2"}.}
 
 \item{this_legend_title}{Title for legend.  Default is \code{"Year"}.}
@@ -57,7 +68,8 @@ Default is \code{12}.}
 \item{this_legend_text_size}{integer scalar; Size of the legend title.
 Default is \code{10}.}
 
-\item{this_legend_position}{character String; The position of the legend, which can be one of
+\item{this_legend_position}{character String;
+The position of the legend, which can be one of
 \code{top}, \code{bottom}, \code{left}, \code{right}.
 Default is \code{right}.}
 
@@ -75,7 +87,7 @@ A description of the outlier identification procedure is given in the documentat
 with more details in \insertCite{@Appendix B of @Findley98;textual}{blsplotGG}.
 }
 \details{
-Version 6.3, 2/10/2026
+Version 7.2, 2026-05-27
 }
 \examples{
 air_seas_outlier <- 
@@ -86,6 +98,10 @@ plot_fts_air <-
              main_title = "Outlier T-Values for Airline Passengers")
 plot_fts_air_add_id_otl <- 
     plot_fts(air_seas_outlier, 
+             main_title = "Outlier T-Values for Airline Passengers",
+             add_identified_outliers = TRUE)
+plot_fts_air_no_abs_add_id_otl <- 
+    plot_fts(air_seas_outlier, plot_abs = FALSE,
              main_title = "Outlier T-Values for Airline Passengers",
              add_identified_outliers = TRUE)
 }

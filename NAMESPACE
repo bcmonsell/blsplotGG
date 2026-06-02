@@ -3,6 +3,7 @@
 export(absmax)
 export(add_outlier_lines)
 export(add_recession_shade)
+export(check_table)
 export(color_blind_palette)
 export(convert_identify_acf)
 export(convert_spectrum_code)

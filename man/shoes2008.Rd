@@ -8,7 +8,7 @@
 Retail sales of shoes ending in April of 2008.
 }
 \usage{
-shoes2008
+data(shoes2008)
 }
 \description{
 A time series object containing retail sales of shoes from the US Census Bureau.

@@ -82,7 +82,7 @@ If series not specified, print out error message and return NULL.
 Generate plot of user-specified time series (\code{ts}) object.
 }
 \details{
-Version 3.0, 1/14/2026
+Version 3.0.1, 2026-05-15
 }
 \examples{
 air_seas <- 

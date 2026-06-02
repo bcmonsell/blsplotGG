@@ -18,28 +18,28 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: TRUE
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
+RoxygenNote: 8.0.0
 Imports:
-    astsa,
+  astsa,
 	BrailleR,
-    dplyr (>= 1.0.10),
-    forecast (>= 3.5.0),
-    ggplot2 (>= 3.0.0),
+  dplyr (>= 1.0.10),
+  forecast (>= 3.5.0),
+  ggplot2 (>= 3.0.0),
 	ggpubr,
 	grDevices,
-    lubridate,
-    magrittr (>= 1.5),
+  lubridate,
+  magrittr (>= 1.5),
 	RColorBrewer,
 	Rdpack,
-    rlang (>= 1.1.1),
+  rlang (>= 1.1.1),
 	scales (>= 1.3.0),
-    seasonal (>= 1.10.0),
-    stringr (>= 1.5.0),
-    tidyr (>= 1.3.0),
-    tis,
-    tsbox
+  seasonal (>= 1.10.0),
+  stringr (>= 1.5.0),
+  tidyr (>= 1.3.0),
+  tis,
+  tsbox
 Suggests:
-    zoo
+  zoo
 Depends: 
-    R (>= 3.5)
+  R (>= 3.5)
 RdMacros: Rdpack

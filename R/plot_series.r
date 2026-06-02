@@ -2,7 +2,7 @@
 #'
 #' Generate plot of user-specified time series (\code{ts}) object. 
 #'
-#' Version 3.0, 1/14/2026
+#' Version 3.0.1, 2026-05-15
 #'
 #' @param this_series A \code{ts} object; 
 #'        This is a required entry.
@@ -72,7 +72,7 @@ plot_series <-
              recess_sub = TRUE,  
              this_line_type = "solid", 
              line_color = "grey") {
-    # Author: Brian C. Monsell (OEUS) Version 3.0, 1/14/2026
+    # Author: Brian C. Monsell (OEUS) Version 3.0.1, 2026-05-15
     
     # check if a value is specified for \code{this_series}
     if (is.null(this_series)) {
@@ -138,15 +138,15 @@ plot_series <-
 	
     # add recession regions to plot
     if (draw_recess) {
-	if (is.null(recess_color)) {
-	    this_plot <- add_recession_shade(this_plot)
-	} else {
-	    this_plot <- add_recession_shade(this_plot, shade_color = recess_color)		    
-	}
-	if (recess_sub) {
+		if (is.null(recess_color)) {
+			this_plot <- add_recession_shade(this_plot)
+		} else {
+			this_plot <- add_recession_shade(this_plot, shade_color = recess_color)		    
+		}
+		if (recess_sub) {
             this_x_label <- 
                 stringr::str_to_title(paste0("NBER Recessions in ", recess_color))
-	}
+		}
     }
 	
     this_plot <- this_plot + ggplot2::xlab(this_x_label)

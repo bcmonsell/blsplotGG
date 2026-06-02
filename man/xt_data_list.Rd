@@ -14,7 +14,7 @@ A list object with 4 time series elements:
 }
 }
 \usage{
-xt_data_list
+data(xt_data_list)
 }
 \description{
 A list object of US One family Building Permits from the US Census Bureau for four regions expressed as time series objects that end in October, 2006.

@@ -5,30 +5,40 @@
 #' \code{outlier} spec in \insertCite{@Section 7.11 of of @Census2025;textual}{blsplotGG},
 #' with more details in \insertCite{@Appendix B of @Findley98;textual}{blsplotGG}.
 #'
-#' Version 6.3, 2/10/2026
+#' Version 7.2, 2026-05-27
 #' 
 #' @param seas_obj \code{seas} object generated from a call of \code{seas} on a single time series
-#'                  This is a requited entry.
-#' @param start_plot Integer vector of length 2; Starting date for plot. Default is starting date for the time series. 
-#' @param main_title Character string; main title of plot.  Default is  \code{'Outlier T-Values'}.
+#'                  This is a required entry.
+#' @param start_plot Integer vector of length 2; Starting date for plot. 
+#'        Default is starting date for the time series. 
+#' @param main_title Character string; main title of plot.  
+#'        Default is  \code{'Outlier T-Values'}.
 #' @param this_y_label Character string; y-axis label for plot, if specified.
 #' @param this_x_label Label for X axis. Default is \code{"Time"}.
-#' @param add_identified_outliers Logical scalar; indicates if outlier plots will include identified outliers. 
-#'                                Default is not including identified outliers. 
+#' @param add_identified_outliers Logical scalar; indicates if outlier plots 
+#'        will include identified outliers. 
+#'        Default is not including identified outliers. 
 #' @param do_grid Logical scalar; indicates if certain plots will have grid lines. 
 #'        Default is no grid lines. 
 #' @param do_background Logical scalar; indicates grey background included in plot.
 #'        Default is no grey background;
-#' @param color_otl Character array of length 3; color used for different outliers, with the order being \code{'ao','ls','tc'}. 
+#' @param plot_abs Logical scalar; if \code{TRUE}, plot the maximum absolute value 
+#'        of the t-stats. If \code{FALSE}, 
+#'        maintain the sign of the original t-statistic in the plot.
+#'        Default is \code{TRUE}.
+#' @param color_otl Character array of length 3; color used for different outliers, 
+#'        with the order being \code{'ao','ls','tc'}.  
 #'        Default is NULL.
-#' @param this_palette Character string; default \code{RColorBrewer} palette \insertCite{RColorBrewer}{blsplotGG}.
+#' @param this_palette Character string; default \code{RColorBrewer} palette 
+#'        \insertCite{RColorBrewer}{blsplotGG}.
 #'        Deault is \code{"Dark2"}.
 #' @param this_legend_title Title for legend.  Default is \code{"Year"}.
 #' @param this_legend_title_size integer scalar; Size of the legend title.
 #'        Default is \code{12}.
 #' @param this_legend_text_size integer scalar; Size of the legend title.
 #'        Default is \code{10}.
-#' @param this_legend_position character String; The position of the legend, which can be one of
+#' @param this_legend_position character String; 
+#'        The position of the legend, which can be one of
 #'        \code{top}, \code{bottom}, \code{left}, \code{right}.
 #'        Default is \code{right}.
 #' @param this_legend_space integer scalar; Space between legend and plot in points.
@@ -52,6 +62,10 @@
 #'     plot_fts(air_seas_outlier, 
 #'              main_title = "Outlier T-Values for Airline Passengers",
 #'              add_identified_outliers = TRUE)
+#' plot_fts_air_no_abs_add_id_otl <- 
+#'     plot_fts(air_seas_outlier, plot_abs = FALSE,
+#'              main_title = "Outlier T-Values for Airline Passengers",
+#'              add_identified_outliers = TRUE)
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data 
 #' @importFrom Rdpack reprompt
@@ -65,6 +79,7 @@ plot_fts <-
 			 add_identified_outliers = FALSE, 
 			 do_grid = FALSE, 
              do_background = FALSE, 
+			 plot_abs = TRUE,
 	         color_otl = NULL, 
 			 this_palette = "Dark2", 
 			 this_legend_title = "Outlier",
@@ -72,7 +87,7 @@ plot_fts <-
 			 this_legend_text_size = 10,
 			 this_legend_position = "right",
 			 this_legend_space = 10) {
-    # Author: Brian C. Monsell (OEUS) Version 6.3, 2/10/2026
+    # Author: Brian C. Monsell (OEUS) Version 7.2, 2026-05-27
     
     # check if a value is specified for \code{seas_obj}
     if (is.null(seas_obj)) {
@@ -107,7 +122,8 @@ plot_fts <-
     
     # get absolute maximum value of t-statistics, Maximum Position of each column of the Matrix
     fts_max <- 
-	    ts(apply(this_fts, 1, absmax), start = start(this_fts), 
+	    ts(apply(this_fts, 1, absmax, return_abs = plot_abs), 
+		   start = start(this_fts), 
 	       frequency = frequency(this_fts))
     fts_index <- cbind(time(this_fts), max.col(abs(this_fts), "first"))
     
@@ -149,9 +165,10 @@ plot_fts <-
     }
 	
 	this_data <- 
-	    data.frame(date    = tsbox::ts_df(this_fts[,1])$time,
-		       fts     = fts_max,
-		       outlier = point_lab[fts_index[,2]])
+	    data.frame(
+			date    = tsbox::ts_df(this_fts[,1])$time,
+			fts     = fts_max,
+			outlier = point_lab[fts_index[,2]])
 				   
 	p_fts <- 
 		ggplot2::ggplot(this_data) + 
@@ -162,19 +179,44 @@ plot_fts <-
 		ggplot2::labs(title = main_title,
 		              subtitle = sub_title,
 		              x = this_x_label,
-		              y = this_y_label) +
-		ggplot2::ylim(range(fts_max, this_crit_vec))
+		              y = this_y_label)
+	
+	if (plot_abs) {
+		p_fts <- p_fts + 
+			ggplot2::ylim(range(fts_max, this_crit_vec))
+	} else {
+		p_fts <- p_fts + 
+			ggplot2::ylim(range(fts_max, this_crit_vec, 0.0 - this_crit_vec))
+	}
     
     # lines for outlier critical values
     if (length(unique(this_crit_vec)) == 1) {
-        p_fts <- 
-			p_fts + ggplot2::geom_hline(yintercept = unique(this_crit_vec), color = "grey")
+		this_crit <- unique(this_crit_vec)
+		p_fts <- p_fts + 
+			ggplot2::geom_hline(yintercept = this_crit, color = "grey")
+		if (!plot_abs) { 
+			p_fts <- p_fts + 
+				ggplot2::geom_hline(yintercept = 0.0 - this_crit, color = "grey")
+		}
     } else {
 		for (i in 1:length(this_crit_vec)) {
-			p_fts <- 
-				p_fts + ggplot2::geom_hline(yintercept = this_crit_vec[i], color = color_vec[i])
+			p_fts <- p_fts + 
+				ggplot2::geom_hline(yintercept = this_crit_vec[i], 
+					color = color_vec[i])
+			if (!plot_abs) { 
+				p_fts <- p_fts + 
+					ggplot2::geom_hline(yintercept = 0.0 - this_crit_vec[i], 
+						color = color_vec[i])
+			}
 		}
     }
+	
+	if (!plot_abs) {
+		p_fts <- p_fts + 
+			ggplot2::geom_hline(yintercept = 0.0, 
+				linetype = "dashed",
+				color = "grey")
+	}
 	
 	# remove grey background if \code{do_background = FALSE} 
     if (!do_background) {
@@ -185,7 +227,7 @@ plot_fts <-
 	if (!do_grid) {
 	    p_fts <- p_fts + 
 		    ggplot2::theme(panel.grid.major = ggplot2::element_blank(), 
-			               panel.grid.minor = ggplot2::element_blank())
+				panel.grid.minor = ggplot2::element_blank())
 	}
     
 	p_fts <- p_fts + 
