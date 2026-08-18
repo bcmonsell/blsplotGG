@@ -36,7 +36,8 @@ Default is \code{10}.}
 Default is \code{2.5}.}
 
 \item{this_text_color}{Character scalar, color of the plotting characters.
-Default is \code{"steelblue"}.}
+Default is \code{"steelblue"}. For a listing of R color codes,
+see \insertCite{rchartsColors;textual}{blsplotGG}.}
 
 \item{add_zero_line}{Logical scalar.
 If \code{TRUE}, adds a horizontal line at zero for all plots.
@@ -52,7 +53,7 @@ Generates a \code{ggplot2} object of the first difference of a time series group
 by months or quarters. The series must be a \code{ts} object.
 }
 \details{
-Version 2.3, 12/30/2025
+Version 2.3.1, 2026-06-09
 }
 \examples{
 shoes_seas <-
@@ -70,6 +71,9 @@ p_shoes_sa_diff <-
         main_title = "Seasonal Adjustment First Differences",
         remove_y_axis = FALSE, x_title_size = 10,
         add_zero_line = TRUE)
+}
+\references{
+\insertAllCited{}
 }
 \author{
 Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}

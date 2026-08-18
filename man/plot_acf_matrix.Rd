@@ -49,10 +49,12 @@ Default uses the value of \code{this_frequency} to set x-axis.}
 Default is \code{12}.}
 
 \item{acf_color}{Color used for lines in ACF plot.
-Default is \code{"steelblue"}.}
+Default is \code{"steelblue"}. For a listing of R color codes,
+see \insertCite{rchartsColors;textual}{blsplotGG}.}
 
 \item{ci_color}{Color used for confidence interval in ACF plot.
-Default is \code{"grey"}.}
+Default is \code{"grey"}. For a listing of R color codes,
+see \insertCite{rchartsColors;textual}{blsplotGG}.}
 }
 \value{
 A \code{ggplot} object that produces an ACF, PACF, or squared ACF plot
@@ -65,7 +67,7 @@ from a matrix of the ACF. This matrix can be extracted from a seas object produc
 by the seasonal package \insertCite{seasonal2018}{blsplotGG}.
 }
 \details{
-Version 4.3, 2/10/2026
+Version 4.3.1, 2026-06-09
 }
 \examples{
 ukgas_x11_seas <- 

@@ -14,8 +14,8 @@ plot_sf_two(
   this_xlab = NULL,
   do_grid = FALSE,
   do_background = FALSE,
-  this_color_sf = NULL,
-  this_color_mean = NULL,
+  sf_color = NULL,
+  mean_color = NULL,
   this_palette = "Paired",
   first_year = NULL,
   this_legend_title = "SF Plot",
@@ -35,7 +35,7 @@ plot_sf_two(
 Default is range of the seasonal factors.}
 
 \item{this_trans}{Logical scalar; indicates if the adjustment was done with a log transform.
-Default is TRUE.}
+Default is \code{TRUE}.}
 
 \item{main_title}{Character string; main title of plot.  Default is  \code{'Seasonal Sub-Plots'}.}
 
@@ -49,11 +49,13 @@ Default is no grid lines.}
 \item{do_background}{Logical scalar; indicates grey background included in plot.
 Default is no grey background;}
 
-\item{this_color_sf}{Vector of character strings; colors used for seasonal factors. Should be of length two.
+\item{sf_color}{Vector of character strings; colors used for seasonal factors. Should be of length two.
 Default is \code{NULL}, which indicates that the palette specified
-in \code{this_palette} is used to generate colors for this plot.}
+in \code{this_palette} is used to generate colors for this plot.
+For a listing of R color codes, see
+\insertCite{rchartsColors;textual}{blsplotGG}.}
 
-\item{this_color_mean}{Vector of character strings; color used for means of the seasonal factors. Should be of length two.
+\item{mean_color}{Vector of character strings; color used for means of the seasonal factors. Should be of length two.
 Default is \code{NULL}, which indicates that the palette specified
 in \code{this_palette} is used to generate colors for this plot.}
 
@@ -89,7 +91,7 @@ Generates a plot of the seasonal factors grouped by month/quarter
 for two adjustments.
 }
 \details{
-Version 2.4, 2/10/2026
+Version 2.5, 2026-06-09
 }
 \examples{
 air_seas_x11    <- 

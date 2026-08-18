@@ -35,12 +35,16 @@ Integer scalar; difference between first date and second date.
 }
 \description{
 Generate the difference between two dates.
+Uses the \code{lubridate} package \insertCite{lubridate;textual}{blsplotGG}).
 }
 \details{
-Version 3.2, 1/7/2026
+Version 3.2.1, 2026-06-18
 }
 \examples{
 diff_start <- difference_dates(c(1990,1), c(1995,1))
+}
+\references{
+\insertAllCited{}
 }
 \author{
 Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}

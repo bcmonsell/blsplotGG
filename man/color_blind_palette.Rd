@@ -8,7 +8,8 @@ color_blind_palette(with_grey = TRUE, brewer_palette = NULL)
 }
 \arguments{
 \item{with_grey}{Logical scalar; whether color blind pallate contains \code{'grey'},
-otherwise the palette contains \code{black}. Default is TRUE.}
+otherwise the palette contains \code{black}.
+Default is \code{TRUE}.}
 
 \item{brewer_palette}{Character string; a \code{RColorBrewer} palette \insertCite{RColorBrewer}{blsplotGG}.
 There is no default - must be a color-blind friendly palette.}
@@ -22,7 +23,7 @@ Color palettes that can be used that can be distinguished by color-blind people
 or \insertCite{cookbookrColorsggplot2;textual}{blsplotGG}).
 }
 \details{
-Version 3.2, 2/10/2026
+Version 3.2, 2026-02-10
 }
 \examples{
 this_color_blind <- color_blind_palette(FALSE, brewer_palette = "Dark2")

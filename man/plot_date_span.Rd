@@ -24,11 +24,13 @@ This is a required entry.}
 This is a required entry.}
 
 \item{this_date_breaks}{Character scalar with the interval for tic marks on the x-axis.
-Default is \code{"1 year"}.}
+Default is \code{'1 year'}.}
 
-\item{this_date_format}{Character scalar with the format used for the date label on the x-axis.}
+\item{this_date_format}{Character scalar with the format used for the date label on the x-axis.
+Default is \%Y'.}
 
-\item{reset_y_limit}{Logical scalar that if TRUE, the range of the y-axis is reset. Default is \code{FALSE}.}
+\item{reset_y_limit}{Logical scalar that if TRUE, the range of the y-axis is reset.
+Default is \code{FALSE}.}
 }
 \value{
 A \code{ggplot} object that produces a subplot of the submitted plot.
@@ -36,9 +38,10 @@ A \code{ggplot} object that produces a subplot of the submitted plot.
 \description{
 Shortens the time span of an existing time series \code{ggplot} object by limiting the
 X axis to user specified dates.
+Uses the \code{lubridate} package \insertCite{lubridate;textual}{blsplotGG}).
 }
 \details{
-Version 2.4, 12/30/2025
+Version 2.4.1, 2026-06-18
 }
 \examples{
 air_seas <- 
@@ -61,6 +64,9 @@ air_p <- ggplot2::ggplot(air_df, ggplot2::aes(x=date)) +
 air_short_p <- 
    plot_date_span(air_p, "1-1-1956", "12-31-1960", 
                   reset_y_limit = TRUE)
+}
+\references{
+\insertAllCited{}
 }
 \author{
 Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}

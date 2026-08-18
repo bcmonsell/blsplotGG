@@ -7,7 +7,7 @@
 plot_fcst_history(
   seas_mdl1 = NULL,
   seas_mdl2 = NULL,
-  main_title = "Differences in the Sum of Squared Forecast Errors",
+  main_title = "Sum of Squared Forecast Error Differences",
   name_mdl1 = "Model 1",
   name_mdl2 = "Model 2",
   do_grid = FALSE,
@@ -32,7 +32,7 @@ on a single time series for the second model
 This is a required entry.}
 
 \item{main_title}{Character string; main title of plot.
-Default is \code{'Differences in the Sum of Squared Forecast Errors'}.}
+Default is \code{'Sum of Squared Forecast Error Differences'}.}
 
 \item{name_mdl1}{Character string; Description of first model for use in the subtitle.
 Default is \code{'Model 1'}.}
@@ -78,25 +78,27 @@ This follows the theory established in \insertCite{Findley2005;textual}{blsplotG
 For more information on history analysis, \insertCite{@see Chapters 6.3 and 7.8 of @Census2025;textual}{blsplotGG}.
 }
 \details{
-Version 4.2, 2/10/2026
+Version 4.3, 2026-05-09
 }
 \examples{
 air_seas_mdl <- 
-    seasonal::seas(AirPassengers, x11="", slidingspans = "", transform.function = "log",
-                   arima.model = "(0 1 1)(0 1 1)", regression.aictest = NULL, outlier = NULL,
-                   forecast.maxlead = 36, check.print = c( 'pacf', 'pacfplot' ),
-                   history.fstep = c(1, 12), history.estimates = 'fcst', 
-                   history.save = 'fcsterrors')
+    seasonal::seas(AirPassengers, x11="", slidingspans = "", 
+        transform.function = "log", regression.aictest = NULL, 
+        arima.model = "(0 1 1)(0 1 1)", outlier = NULL,
+        forecast.maxlead = 36, check.print = c( 'pacf', 'pacfplot' ),
+        history.fstep = c(1, 12), history.estimates = 'fcst', 
+        history.save = 'fcsterrors')
 air_seas_mdl2 <- 
-    seasonal::seas(AirPassengers, x11="", slidingspans = "", transform.function = "log",
-                   arima.model = "(0 1 1)(0 1 1)", regression.variables = c("td"),
-                   forecast.maxlead = 36, check.print = c( 'pacf', 'pacfplot' ),
-                   history.fstep = c(1, 12), history.estimates = 'fcst', 
-                   history.save = 'fcsterrors')
+    seasonal::seas(AirPassengers, x11="", slidingspans = "", 
+        transform.function = "log",
+        arima.model = "(0 1 1)(0 1 1)", regression.variables = c("td"),
+        forecast.maxlead = 36, check.print = c( 'pacf', 'pacfplot' ),
+        history.fstep = c(1, 12), history.estimates = 'fcst', 
+        history.save = 'fcsterrors')
 plot_fcst_history_air <-
     plot_fcst_history(air_seas_mdl, air_seas_mdl2, 
-         main_title = 'Differences in the Sum of Squared Forecast Errors for Airline Passengers',
-         name_mdl1 = 'Airline model', name_mdl2 = 'Airline model + regressors')
+        main_title = 'Sum of Squared Forecast Error Differences for Airline Passengers',
+        name_mdl1 = 'Airline model', name_mdl2 = 'Airline model + regressors')
 }
 \references{
 \insertAllCited{}

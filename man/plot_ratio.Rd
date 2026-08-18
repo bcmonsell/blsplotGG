@@ -48,7 +48,8 @@ areas for NBER recession dates.
 Default is no recession shading.}
 
 \item{recess_color}{Character string; color used for shading of recession region.
-Default is \code{'lightgrey'}.}
+Default is \code{'lightgrey'}. For a listing of R color codes,
+see \insertCite{rchartsColors;textual}{blsplotGG}.}
 
 \item{recess_sub}{Logical scalar; indicates if x-axis label for recession is
 produced for this plot.
@@ -60,7 +61,8 @@ Default is \code{TRUE}.}
 \item{ratio_mean}{Assumed mean value for the ratio.  Default is \code{1.0}}
 
 \item{ratio_color}{Color used for lines in ratio plot.
-Default is \code{"steelblue"}.}
+Default is \code{"steelblue"}. For a listing of R color codes,
+see \insertCite{rchartsColors;textual}{blsplotGG}.}
 }
 \value{
 A \code{ggplot} object that produces a ratio plot of a time series.
@@ -69,7 +71,7 @@ A \code{ggplot} object that produces a ratio plot of a time series.
 Generates a high-definition plot around a reference line other than zero.
 }
 \details{
-Version 3.4, 8/27/2025
+Version 3.4.1, 2026-06-09
 }
 \examples{
 ukgas_x11_seas <- 
@@ -80,6 +82,9 @@ ukgas_x11_seas <-
 ukgas_x11_sf     <- seasonal::series(ukgas_x11_seas, "d10")
 ukgas_sf_ratio   <- plot_ratio(ukgas_x11_sf, main_title = "UK Gas X-11 Seasonal Factors",
                                sub_title = "Seasonal Filter: 3x5")
+}
+\references{
+\insertAllCited{}
 }
 \author{
 Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}

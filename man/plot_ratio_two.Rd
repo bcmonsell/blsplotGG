@@ -43,10 +43,10 @@ Default is range of the second series.}
 \item{do_comparison_plot}{Logical scalar. If TRUE, a ratio/difference plot of the two
 factors will be generated from \code{ratio_one} and \code{ratio_two},
 if the series have the same periodicity and are the same type of factor.
-Default is TRUE.}
+Default is \code{TRUE}.}
 
 \item{overall_title}{Title for the combined plot.
-Default is NULL.}
+Default is \code{NULL}.}
 
 \item{ratio_one_title}{Title for the first plot.
 Default is character string \code{'First Ratio Plot'}.}
@@ -79,13 +79,16 @@ Default is no grey background;}
 Default is \code{TRUE}.}
 
 \item{ratio_mean_one}{Assumend mean for the first ratio series.
-Default is 1.0 if \code{ratio_range_one} has both elements greater than zero, zero otherwise.}
+Default is \code{1.0} if \code{ratio_range_one} has both elements
+greater than zero, \code{0.0} otherwise.}
 
 \item{ratio_mean_two}{Assumend mean for the second ratio series.
-Default is 1.0 if \code{ratio_range_two} has both elements greater than zero, zero otherwise.}
+Default is \code{1.0} if \code{ratio_range_two} has both elements
+greater than zero, \code{0.0} otherwise.}
 
 \item{ratio_color}{Color used for lines in ratio plot.
-Default is \code{"steelblue"}.}
+Default is \code{"steelblue"}. For a listing of R color codes,
+see \insertCite{rchartsColors;textual}{blsplotGG}.}
 }
 \value{
 A \code{ggplot} object that generates a stacked plot with the
@@ -95,7 +98,7 @@ Generates ratio plots for two series, and a third plot of the ratio/difference o
 the two series if the user requests it.
 }
 \details{
-Version 3.5, 1/6/2026
+Version 3.5.1, 2026-06-09
 }
 \examples{
 ukgas_x11_seas   <- 
@@ -133,6 +136,9 @@ ukgas_sf_two_plot_add_mult <-
          do_comparison_plot = FALSE,
          ratio_color = "darkgreen")
 
+}
+\references{
+\insertAllCited{}
 }
 \author{
 Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}

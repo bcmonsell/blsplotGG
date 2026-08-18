@@ -85,25 +85,28 @@ Generates a \code{ggplot} object with a time series plot that compares two seaso
 of the same series, optionally including the original series.
 }
 \details{
-Version 3.7, 2/17/2026
+Version 3.7, 2026-02-17
 }
 \examples{
 ukgas_x11_seas   <- 
-   seasonal::seas(UKgas, series.period = 4, arima.model = "(0 1 1)(0 1 1)", 
-                  transform.function = "log", forecast.maxlead = 20,
-                  x11.seasonalma = "s3x5", 
-                  check.print = c( 'pacf', 'pacfplot' ))
+   seasonal::seas(UKgas, series.period = 4, 
+      arima.model = "(0 1 1)(0 1 1)", 
+      transform.function = "log", forecast.maxlead = 20,
+      x11.seasonalma = "s3x5", 
+      check.print = c( 'pacf', 'pacfplot' ))
 ukgas_seats_seas <- 
-   seasonal::seas(UKgas, series.period = 4, arima.model = "(0 1 1)(0 1 1)", 
-                  transform.function = "log", forecast.maxlead = 20,
-                  check.print = c( 'pacf', 'pacfplot' ))
+   seasonal::seas(UKgas, series.period = 4, 
+      arima.model = "(0 1 1)(0 1 1)", 
+      transform.function = "log", forecast.maxlead = 20,
+      check.print = c( 'pacf', 'pacfplot' ))
 ukgas_x11_sa     <- seasonal::final(ukgas_x11_seas)
 ukgas_seats_sa   <- seasonal::final(ukgas_seats_seas)
 ukgas_seats_v_x11_p <- 
-    plot_two_sa(this_sa_one = ukgas_x11_sa, this_sa_two = ukgas_seats_sa,
-                       main_title = "UK Gas Seasonal Adjustments",
-                       sub_title = "X-11 - Blue, SEATS - Green",
-                       line_color = c("steelblue", "forestgreen"))
+    plot_two_sa(this_sa_one = ukgas_x11_sa, 
+        this_sa_two = ukgas_seats_sa,
+        main_title = "UK Gas Seasonal Adjustments",
+        sub_title = "X-11 - Blue, SEATS - Green",
+        line_color = c("steelblue", "forestgreen"))
 }
 \references{
 \insertAllCited{}

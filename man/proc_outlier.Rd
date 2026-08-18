@@ -23,14 +23,14 @@ start and end of outlier
 Process name of outlier regressor to extract the dates associated with the outlier.
 }
 \details{
-Version 3.1, 12/30/2025
+Version 3.1, 2025-12-30
 }
 \examples{
 air_seas <- 
    seasonal::seas(AirPassengers, x11="", slidingspans = "", 
-                     transform.function = "log", arima.model = "(0 1 1)(0 1 1)", 
-                     regression.aictest = 'td', forecast.maxlead=60, 
-                     check.print = c( "pacf", "pacfplot" ))
+      transform.function = "log", arima.model = "(0 1 1)(0 1 1)", 
+      regression.aictest = 'td', forecast.maxlead=60, 
+      check.print = c( "pacf", "pacfplot" ))
 this_auto_outlier <- get_auto_outlier_string(air_seas)
 this_outlier      <- proc_outlier(this_auto_outlier)
 }

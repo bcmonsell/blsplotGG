@@ -20,7 +20,7 @@ input series.
 Fill unspecified elements of a vector with the first element of the input series.
 }
 \details{
-Version 2.3, 5/25/2023
+Version 2.3, 2023-05-25
 }
 \examples{
 this_vector <- c(1,2)

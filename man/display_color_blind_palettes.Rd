@@ -12,14 +12,15 @@ Possible choices are \code{"div"} (diverging), \code{"qual"} (qualitative), \cod
 If not specified, all color palettes are returned.}
 }
 \value{
-Vector of color palette names from the \code{RColorBrewer} package that can be distinguished by color-blind people.
+Vector of color palette names from the \code{RColorBrewer} package
+that can be distinguished by color-blind people.
 }
 \description{
 Returns the names of color palettes from the \code{RColorBrewer} package \insertCite{RColorBrewer}{blsplotGG}
 that can be distinguished by color-blind people.
 }
 \details{
-Version 1.5, 2/10/2026
+Version 1.5, 2026-02-10
 }
 \examples{
 qual_color_blind_palettes <- display_color_blind_palettes("qual")

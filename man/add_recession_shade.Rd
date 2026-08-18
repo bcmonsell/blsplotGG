@@ -15,7 +15,8 @@ add_recession_shade(
 This is a required entry.}
 
 \item{shade_color}{Character scalar; shading for recession region.
-Default is \code{"pink"}.}
+Default is \code{"lightblue1"}. For a listing of R color codes,
+see \insertCite{rchartsColors;textual}{blsplotGG}.}
 
 \item{shade_alpha}{numeric scalar; controls the intensity of the shading. Default is \code{0.2}.}
 }
@@ -27,7 +28,7 @@ Add shading for US NBER recession dates to \code{ggplot} plot object. Recession 
 are taken from the \code{nberDates} function of the \code{tis} package \insertCite{tis2021}{blsplotGG}.
 }
 \details{
-Version 4.2, 2/10/2026
+Version 4.2.2, 2026-06-09
 }
 \examples{
 air_seas <- 

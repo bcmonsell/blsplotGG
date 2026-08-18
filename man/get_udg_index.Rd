@@ -22,12 +22,17 @@ by the user. If there is no match, the function returns the number 0.
 Return index for entry in \code{UDG} diagnostics list from \code{seas} object.
 }
 \details{
-Version 3.2, 2/10/2026
+Version 3.2, 2026-02-10
 }
 \examples{
-ukgas_seas <- seasonal::seas(UKgas, series.period = 4, arima.model = "(0 1 1)(0 1 1)", 
-                             x11="", transform.function = "log", forecast.maxlead=20,
-                             check.print = c( "pacf", "pacfplot" ))
+ukgas_seas <- 
+   seasonal::seas(UKgas, 
+       series.period = 4,  
+       arima.model = "(0 1 1)(0 1 1)", 
+       x11="",  
+       transform.function = "log",  
+       forecast.maxlead=20,
+       check.print = c( "pacf", "pacfplot" ))
 ukgas_udg <- seasonal::udg(ukgas_seas)
 ukgas_udg_index_a <- get_udg_index(ukgas_udg, this_key='a')
 }

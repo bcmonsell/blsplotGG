@@ -28,9 +28,12 @@ plot_sf_mean(
 )
 }
 \arguments{
-\item{this_sf_matrix}{time series matrix object of the seasonal factors from a number of seasonal adjustments.}
+\item{this_sf_matrix}{time series matrix object of the seasonal factors from
+a number of seasonal adjustments.
+This is a required entry.}
 
-\item{main_title}{Character string; main title of plot.  Default is  \code{'Mean of Seasonal Factors'}.}
+\item{main_title}{Character string; main title of plot.
+Default is  \code{'Mean of Seasonal Factors'}.}
 
 \item{sub_title}{Character string; subtitle of plot. There is no default subtitle.}
 
@@ -65,7 +68,8 @@ set \code{this_scale = "fixed"}.}
 \item{y_limit}{Numeric vector of length 2; Range of values you wish the plot to be plotted over.
 Default is range of the seasonal factors.}
 
-\item{forecast}{Integer scalar; Number of forecasts appended to the seasonal factors. Default is 0.}
+\item{forecast}{Integer scalar; Number of forecasts appended to the seasonal factors.
+Default is \code{0}.}
 
 \item{this_legend_entry}{Character array; entries for the legend. When \code{do_facet = TRUE},
 entries are used as the facet labels.
@@ -88,14 +92,14 @@ Default is \code{10}.}
 }
 \value{
 Generate plot of the means of seasonal factors by period.
-If seasonal factors not specified, print out error message and return NULL.
+If seasonal factors not specified, print out error message and return \code{NULL}.
 }
 \description{
 Generates a plot of the means of a matrix of seasonal factors.
 Each column of the matrix should be a \code{ts} object.
 }
 \details{
-Version 5.6, 2/20/2026
+Version 5.6, 2026-02-20
 }
 \examples{
 EM_individual_seas <-
@@ -116,7 +120,7 @@ names(EM_individual_seas_only) <- EM_names
 
 EM_Comp_Sf <-
  cbind(seasonal::series(EM_individual_seas_only$n2000013, "d10"),
-      seasonal::series(EM_individual_seas_only$n2000014, "d10"),
+       seasonal::series(EM_individual_seas_only$n2000014, "d10"),
        seasonal::series(EM_individual_seas_only$n2000025, "d10"),
        seasonal::series(EM_individual_seas_only$n2000026, "d10"))
 colnames(EM_Comp_Sf) <- EM_names

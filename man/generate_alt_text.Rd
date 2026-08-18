@@ -36,11 +36,13 @@ Default is \code{FALSE}.}
 generate alt text for plot produced by \code{gg_object}
 }
 \description{
-Generates alt text for ggplot graph objects using the \code{BrailleR} package \insertCite{BrailleR2023}{blsplotGG}
-or adding text as suggested by Amy Casale in her article "Writing Alt Text for Data Visualization" \insertCite{Cesal2020}{blsplotGG}.
+Generates alt text for ggplot graph objects using the \code{BrailleR} package
+\insertCite{BrailleR2023}{blsplotGG} or adding text as suggested by
+Amy Casale in her article "Writing Alt Text for Data Visualization"
+\insertCite{Cesal2020}{blsplotGG}.
 }
 \details{
-Version 4.3, 2/10/2026
+Version 4.3, 2026-02-10
 }
 \examples{
 air_seas <- seasonal::seas(AirPassengers, arima.model = "(0 1 1)(0 1 1)", x11="")

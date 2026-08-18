@@ -17,14 +17,19 @@ This is a required entry.}
 Date object determined by the input arguments.
 }
 \description{
-Generate a date object from the number of days from the beginning of the year and the target year.
+Generate a date object from the number of days from the beginning of the year and
+the target year.
+Uses the \code{lubridate} package \insertCite{lubridate;textual}{blsplotGG}).
 }
 \details{
-Version 1.1, 1/7/2026
+Version 1.1.1, 2026-06-18
 }
 \examples{
 this_start <- set_day_and_month(1, 2001)
 this_end   <- set_day_and_month(350, 2025)
+}
+\references{
+\insertAllCited{}
 }
 \author{
 Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}

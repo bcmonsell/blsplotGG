@@ -62,7 +62,8 @@ shaded areas for NBER recession dates.
 Default is no recession shading.}
 
 \item{recess_color}{Character string; color used for shading of recession region.
-Default is \code{'lightgrey'}.}
+Default is \code{'lightgrey'}. For a listing of R color codes,
+see \insertCite{rchartsColors;textual}{blsplotGG}.}
 
 \item{recess_sub}{Logical scalar; indicates if x-axis label for recession is
 produced for this plot.
@@ -72,7 +73,8 @@ Default is x-axis label.}
 Default is "solid".}
 
 \item{line_color}{Character string; color used for series in the plot.
-Default is \code{'grey'}.}
+Default is \code{'grey'}. For a listing of R color codes,
+see \insertCite{rchartsColors;textual}{blsplotGG}.}
 }
 \value{
 Generate \code{ggplot} plot of user-specified series.
@@ -82,17 +84,24 @@ If series not specified, print out error message and return NULL.
 Generate plot of user-specified time series (\code{ts}) object.
 }
 \details{
-Version 3.0.1, 2026-05-15
+Version 3.0.2, 2026-06-09
 }
 \examples{
 air_seas <- 
   seasonal::seas(AirPassengers, arima.model = "(0 1 1)(0 1 1)", x11="",
                  transform.function = "log")
 air_seas_d11 <- seasonal::final(air_seas)
-air_d11_p <- plot_series(air_seas_d11, this_series_name = "AirPassengers", 
+air_d11_p <- 
+    plot_series(air_seas_d11, 
+         this_series_name = "AirPassengers", 
          main_title = 'X-11 Seasonal Adjustment of Airline Passengers',
          sub_title = 'Box-Jenkins Airline series',
-         do_grid = TRUE, draw_recess = TRUE, line_color = "darkblue")
+         do_grid = TRUE, 
+         draw_recess = TRUE,  
+         line_color = "darkblue")
+}
+\references{
+\insertAllCited{}
 }
 \author{
 Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}

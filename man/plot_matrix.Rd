@@ -77,12 +77,10 @@ Default is \code{right}.}
 Default is \code{10}.}
 
 \item{do_facet}{Logical scalar; indicates if a facet plot is generated of the
-different colums.
-Default is \code{FALSE}.}
+different colums. Default is \code{FALSE}.}
 
 \item{reset_facet_y_axis}{Logical scalar; indicates if y-axis for facet plots
-reset to \code{y_limit}
-Default is \code{FALSE}.}
+reset to \code{y_limit}. Default is \code{FALSE}.}
 }
 \value{
 A \code{ggplot} object that produces a plot of user-specified time series
@@ -95,18 +93,20 @@ If matrix not specified, print out error message and return NULL.
 Generate plot of a matrix of user-specified time series.
 }
 \details{
-Version 6.3, 2/17/2026
+Version 6.3, 2026-02-17
 }
 \examples{
 BP_Region_Matrix <-
    cbind(blsplotGG::xt_data_list$mw1u, blsplotGG::xt_data_list$ne1u, 
          blsplotGG::xt_data_list$so1u, blsplotGG::xt_data_list$we1u)
 colnames(BP_Region_Matrix) <- names(blsplotGG::xt_data_list)
-p_BP <- blsplotGG::plot_matrix(BP_Region_Matrix, this_y_label = 'Building Permits', 
+p_BP <- blsplotGG::plot_matrix(BP_Region_Matrix, 
+   this_y_label = 'Building Permits', 
    main_title = "US Building Permits, 1 Family Units",
    do_grid = TRUE, this_line_type = rep("solid", 4),
    line_color = c("orange", "steelblue", "forestgreen", "brown"))
-p_BP_facet <- blsplotGG::plot_matrix(BP_Region_Matrix, this_y_label = 'Building Permits', 
+p_BP_facet <- blsplotGG::plot_matrix(BP_Region_Matrix, 
+  this_y_label = 'Building Permits', 
    main_title = "US Building Permits, 1 Family Units",
    do_grid = FALSE, do_facet = TRUE,
    line_color = c("orange", "steelblue", "forestgreen", "brown"))

@@ -27,7 +27,7 @@ Convert the three character code used by the \code{plot_spectrum} function so th
 \code{visual_sig_peaks} function from the \code{blsplot} package.
 }
 \details{
-Version 1.4, 5/6/2024
+Version 1.4, 2024-05-06
 }
 \examples{
 this_code <- convert_spectrum_code("sp2")

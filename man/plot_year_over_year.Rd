@@ -91,21 +91,23 @@ when printing out the plot.
 Generate year over year plot of a user-specified \code{ts} object.
 }
 \details{
-Version 7.2, 2/17/2026
+Version 7.2, 2026-02-17
 }
 \examples{
 this_yyplot <- 
-    plot_year_over_year(AirPassengers, this_y_label = "Air", this_palette = "Dark2")
+    plot_year_over_year(AirPassengers, this_y_label = "Air", 
+        this_palette = "Dark2")
 legend_order <- 
     as.character(as.vector(matrix(1949:1960, ncol = 4, byrow = TRUE)))
 this_yyplot_detrend <- 
-    plot_year_over_year(AirPassengers, this_y_label = "Air", this_palette = "Dark2",
-                        main_title = "YY Plot of Loess Detrended Air Passenger Series",
-                        detrend_series = TRUE, detrend_lowess = TRUE, 
-                        this_legend_position = "bottom",
-                        this_legend_size = 0.25,
-                        this_legend_order = legend_order,
-                        this_legend_space = 0)
+    plot_year_over_year(AirPassengers, this_y_label = "Air", 
+        this_palette = "Dark2",
+        main_title = "YY Plot of Loess Detrended Air Passenger Series",
+        detrend_series = TRUE, detrend_lowess = TRUE, 
+        this_legend_position = "bottom",
+        this_legend_size = 0.25,
+        this_legend_order = legend_order,
+        this_legend_space = 0)
 }
 \references{
 \insertAllCited{}

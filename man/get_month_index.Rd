@@ -4,19 +4,22 @@
 \alias{get_month_index}
 \title{Generate index of month abbreviation}
 \usage{
-get_month_index(this_month_string)
+get_month_index(this_month_string, full_name = FALSE)
 }
 \arguments{
-\item{this_month_string}{Character string; 3 character abbreviation of month}
+\item{this_month_string}{Character string; 3 character abbreviation of month.}
+
+\item{full_name}{Logical scalar; indicates if this is the full name of the month}
 }
 \value{
-Index of month - 1 for 'Jan', 2 for 'Feb', etc.
+Index of month - 1 for \code{'Jan'}, 2 for \code{'Feb'}, etc.
+If results do not match, this function will return \code{0}.
 }
 \description{
-Process string of month abbrev to return a numeric index.
+Process string of month abbreviation to return a numeric index .
 }
 \details{
-Version 2.4, 12/11/2024
+Version 3.1, 2026-06-15
 }
 \examples{
 thisOtl <- 'AO2015.Jan'

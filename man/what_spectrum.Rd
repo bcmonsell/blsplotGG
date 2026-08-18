@@ -28,7 +28,7 @@ If improper value set for \code{this_spectrum}, function will return \code{NULL}
 Return which spectrum plot is generated based on the three character code used by the \code{plot_spectrum} function.
 }
 \details{
-Version 1.5, 5/6/2024
+Version 1.5, 2024-05-06
 }
 \examples{
 sub_title <- what_spectrum("sp2", use_title_case = TRUE)

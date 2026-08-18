@@ -9,9 +9,9 @@ absmax(x = NULL, return_abs = TRUE)
 \arguments{
 \item{x}{vector of numbers. This is a required element.}
 
-\item{return_abs}{Logical scalar; if TRUE, return the absolute maximum value.
-If FALSE, maintain the sign of the original value.
-Default is TRUE.}
+\item{return_abs}{Logical scalar; if \code{TRUE}, return the absolute maximum value.
+If \code{FALSE}, maintain the sign of the original value.
+Default is \code{TRUE}.}
 }
 \value{
 Maximum of the absolute value of a vector

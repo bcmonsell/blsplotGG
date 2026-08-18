@@ -64,21 +64,23 @@ Generates a \code{ggplot} object with a time series plot that compares an X-13
 seasonal adjustment and trend, optionally including the original series.
 }
 \details{
-Version 2.4, 2/17/2026
+Version 2.4, 2026-02-17
 }
 \examples{
 ukgas_x11_seas   <- 
-   seasonal::seas(UKgas, series.period = 4, arima.model = "(0 1 1)(0 1 1)", 
-                  transform.function = "log", forecast.maxlead = 20,
-                  x11.seasonalma = "s3x5", 
-                  check.print = c( 'pacf', 'pacfplot' ))
+    seasonal::seas(UKgas, series.period = 4, 
+        arima.model = "(0 1 1)(0 1 1)", 
+        transform.function = "log",  
+        forecast.maxlead = 20,
+        x11.seasonalma = "s3x5", 
+        check.print = c( 'pacf', 'pacfplot' ))
 ukgas_x11_sa     <- seasonal::final(ukgas_x11_seas)
 ukgas_sa_ori_p <- 
     plot_sadj_and_ori(this_sa = ukgas_x11_sa, 
-                      this_ori = UKgas,
-					 this_sa_type = "X-11",
-                      main_title = "UK Gas Seasonal Adjustment",
-                      line_color = c("lightgrey", "forestgreen"))
+        this_ori = UKgas,
+        this_sa_type = "X-11",
+        main_title = "UK Gas Seasonal Adjustment",
+        line_color = c("lightgrey", "forestgreen"))
 }
 \references{
 \insertAllCited{}

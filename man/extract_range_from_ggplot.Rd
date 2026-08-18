@@ -18,7 +18,7 @@ Vector of length 2 with the range of the data used to generate a given
 Computes the range of all data plotted in given \code{ggplot} object.
 }
 \details{
-Version Version 2.1, 12/30/2025
+Version Version 2.1, 2025-12-30
 }
 \examples{
 air_seas <- 

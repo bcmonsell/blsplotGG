@@ -30,10 +30,10 @@ This is a required entry.}
 \item{do_comparison_plot}{Logical scalar. If TRUE, a ratio/difference plot of the two
 seasonal adjustments will be generated from \code{this_sa_one} and \code{this_sa_two},
 if the series have the same periodicity.
-Default is TRUE.}
+Default is \code{TRUE}.}
 
 \item{overall_title}{Title for the combined plot.
-Default is NULL.}
+Default is \code{NULL}.}
 
 \item{sa_one_title}{Title for the first plot.
 Default is character string \code{'First SA Plot'}.}
@@ -60,8 +60,6 @@ set \code{this_scale = "free_y"}.}
 
 \item{line_color}{Character string; color used for lines in plot.
 Default is \code{"steelblue"}. For a listing of R color codes,
-see \insertCite{rchartsColors;textual}{blsplotGG}.
-For a listing of R color codes,
 see \insertCite{rchartsColors;textual}{blsplotGG}.}
 
 \item{ratio_color}{Character string; Line color for the comparison ratio plot.
@@ -76,28 +74,30 @@ Generates a \code{ggplot} object with a time series plot that compares two seaso
 of the same series, with an optional comparison panel between the two adjustments.
 }
 \details{
-Version 2.3, 2/17/2026
+Version 2.3, 2026-02-17
 }
 \examples{
 ukgas_x11_seas   <- 
-   seasonal::seas(UKgas, series.period = 4, arima.model = "(0 1 1)(0 1 1)", 
-                  transform.function = "log", forecast.maxlead = 20,
-                  x11.seasonalma = "s3x5", 
-                  check.print = c( 'pacf', 'pacfplot' ))
+   seasonal::seas(UKgas, series.period = 4, 
+       arima.model = "(0 1 1)(0 1 1)", 
+       transform.function = "log", forecast.maxlead = 20,
+       x11.seasonalma = "s3x5", 
+       check.print = c( 'pacf', 'pacfplot' ))
 ukgas_seats_seas <- 
-   seasonal::seas(UKgas, series.period = 4, arima.model = "(0 1 1)(0 1 1)", 
-                  transform.function = "log", forecast.maxlead = 20,
-                  check.print = c( 'pacf', 'pacfplot' ))
+   seasonal::seas(UKgas, series.period = 4,  
+       arima.model = "(0 1 1)(0 1 1)", 
+       transform.function = "log", forecast.maxlead = 20,
+       check.print = c( 'pacf', 'pacfplot' ))
 ukgas_x11_sa     <- seasonal::final(ukgas_x11_seas)
 ukgas_seats_sa   <- seasonal::final(ukgas_seats_seas)
 ukgas_seats_v_x11_p <- 
     plot_two_sa_comparison(
-         this_sa_one = ukgas_x11_sa, 
-         this_sa_two = ukgas_seats_sa,
-         overall_title = "UK Gas Production",
-         sa_one_title = "X-11 Seasonal Adjustment",
-         sa_two_title = "SEATS Seasonal Adjustment",
-         comparison_title = "Ratio of Seasonal Adjustments (X11 / SEATS)")
+        this_sa_one = ukgas_x11_sa, 
+        this_sa_two = ukgas_seats_sa,
+        overall_title = "UK Gas Production",
+        sa_one_title = "X-11 Seasonal Adjustment",
+        sa_two_title = "SEATS Seasonal Adjustment",
+        comparison_title = "Ratio of Seasonal Adjustments (X11 / SEATS)")
 }
 \references{
 \insertAllCited{}

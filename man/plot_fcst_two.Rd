@@ -50,7 +50,7 @@ Default is \code{'Model 2'}.}
 \item{this_y_label}{Label for Y-axis.  Default is \code{" "}}
 
 \item{length_ori}{Integer scalar; number of years of the original series
-to show with forecasts. #'        Default is 2 years.}
+to show with forecasts. Default is 2 years.}
 
 \item{do_grid}{Logical scalar; indicates if certain plots will have grid lines.
 Default is no grid lines.}
@@ -60,7 +60,8 @@ Default is no grey background;}
 
 \item{this_palette}{Array of character strings; color used for original series,
 forecast, and upper and lower forecast bounds.
-Default is \code{c("darkgrey", "steelblue", "darkgreen")}.}
+Default is \code{c("darkgrey", "steelblue", "darkgreen")}.
+For a listing of R color codes, see \insertCite{rchartsColors;textual}{blsplotGG}.}
 
 \item{this_legend_title}{Title for legend.  Default is \code{"Forecast"}}
 
@@ -82,10 +83,12 @@ A \code{ggplot} object of the regARIMA forecasts for two models of the same seri
 }
 \description{
 Generates plot that compares regARIMA forecasts for two models of the same series.
-The forecasts are extracted from two seas objects generated from the same series.
+The forecasts are extracted from two \code{seas} objects
+from the same seriesgenerated from the \code{seas} function of the
+\code{seasonal} package \insertCite{Sax2018}{blsplotGG}.
 }
 \details{
-Version 3.1, 12/30/2025
+Version 3.1.1, 2026-06-09
 }
 \examples{
 shoes_seas_one <- 
@@ -103,6 +106,9 @@ shoes_fcst_two_p <-
          main_title = "Forecast Comparison Plot", 
          name_mdl1 = 'Airline', name_mdl2 = 'Airline + reg',
          do_grid = TRUE)
+}
+\references{
+\insertAllCited{}
 }
 \author{
 Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}

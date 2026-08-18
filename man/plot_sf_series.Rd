@@ -13,8 +13,8 @@ plot_sf_series(
   this_xlab = NULL,
   do_grid = FALSE,
   do_background = FALSE,
-  this_color_sf = "darkblue",
-  this_color_mean = "darkgrey",
+  line_color_sf = "darkblue",
+  line_color_mean = "darkgrey",
   first_year = NULL,
   add_mean_line = TRUE,
   this_legend_title = "SF Plot",
@@ -32,9 +32,10 @@ plot_sf_series(
 Default is range of the seasonal factors.}
 
 \item{this_trans}{Logical scalar; indicates if the adjustment was done with a log transform.
-Default is TRUE.}
+Default is \code{TRUE}.}
 
-\item{main_title}{Character string; main title of plot.  Default is  \code{'Seasonal Sub-Plots'}.}
+\item{main_title}{Character string; main title of plot.
+Default is \code{'Seasonal Sub-Plots'}.}
 
 \item{sub_title}{Character string; subtitle of plot.  Subtitle not produced if not specified.}
 
@@ -46,11 +47,13 @@ Default is no grid lines.}
 \item{do_background}{Logical scalar; indicates grey background included in plot.
 Default is no grey background;}
 
-\item{this_color_sf}{Character string; color used for seasonal factors.
-Default is \code{"darkblue"}.}
+\item{line_color_sf}{Character string; color used for seasonal factors.
+Default is \code{"darkblue"}. For a listing of R color codes,
+see \insertCite{rchartsColors;textual}{blsplotGG}.}
 
-\item{this_color_mean}{Character string; color used for means of the seasonal factors.
-Default is \code{"darkgrey"}.}
+\item{line_color_mean}{Character string; color used for means of the seasonal factors.
+Default is \code{"darkgrey"}. For a listing of R color codes,
+see \insertCite{rchartsColors;textual}{blsplotGG}.}
 
 \item{first_year}{Integer scalar; First year used in plot. Default is start of the series.}
 
@@ -83,7 +86,7 @@ A \code{ggplot} object which generates a plot of the seasonal factors
 Generates a special plot of the seasonal factors grouped by month/quarter.
 }
 \details{
-Version 3.1, 12/9/2024
+Version 3.2, 2026-06-09
 }
 \examples{
 air_seas    <- 
@@ -93,12 +96,15 @@ air_sf      <- seasonal::series(air_seas, 'd10')
 plot_air_sf <- plot_sf_series(air_sf,
    add_mean_line = TRUE, 
    main_title = 'Air Passengers Seasonal Sub-Plots',
-   this_color_sf = 'darkgreen', 
-   this_color_mean = 'lightgreen',
+   line_color_sf = 'darkgreen', 
+   line_color_mean = 'lightgreen',
    this_legend_title = 'X-11 Seasonal',
    this_legend_text = c('sf', 'mean'),
    this_legend_position = "bottom",
    this_legend_space = 0)
+}
+\references{
+\insertAllCited{}
 }
 \author{
 Brian C. Monsell, \email{monsell.brian@bls.gov} or \email{bcmonsell@gmail.com}
