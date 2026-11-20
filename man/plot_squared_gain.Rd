@@ -29,7 +29,8 @@ This is a required entry.}
 \item{this_series}{Character string; series for which SEATS produces a squared gain plot,
 limited to the seasonally adjusted series (\code{sa}, the default),
 or the trend component (\code{trend}).
-For other entries, the function will print an error message and return a NULL.}
+For other entries, the function will print an error message and
+return a \code{NULL}.}
 
 \item{main_title}{Character string; main title of plot.
 A title will be generated if no title is specified.}
@@ -77,7 +78,7 @@ package. For more information on SEATS and SEATS input options in X-13ARIMA-SEAT
 \insertCite{@see Section 7.14 of @Census2025}{blsplotGG}.
 }
 \details{
-Version 2.5.1, 2026-06-09
+Version 2.5.2, 2026-09-29
 }
 \examples{
 shoes_seats_seas <- 

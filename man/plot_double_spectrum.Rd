@@ -12,7 +12,8 @@ plot_double_spectrum(
   line_color = c("darkblue", "darkgreen"),
   median_color = c("blue", "green"),
   freq_color = c("steelblue", "forestgreen"),
-  peak_color = c("violet", "brown")
+  peak_color = c("violet", "brown"),
+  label_size = c(5, 2.5)
 )
 }
 \arguments{
@@ -25,7 +26,7 @@ frequency by month rather than the actual frequencies.
 Default sets x-axis to frequency by month.}
 
 \item{main_title}{Character string; main title of plot.
-Default is  \code{'AR Spectrum'}; if \code{series_name} is specified,
+Default is  \code{"AR Spectrum"}; if \code{series_name} is specified,
 the series name is added to the end of \code{main_title} if that argument
 is not specified.}
 
@@ -48,6 +49,10 @@ Defaults are \code{c("steelblue", "forestgreen")}.}
 \item{peak_color}{Character vector of length 2. Colors used for peaks at
 seasonal and trading day frequencies, respectively.
 Defaults are \code{c("violet", "brown")}.}
+
+\item{label_size}{Numeric vector of length 2. Size of labels for frequencies
+for peak requencies and trading day frequencies, respectively.
+Defaults are \code{c(5, 2.5)}.}
 }
 \value{
 \code{ggplot} object of spectrum of original series and seasonally
@@ -59,7 +64,7 @@ on same axis. For more information on spectral diagnostics,
 \insertCite{@see Sections 6.1 and 7.17 of @Census2025;textual}{blsplotGG}.
 }
 \details{
-Version 4.3, 2026-07-06
+Version 5.0, 2026-09-30
 }
 \examples{
 air_seas <- 
@@ -72,7 +77,8 @@ plot_double_spectrum_air <-
           line_color = c("steelblue", "forestgreen"),  
           median_color = c("blue", "green"), 
           freq_color = c("darkblue", "darkgreen"), 
-          peak_color = c("red", "orange"))
+          peak_color = c("red", "orange"),
+          label_size = c(4, 2))
 }
 \references{
 \insertAllCited{}

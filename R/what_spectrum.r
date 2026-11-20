@@ -2,7 +2,7 @@
 #'
 #' Return which spectrum plot is generated based on the three character code used by the \code{plot_spectrum} function.
 #'
-#' Version 1.5, 5/6/2024
+#' Version 1.5, 2024-05-06
 #'
 #' @param this_spectrum Character string; three character code for the X-13 spectrum to be generated.
 #'        Allowed entries are \code{"sp0"} (modified original series), 
@@ -24,7 +24,7 @@
 #' sub_title <- what_spectrum("sp2", use_title_case = TRUE)
 #' @export
 what_spectrum <- function(this_spectrum = "sp0", use_title_case = FALSE) {
-    # Author: Brian C. Monsell (OEUS) Version 1.5, 5/6/2024
+    # Author: Brian C. Monsell (OEUS) Version 1.5, 2024-05-06
 
 	# generate text describing spectrum plot for specific codes
 	this_spectrum_text <- 
@@ -42,7 +42,7 @@ what_spectrum <- function(this_spectrum = "sp0", use_title_case = FALSE) {
             TRUE ~ NA)
 	
 	
-    if(is.na(this_spectrum_text)) {
+    if (is.na(this_spectrum_text)) {
         print(paste("Spectrum type not valid:", this_spectrum))
 		this_spectrum_text <- NULL
     } else {

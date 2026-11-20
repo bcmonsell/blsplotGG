@@ -34,16 +34,16 @@ on the same time series, but a different regARIMA model.
 This is a required entry.}
 
 \item{main_title}{Character string; main title of plot.
-Default is \code{'ARIMA Residuals'}.}
+Default is \code{"ARIMA Forecasts"}.}
 
 \item{sub_title}{Subtitle for the plot.
 Default is to generate the subtitle.}
 
 \item{name_mdl1}{Character string; Description of first model for use in the subtitle.
-Default is \code{'Model 1'}.}
+Default is \code{"Model 1"}.}
 
 \item{name_mdl2}{Character string; Description of second model for use in the subtitle.
-Default is \code{'Model 2'}.}
+Default is \code{"Model 2"}.}
 
 \item{this_x_label}{Label for X-axis.  Default is \code{"Time"}}
 
@@ -66,20 +66,25 @@ For a listing of R color codes, see \insertCite{rchartsColors;textual}{blsplotGG
 \item{this_legend_title}{Title for legend.  Default is \code{"Forecast"}}
 
 \item{this_legend_title_size}{integer scalar; Size of the legend title.
+Must be greater than zero.
 Default is \code{12}.}
 
 \item{this_legend_text_size}{integer scalar; Size of the legend title.
+Must be greater than zero.
 Default is \code{10}.}
 
-\item{this_legend_position}{character String; The position of the legend, which can be one of
-\code{top}, \code{bottom}, \code{left}, \code{right}.
-Default is \code{right}.}
+\item{this_legend_position}{Character string; indicates the position of the plot legend.
+Possible values are \code{"right"}, \code{"left"}, \code{"top"},
+\code{"bottom"}, and \code{"none"}
+Default is \code{"right"}.}
 
 \item{this_legend_space}{integer scalar; Space between legend and plot in points.
+Must be greater than or equal to zero.
 Default is \code{10}.}
 }
 \value{
-A \code{ggplot} object of the regARIMA forecasts for two models of the same series.
+A \code{ggplot} object of the regARIMA forecasts for two models of the
+same series.
 }
 \description{
 Generates plot that compares regARIMA forecasts for two models of the same series.
@@ -88,19 +93,25 @@ from the same seriesgenerated from the \code{seas} function of the
 \code{seasonal} package \insertCite{Sax2018}{blsplotGG}.
 }
 \details{
-Version 3.1.1, 2026-06-09
+Version 3.4, 2026-10-28
 }
 \examples{
 shoes_seas_one <- 
-    seasonal::seas(shoes2008, x11="", slidingspans = "", transform.function = "log",
-                   arima.model = "(0 1 1)(0 1 1)", regression.aictest = NULL, 
-                   outlier = NULL, forecast.maxlead = 60, forecast.save = "fct",
-                   check.print = c( 'pacf', 'pacfplot' ), series.save = "a1")
+    seasonal::seas(shoes2008, x11="", slidingspans = "", 
+        transform.function = "log", outlier = NULL, 
+        arima.model = "(0 1 1)(0 1 1)", 
+        regression.aictest = NULL, 
+        forecast.maxlead = 60, forecast.save = "fct",
+        check.print = c( 'pacf', 'pacfplot' ), 
+        series.save = "a1")
 shoes_seas_two <- 
-    seasonal::seas(shoes2008, x11="", slidingspans = "", transform.function = "log",
-                   arima.model = "(0 1 1)(0 1 1)", regression.variables = c("td"),
-                   forecast.maxlead = 60, forecast.save = "fct", 
-                   check.print = c( 'pacf', 'pacfplot' ), series.save = "a1")
+    seasonal::seas(shoes2008, x11="", slidingspans = "", 
+        transform.function = "log",
+        arima.model = "(0 1 1)(0 1 1)", 
+        regression.variables = c("td"),
+        forecast.maxlead = 60, forecast.save = "fct", 
+        check.print = c( 'pacf', 'pacfplot' ), 
+        series.save = "a1")
 shoes_fcst_two_p <- 
     plot_fcst_two(shoes_seas_one, shoes_seas_two,
          main_title = "Forecast Comparison Plot", 

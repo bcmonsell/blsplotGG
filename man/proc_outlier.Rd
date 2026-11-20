@@ -20,7 +20,8 @@ List of either year and month/quarter of outlier, or year and month/quarter of
 start and end of outlier
 }
 \description{
-Process name of outlier regressor to extract the dates associated with the outlier.
+Process text string of the name of an outlier regressor to extract the dates associated
+with the outlier.
 }
 \details{
 Version 3.1, 2025-12-30

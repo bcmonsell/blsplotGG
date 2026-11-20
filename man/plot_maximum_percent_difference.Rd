@@ -30,7 +30,7 @@ to be generated. Allowed entries are \code{"sfs"} (seasonal factors, default),
 \code{"cis"} (indirect period-to-period changes).}
 
 \item{main_title}{Title for the plot.
-Default is character string \code{'Maximum Percent Difference Plot'}.}
+Default is character string \code{"Maximum Percent Difference Plot"}.}
 
 \item{sub_title}{Subtitle for the plot. Optional entry.}
 
@@ -65,11 +65,11 @@ analysis, \insertCite{@see Sections 6.2 and 7.13 of @Census2025;textual}{blsplot
 details on sliding spans analysis in \insertCite{Findley90;textual}{blsplotGG}.
 }
 \details{
-Version 3.0.1, 2026-06-09
+Version 3.0.2, 2026-09-29
 }
 \examples{
 shoes_sspan_seas <- 
-   seasonal::seas(blsplotGG::shoes2008, 
+   seasonal::seas(shoes2008, 
        arima.model = "(0 1 1)(0 1 1)", 
        transform.function = "log", 
        forecast.maxlead = 36,

@@ -12,7 +12,8 @@ plot_component_facet(
   this_y_label = " ",
   do_grid = FALSE,
   do_background = FALSE,
-  this_scale = "free_y",
+  facet_scale = "free_y",
+  facet_text_size = NULL,
   line_color = "steelblue"
 )
 }
@@ -22,10 +23,10 @@ plot_component_facet(
 This is a required entry.}
 
 \item{main_title}{Title for the plot.
-Default is character string \code{'Component Facet Plot'}.}
+Default is character string \code{"Component Facet Plot"}.}
 
-\item{sub_title}{Subtitle for the plot. Default is either "SEATS seasonal adjustment"
-or "X-11 seasonal adjustment".}
+\item{sub_title}{Subtitle for the plot. Default is either
+\code{"SEATS seasonal adjustment"} or \code{"X-11 seasonal adjustment"}.}
 
 \item{this_x_label}{Label for X axis. Default is \code{"Time"}.}
 
@@ -37,10 +38,12 @@ Default is no grid lines.}
 \item{do_background}{Logical scalar; indicates grey background included in plot.
 Default is no grey background;}
 
-\item{this_scale}{Character scalar; set the scale for the y-axis of the facet plots.
-Default is \code{"free_y"}.  To set axis to be the same for the different plots,
-set \code{this_scale = "fixed"}. Note: Setting \code{this_scale = "fixed"}
-seasonal is not recommended for mulitplicative adjustments.}
+\item{facet_scale}{Character scalar; set the scale for the y-axis of the facet plots.
+Default is \code{"fixed"}.  To set axis to be different for the different plots,
+set \code{facet_scale = "free_y"}.}
+
+\item{facet_text_size}{Numeric scalar; size of text in facet labels.
+Default is set by the \code{ggplot2} package.}
 
 \item{line_color}{Color used for lines in component plot.
 Default is \code{"steelblue"}. For a listing of R color codes,
@@ -56,7 +59,7 @@ irreglar - from a \code{seas} object generated from a call of \code{seas} functi
 of the \code{seasonal} package \insertCite{Sax2018}{blsplotGG}.
 }
 \details{
-Version 1.5.1, 2026-06-09
+Version 2.1, 2026-10-30
 }
 \examples{
 shoes_x11_seas <- 

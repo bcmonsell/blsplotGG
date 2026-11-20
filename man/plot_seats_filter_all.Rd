@@ -64,7 +64,7 @@ Default is \code{20}, a small filled circle.}
 A \code{ggplot} object that generates a plot of the adjustment and trend
 concurrent and symmetric filters from a SEATS seasonal adjustment from X-13ARIMA-SEATS.
 If SEATS seasonal adjustment (with \code{seats.finite = "yes"}) not producted,
-print out error message and return NULL.
+print out error message and return \code{NULL}.
 }
 \description{
 Generate plot of the concurrent and symmetric filters for the seasonally adjusted
@@ -73,7 +73,7 @@ For more information on SEATS as implemented in X-13ARIMA-SEATS,
 \insertCite{@see Section 7.14 of @Census2025}{blsplotGG}.
 }
 \details{
-Version 1.10.1, 2026-06-09
+Version 1.11, 2026-09-30
 }
 \examples{
 shoes_seats_seas <- 

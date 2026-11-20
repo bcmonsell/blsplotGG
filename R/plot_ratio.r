@@ -2,14 +2,14 @@
 #'
 #' Generates a high-definition plot around a reference line other than zero.
 #'
-#' Version 3.4, 8/27/2025
+#' Version 3.4.2, 2026-09-29
 #'
 #' @param ratio_series Time series of ratios/factors for which you want to generate 
 #'        a high definition plot
 #' @param ratio_range Range of values you wish the plot to be plotted over. 
 #'        Default is range of the series.
 #' @param main_title Title for the plot. 
-#'        Default is character string \code{'Ratio Plot'}.
+#'        Default is character string \code{"Ratio Plot"}.
 #' @param sub_title Subtitle for the plot. Default is \code{NULL}.
 #' @param this_x_label Label for X axis. Default is \code{"Time"}.
 #' @param this_y_label Label for Y axis. Default is \code{"Ratio"}.
@@ -21,7 +21,8 @@
 #'        areas for NBER recession dates. 
 #'        Default is no recession shading. 
 #' @param recess_color Character string; color used for shading of recession region. 
-#'        Default is \code{'lightgrey'}.
+#'        Default is \code{"lightgrey"}. For a listing of R color codes, 
+#'        see \insertCite{rchartsColors;textual}{blsplotGG}.
 #' @param recess_sub Logical scalar; indicates if x-axis label for recession is 
 #'        produced for this plot. 
 #'        Default is x-axis label.
@@ -29,20 +30,28 @@
 #'        Default is \code{TRUE}. 
 #' @param ratio_mean Assumed mean value for the ratio.  Default is \code{1.0}
 #' @param ratio_color Color used for lines in ratio plot.  
-#'        Default is \code{"steelblue"}.
+#'        Default is \code{"steelblue"}. For a listing of R color codes, 
+#'        see \insertCite{rchartsColors;textual}{blsplotGG}.
 #' @return A \code{ggplot} object that produces a ratio plot of a time series.
 #'
 #' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #'
+#' @references
+#'  \insertAllCited{}
+#'
 #' @examples
 #' ukgas_x11_seas <- 
-#'    seasonal::seas(UKgas, series.period = 4, arima.model = "(0 1 1)(0 1 1)", 
-#'                   transform.function = "log", forecast.maxlead = 20, 
-#'                   series.appendfcst = "no", x11.seasonalma = "s3x5", 
-#'                   check.print = c( 'pacf', 'pacfplot' ))
+#'    seasonal::seas(UKgas, series.period = 4, 
+#'       arima.model = "(0 1 1)(0 1 1)", 
+#'       transform.function = "log", forecast.maxlead = 20, 
+#'       series.appendfcst = "no", x11.seasonalma = "s3x5", 
+#'       check.print = c( 'pacf', 'pacfplot' ))
 #' ukgas_x11_sf     <- seasonal::series(ukgas_x11_seas, "d10")
-#' ukgas_sf_ratio   <- plot_ratio(ukgas_x11_sf, main_title = "UK Gas X-11 Seasonal Factors",
-#'                                sub_title = "Seasonal Filter: 3x5")
+#' ukgas_sf_ratio   <- 
+#'    plot_ratio(ukgas_x11_sf, 
+#'       main_title = "UK Gas X-11 Seasonal Factors",
+#'       sub_title = "Seasonal Filter: 3x5")
+#' @importFrom Rdpack reprompt
 #' @export
 plot_ratio <- 
     function(ratio_series = NULL, 
@@ -59,7 +68,7 @@ plot_ratio <-
              add_line = TRUE, 
              ratio_mean = 1.0, 
              ratio_color = "steelblue") {
-    # Author: Brian C. Monsell (OEUS) Version 3.4, 8/27/2025
+    # Author: Brian C. Monsell (OEUS) Version 3.4.2, 2026-09-29
     
     # check if \code{ratio_series} is specified
     if (is.null(ratio_series)) {

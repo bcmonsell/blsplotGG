@@ -26,7 +26,8 @@ plot_year_over_year(
 )
 }
 \arguments{
-\item{this_series}{Numeric matrix; columns of time series object to be plotted.}
+\item{this_series}{A \code{ts} object;
+This is a required entry.}
 
 \item{main_title}{Character string; main title of plot.
 The default title is the name of the series passed to this function.}
@@ -35,8 +36,8 @@ The default title is the name of the series passed to this function.}
 
 \item{this_y_label}{Character string; y-axis label for plot, if specified.}
 
-\item{y_limit}{Numeric vector of length 2; Range of values you wish the plot to be plotted over.
-Default is range of the series specified.}
+\item{y_limit}{Numeric vector of length 2; Range of values you wish the plot
+to be plotted over. Default is range of the series specified.}
 
 \item{this_x_label}{Label for X axis. Default is \code{"Month"} or \code{"Quarter"}.}
 
@@ -55,43 +56,47 @@ Default is the \code{RColorBrewer} palette \code{"Paired"}.
 For a listing of R color codes,
 see \insertCite{rchartsColors;textual}{blsplotGG}.}
 
-\item{this_palette}{Character string; \code{RColorBrewer} palette used for this plot..
-Default is the \code{RColorBrewer} palette \code{"Paired"} \insertCite{RColorBrewer}{blsplotGG}.}
+\item{this_palette}{Character string; \code{RColorBrewer} palette used for this plot.
+Default is the \code{RColorBrewer} palette \code{"Paired"}
+\insertCite{RColorBrewer}{blsplotGG}.}
 
 \item{detrend_series}{Logical scalar; indicates if the series plotted is to be detrended.
 Default is the original series is plotted.}
 
 \item{detrend_lowess}{Logical scalar; indicates lowess is used to generate the trend
-used to detrend the series. Default setting is loess is not used to detrend the series;
-detrending doesn't happen unless \code{detrend_series = TRUE}.}
+used to detrend the series. Default setting is loess is not used to detrend
+the series; detrending doesn't happen unless \code{detrend_series = TRUE}.}
 
 \item{this_legend_title}{Character string; sets the title associated with the plot legend.
 Default title is \code{"Years"}.}
 
 \item{this_legend_position}{Character string; indicates the position of the plot legend.
-Possible values are \code{"right"} (default), \code{"left"}, \code{"top"},
-\code{"bottom"}, and \code{"none"}}
+Possible values are \code{"right"}, \code{"left"}, \code{"top"},
+\code{"bottom"}, and \code{"none"}
+Default is \code{"right"}.}
 
-\item{this_legend_size}{Numeric scalar; indicates the size of several attributes of the plot legend,
-in centimeters. Default value is \code{1}.}
+\item{this_legend_size}{Numeric scalar; indicates the size of several attributes
+of the plot legend, in centimeters.
+Default is determined by \code{ggplot2}.}
 
 \item{this_legend_order}{Character vector; indicates the order of entries in the legend.
 Default order is determined by \code{ggplot2}.}
 
 \item{this_legend_space}{integer scalar; Space between legend and plot in points.
+Must be greater than or equal to zero.
 Default is determined by \code{ggplot2}.}
 }
 \value{
 Generate \code{ggplot} object generating a year to year plot of a time series object.
-If time series object not specified, print out error message and return NULL.
-Note that this plot will likely produce warning messages - to suppress them, use \code{suppressWarnings}
-when printing out the plot.
+If time series object not specified, print out error message and return \code{NULL}.
+Note that this plot will likely produce warning messages - to suppress them,
+use \code{suppressWarnings} when printing out the plot.
 }
 \description{
 Generate year over year plot of a user-specified \code{ts} object.
 }
 \details{
-Version 7.2, 2026-02-17
+Version 7.6, 2026-10-28
 }
 \examples{
 this_yyplot <- 

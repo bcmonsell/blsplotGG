@@ -3,14 +3,14 @@
 #' Generates a \code{ggplot2} object of the first difference of a time series grouped
 #' by months or quarters. The series must be a \code{ts} object.
 #'
-#' Version 2.3, 12/30/2025
+#' Version 3.0, 2026-10-23
 #'
-#' @param this_series \code{ts} object of a single time series
+#' @param this_series \code{ts} object of a single time series.
 #'        This is a required entry.
 #' @param take_log Logical scalar, specifies that a log transformation will be 
 #'        taken before differencing. Default is \code{FALSE} 
 #' @param main_title Title for the plot. 
-#'        Default is character string \code{'First Difference Plot'}.
+#'        Default is character string \code{"First Difference Plot"}.
 #' @param remove_y_axis Logical scalar. 
 #'        If \code{TRUE}, removes the y-axis labels and tick marks from all subplots. 
 #'        Default is \code{FALSE}, which keeps the y-axis labels and tick marks.
@@ -19,7 +19,8 @@
 #' @param this_text_size Integer scalar, size of the plotting characters. 
 #'        Default is \code{2.5}.
 #' @param this_text_color Character scalar, color of the plotting characters. 
-#'        Default is \code{"steelblue"}.
+#'        Default is \code{"steelblue"}. For a listing of R color codes, 
+#'        see \insertCite{rchartsColors;textual}{blsplotGG}.
 #' @param add_zero_line Logical scalar.
 #'        If \code{TRUE}, adds a horizontal line at zero for all plots. 
 #'        Default is \code{FALSE}, no horizontal reference line.
@@ -28,6 +29,9 @@
 #'         The time series specified should be either a monthly or quarterly series.
 #'
 #' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
+#'
+#' @references
+#'  \insertAllCited{}
 #'
 #' @examples
 #' shoes_seas <-
@@ -46,6 +50,7 @@
 #'         remove_y_axis = FALSE, x_title_size = 10,
 #'         add_zero_line = TRUE)
 #' @importFrom rlang .data
+#' @importFrom Rdpack reprompt
 #' @export
 plot_first_difference <- function(
 	this_series = NULL,
@@ -56,7 +61,7 @@ plot_first_difference <- function(
 	this_text_size = 2.5,
 	this_text_color = "steelblue",
 	add_zero_line = FALSE) {
-	# Author: Brian C. Monsell (OEUS) Version 2.3, 12/30/2025
+	# Author: Brian C. Monsell (OEUS) Version 3.0, 2026-10-23
 	
     # check if a value is specified for \code{this_series}
     if (is.null(this_series)) {
@@ -64,11 +69,15 @@ plot_first_difference <- function(
         return(this_series)
     }
 	
-    # check if \code{this_series} is a ts object
-    if (!is.ts(this_series)) {
-        cat("must specify a ts object")
+	if (tsbox::ts_boxable(this_series)) {
+		if (!is.ts(this_series)) {
+		# attempt to convert to \code{ts} format
+			this_series <- tsbox::ts_ts(this_series)
+		}
+	} else {
+		cat("must specify a ts object for the this_series argument.")
 		return(NULL)
-    }
+	}
 	
 	# check if \code(this_series} is either monthly or quarterly
 	this_freq <- frequency(this_series)
@@ -77,7 +86,28 @@ plot_first_difference <- function(
 		return(NULL)
 	}
 	
-	if (take_log) this_series <- log(this_series)
+    # check if values of \code{label_size} are valid, return \code{NULL} if not.
+	if (x_title_size <= 0) {
+        cat(paste("x_title_size not valid (must be greater than zero):", 
+		           x_title_size))
+        return(NULL)
+	}
+	
+	if (this_text_size <= 0) {
+        cat(paste("this_text_size not valid (must be greater than zero):", 
+		           this_text_size))
+        return(NULL)
+	}	
+	
+	if (take_log) {
+		x <- sum(this_series <= 0.0)
+		if (sum(x) > 0) {
+			cat("Cannot take log of series with observationss less than or equal to zero.")
+			return(NULL)
+		} else {
+			this_x <- log(this_series)
+		}
+	}
 
 	this_diff <- diff(this_series)
 	this_diff_range <- range(this_diff)

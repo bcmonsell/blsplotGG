@@ -18,8 +18,8 @@ plot_changes_history(
   this_palette = "Paired",
   this_legend_title = "Filter",
   this_legend_position = "right",
-  legend_title_size = 12,
-  legend_text_size = 10,
+  this_legend_title_size = 12,
+  this_legend_text_size = 10,
   this_legend_space = NULL
 )
 }
@@ -62,16 +62,20 @@ Default is the \code{RColorBrewer} palette \code{"Paired"} \insertCite{RColorBre
 \item{this_legend_title}{Title for legend.  Default is \code{"Series"}}
 
 \item{this_legend_position}{Character string; indicates the position of the plot legend.
-Possible values are \code{"right"} (default), \code{"left"}, \code{"top"},
-\code{"bottom"}, and \code{"none"}}
+Possible values are \code{"right"}, \code{"left"}, \code{"top"},
+\code{"bottom"}, and \code{"none"}
+Default is \code{"right"}.}
 
-\item{legend_title_size}{integer scalar; Size of the legend title.
+\item{this_legend_title_size}{integer scalar; Size of the legend title.
+Must be greater than zero.
 Default is \code{12}.}
 
-\item{legend_text_size}{integer scalar; Size of the legend title.
+\item{this_legend_text_size}{integer scalar; Size of the legend title.
+Must be greater than zero.
 Default is \code{10}.}
 
 \item{this_legend_space}{integer scalar; Space between legend and plot in points.
+Must be greater than or equal to zero.
 Default is determined by \code{ggplot2}.}
 }
 \value{
@@ -85,7 +89,7 @@ adjustment or trend changes for a given series from a \code{seas} object. For mo
 on revisions history diagnostics, \insertCite{@see Sections 6.3 and 7.8 of @Census2025;textual}{blsplotGG}.
 }
 \details{
-Version 4.3.1, 2026-06-09
+Version 4.6, 2026-10-28
 }
 \examples{
 shoes_seas <-
@@ -96,7 +100,7 @@ shoes_seas <-
        arima.model = "(0 1 1)(0 1 1)",
        forecast.maxlead = 60,
 	   	  history.estimates = 
-		c("sadj", "sadjchng", "trend", "trendchng"),
+	   	     c("sadj", "sadjchng", "trend", "trendchng"),
 	      history.sadjlags = c(1,12),
 	      history.trendlags = c(1,2,3),
 	      history.print = "all",

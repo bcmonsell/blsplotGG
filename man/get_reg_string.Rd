@@ -25,9 +25,10 @@ If no regressors in the model, the routine will return a blank character (or bla
 }
 \description{
 Generate string of names for the regressors used in the model fit for a given series.
+Function can return a text string (default) or a vector of text strings.
 }
 \details{
-Version 4.2.1, 2026-06-09
+Version 4.3, 2026-10-26
 }
 \examples{
 air_seas <- seasonal::seas(AirPassengers, slidingspans = "", 

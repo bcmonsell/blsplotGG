@@ -18,7 +18,8 @@ This is a required entry.}
 Default is \code{"lightblue1"}. For a listing of R color codes,
 see \insertCite{rchartsColors;textual}{blsplotGG}.}
 
-\item{shade_alpha}{numeric scalar; controls the intensity of the shading. Default is \code{0.2}.}
+\item{shade_alpha}{numeric scalar; controls the intensity of the shading.
+Default is \code{0.2}.}
 }
 \value{
 \code{ggplot} object with shading for recession added.
@@ -28,7 +29,7 @@ Add shading for US NBER recession dates to \code{ggplot} plot object. Recession 
 are taken from the \code{nberDates} function of the \code{tis} package \insertCite{tis2021}{blsplotGG}.
 }
 \details{
-Version 4.2.2, 2026-06-09
+Version 4.2.3, 2026-09-29
 }
 \examples{
 air_seas <- 

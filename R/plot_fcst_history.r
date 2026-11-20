@@ -4,7 +4,7 @@
 #' This follows the theory established in \insertCite{Findley2005;textual}{blsplotGG}.
 #' For more information on history analysis, \insertCite{@see Chapters 6.3 and 7.8 of @Census2025;textual}{blsplotGG}.
 #'
-#' Version 4.2, 2/10/2026
+#' Version 4.5, 2026-10-28
 #'
 #' @param seas_mdl1 \code{seas} object generated from a call of \code{seas} 
 #'        on a single time series for the first model 
@@ -13,11 +13,11 @@
 #'        on a single time series for the second model
 #'        This is a required entry.
 #' @param main_title Character string; main title of plot.  
-#'        Default is \code{'Differences in the Sum of Squared Forecast Errors'}.
+#'        Default is \code{"Sum of Squared Forecast Error Differences"}.
 #' @param name_mdl1 Character string; Description of first model for use in the subtitle. 
-#'        Default is \code{'Model 1'}.
+#'        Default is \code{"Model 1"}.
 #' @param name_mdl2 Character string; Description of second model for use in the subtitle. 
-#'        Default is \code{'Model 2'}.
+#'        Default is \code{"Model 2"}.
 #' @param do_grid Logical scalar; indicates if certain plots will have grid lines. 
 #'        Default is no grid lines. 
 #' @param do_background Logical scalar; indicates grey background included in plot.
@@ -28,16 +28,20 @@
 #'        Default is \code{c("steelblue", "darkgreen")}. 
 #' @param this_legend_title Title for legend.  Default is \code{"Fcst History"}
 #' @param this_legend_title_size integer scalar; Size of the legend title.
+#'        Must be greater than zero.
 #'        Default is \code{12}.
 #' @param this_legend_text_size integer scalar; Size of the legend title.
+#'        Must be greater than zero.
 #'        Default is \code{10}.
-#' @param this_legend_position character String; The position of the legend, which can be one of
-#'        \code{top}, \code{bottom}, \code{left}, \code{right}.
-#'        Default is \code{right}.
+#' @param this_legend_position Character string; indicates the position of the plot legend.
+#'        Possible values are \code{"right"}, \code{"left"}, \code{"top"}, 
+#'        \code{"bottom"}, and \code{"none"}
+#'        Default is \code{"right"}.
 #' @param this_legend_space integer scalar; Space between legend and plot in points.
+#'        Must be greater than or equal to zero.
 #'        Default is \code{10}.
 #' @return A \code{ggplot} object that produces a forecast history plot. 
-#'         If series not specified, print out error message and return NULL.
+#'         If series not specified, print out error message and return \code{NULL}.
 #'
 #' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #'
@@ -46,47 +50,60 @@
 #'
 #' @examples
 #' air_seas_mdl <- 
-#'     seasonal::seas(AirPassengers, x11="", slidingspans = "", transform.function = "log",
-#'                    arima.model = "(0 1 1)(0 1 1)", regression.aictest = NULL, outlier = NULL,
-#'                    forecast.maxlead = 36, check.print = c( 'pacf', 'pacfplot' ),
-#'                    history.fstep = c(1, 12), history.estimates = 'fcst', 
-#'                    history.save = 'fcsterrors')
+#'     seasonal::seas(AirPassengers, x11="",  
+#'         slidingspans = "", 
+#'         transform.function = "log",  
+#'         regression.aictest = NULL, 
+#'         arima.model = "(0 1 1)(0 1 1)",  
+#'         outlier = NULL,
+#'         forecast.maxlead = 36,  
+#'         check.print = c( 'pacf', 'pacfplot' ),
+#'         history.fstep = c(1, 12),  
+#'         history.estimates = 'fcst', 
+#'         history.save = 'fcsterrors')
 #' air_seas_mdl2 <- 
-#'     seasonal::seas(AirPassengers, x11="", slidingspans = "", transform.function = "log",
-#'                    arima.model = "(0 1 1)(0 1 1)", regression.variables = c("td"),
-#'                    forecast.maxlead = 36, check.print = c( 'pacf', 'pacfplot' ),
-#'                    history.fstep = c(1, 12), history.estimates = 'fcst', 
-#'                    history.save = 'fcsterrors')
+#'     seasonal::seas(AirPassengers, x11="",  
+#'         slidingspans = "", 
+#'         transform.function = "log",
+#'         arima.model = "(0 1 1)(0 1 1)",  
+#'         regression.variables = c("td"),
+#'         forecast.maxlead = 36,  
+#'         check.print = c( 'pacf', 'pacfplot' ),
+#'         history.fstep = c(1, 12),  
+#'         history.estimates = 'fcst', 
+#'         history.save = 'fcsterrors')
 #' plot_fcst_history_air <-
 #'     plot_fcst_history(air_seas_mdl, air_seas_mdl2, 
-#'          main_title = 'Differences in the Sum of Squared Forecast Errors for Airline Passengers',
-#'          name_mdl1 = 'Airline model', name_mdl2 = 'Airline model + regressors')
+#'         main_title = 'SS Forecast Error Differences for Airline Passengers',
+#'         name_mdl1 = 'Airline model',  
+#'         name_mdl2 = 'Airline model + regressors')
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
 #' @importFrom Rdpack reprompt
 #' @export
 plot_fcst_history <- 
     function(seas_mdl1 = NULL, seas_mdl2 = NULL, 
-             main_title = "Differences in the Sum of Squared Forecast Errors", 
-             name_mdl1 = "Model 1", name_mdl2 = "Model 2", 
-             do_grid = FALSE, 
-             do_background = FALSE, 
-             this_x_label = "Time", 
-             this_y_label = " ",
-             this_palette = c("steelblue", "darkgreen"),
-             this_legend_title = "Fcst History",
-			 this_legend_title_size = 12,
-			 this_legend_text_size = 10,
-			 this_legend_position = "right",
-			 this_legend_space = 10) {
-    # Author: Brian C. Monsell (OEUS) Version 4.2, 2/10/2026
+        main_title = "Sum of Squared Forecast Error Differences", 
+        name_mdl1 = "Model 1", name_mdl2 = "Model 2", 
+        do_grid = FALSE, 
+        do_background = FALSE, 
+        this_x_label = "Time", 
+        this_y_label = " ",
+        this_palette = c("steelblue", "darkgreen"),
+        this_legend_title = "Fcst History",
+		this_legend_title_size = 12,
+		this_legend_text_size = 10,
+		this_legend_position = "right",
+		this_legend_space = 10) {
+    # Author: Brian C. Monsell (OEUS) Version 4.4, 2026-09-30
     
-    # check if seas objects for both models are specified if not, return NULL
+    # check if \code{seas} objects for both models are specified if not, 
+	# return \code{NULL}
     if (is.null(seas_mdl1)) {
         cat("must specify seas objects for both models")
         return(NULL)
     } else {
-        # check if a seas object is specified for \code{seas_mdl1}
+        # check if a \code{seas} object is specified for \code{seas_mdl1}
         if (!inherits(seas_mdl1, "seas")) {
             cat("First argument must be a seas object")
 			return(NULL)
@@ -106,32 +123,40 @@ plot_fcst_history <-
 
 	# check legend options 
 	position_all <- c("top", "bottom", "left", "right")
-	if(sum(match(position_all, this_legend_position), na.rm = TRUE) == 0) {
+	if (sum(match(position_all, this_legend_position), na.rm = TRUE) == 0) {
         cat(paste("Legend position choice not valid:", this_legend_position))
         return(NULL)
 	}
 	
-	if(this_legend_text_size <= 0) {
+    # check if values of \code{this_legend_text_size}, \code{this_legend_title_size}, 
+	# and \code{this_legend_space} are valid, return \code{NULL} if not.
+	if (this_legend_text_size <= 0) {
         cat(paste("Legend text size not valid (must be greater than zero):", 
 		           this_legend_text_size))
         return(NULL)
 	}
 	
-	if(this_legend_title_size <= 0) {
+	if (this_legend_title_size <= 0) {
         cat(paste("Legend title text size not valid (must be greater than zero):", 
 		           this_legend_title_size))
         return(NULL)
 	}
 	
-    # extract udg information from seas objects
+	if (this_legend_space < 0) {
+        cat(paste("Legend space size not valid (must be greater than or equal to zero):", 
+		           this_legend_space))
+        return(NULL)
+	}
+	
+    # extract \code{udg} information from \code{seas} objects
     udg_mdl1 <- seasonal::udg(seas_mdl1)
     udg_mdl2 <- seasonal::udg(seas_mdl2)
     
-    # extract fstep information from udg lists
+    # extract \code{fstep} information from \code{udg} lists
     fstep_mdl1 <- udg_mdl1$rvfcstlag
     fstep_mdl2 <- udg_mdl2$rvfcstlag
     
-    # extract squared forecast errors from seas objects
+    # extract squared forecast errors from \code{seas} objects
     fcst_error_mdl1 <- seasonal::series(seas_mdl1, "history.fcsterrors")
     fcst_error_mdl2 <- seasonal::series(seas_mdl2, "history.fcsterrors")
 	
@@ -151,8 +176,8 @@ plot_fcst_history <-
             return(NULL)
         }
         
-        # check if the forecast leads being tested are the same for the two models if forecast leads
-        # tested not the same, return NULL
+        # check if the forecast leads being tested are the same for the two models 
+        # if forecast leads tested not the same, return \code{NULL}
         nstep <- ncol(fcst_error_mdl1)
         this_nrows <- nrow(fcst_error_mdl1)
     } else {
@@ -207,8 +232,8 @@ plot_fcst_history <-
 		}
 	}
         
-    # generate cumulative difference in squared forecast error, store as a time series object in the
-    # list
+    # generate cumulative difference in squared forecast error, 
+    # store as a time series object in the list
     if (nstep > 1) {
 	    fcst_error_mdl1[,2][fcst_error_mdl1[,2] == 0] <- NA
 	    fcst_error_mdl2[,2][fcst_error_mdl2[,2] == 0] <- NA

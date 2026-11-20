@@ -3,32 +3,37 @@
 #' Generates a \code{ggplot} object with a time series facet plot that compares two 
 #' seasonal adjustments of the same series, optionally including the original series.
 #'
-#' Version 7.4, 2/17/2026
+#' Version 8.1, 2026-09-30
 #'
 #' @param this_sa_one Time series of the first seasonal adjustment. 
-#'                    This is a required entry.
+#'        This is a required entry.
 #' @param this_sa_two Time series of the second seasonal adjustment. 
-#'                    This is a required entry.
+#'        This is a required entry.
 #' @param this_ori Time series of the original series. Optional entry.
-#' @param main_title Title for the plot. Default is character string \code{'Comparison of Seasonal Adjustments'}.
+#' @param main_title Title for the plot. 
+#'        Default is character string \code{"Comparison of Seasonal Adjustments"}.
 #' @param sub_title Subtitle for the plot. Optional entry.
 #' @param this_x_label Label for X-axis.  Default is \code{"Time"}
 #' @param this_y_label Label for Y-axis.  Default is \code{" "}
 #' @param line_color Color used for lines in plot.  Default is \code{"steelblue"}.
 #'        For a listing of R color codes, 
 #'        see \insertCite{rchartsColors;textual}{blsplotGG}.
-#' @param this_sa_text Caracter vector of length 2; labels for different seasonal adjustments.  
-#'        Note that if \code{this_ori} is set, the label for that line will be set as \code{"Ori"}.
+#' @param this_sa_text Caracter vector of length 2;  
+#'        labels for different seasonal adjustments.  
+#'        Note that if \code{this_ori} is set, the label for that  
+#'        line will be set as \code{"Ori"}.
 #'        Default is \code{c("sadj1", "sadj2")}.
 #' @param do_grid Logical scalar; indicates if certain plots will have grid lines. 
 #'        Default is no grid lines. 
 #' @param do_background Logical scalar; indicates grey background included in plot.
 #'        Default is no grey background;
-#' @param this_scale Character scalar; set the scale for the y-axis of the facet plots. 
+#' @param facet_scale Character scalar; set the scale for the y-axis of the facet plots. 
 #'        Default is \code{"fixed"}.  To set axis to be different for the different plots,
-#'        set \code{this_scale = "free_y"}.
-#' @return A \code{ggplot} object that generates a facet plot comparing two seasonal adjustments,
-#'         trends, or factors.
+#'        set \code{facet_scale = "free_y"}.
+#' @param facet_text_size Numeric scalar; size of text in facet labels. 
+#'        Default is set by the \code{ggplot2} package.
+#' @return A \code{ggplot} object that generates a facet plot comparing  
+#'         two seasonal adjustments, trends, or factors.
 #'
 #' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #'
@@ -37,22 +42,24 @@
 #'
 #' @examples
 #' ukgas_x11_seas   <- 
-#'    seasonal::seas(UKgas, series.period = 4, arima.model = "(0 1 1)(0 1 1)", 
-#'                   transform.function = "log", forecast.maxlead = 20,
-#'                   x11.seasonalma = "s3x5", 
-#'                   check.print = c( 'pacf', 'pacfplot' ))
+#'    seasonal::seas(UKgas, series.period = 4, 
+#'       arima.model = "(0 1 1)(0 1 1)", 
+#'       transform.function = "log", forecast.maxlead = 20,
+#'       x11.seasonalma = "s3x5", 
+#'       check.print = c( 'pacf', 'pacfplot' ))
 #' ukgas_seats_seas <- 
-#'    seasonal::seas(UKgas, series.period = 4, arima.model = "(0 1 1)(0 1 1)", 
-#'                   transform.function = "log", forecast.maxlead = 20,
-#'                   check.print = c( 'pacf', 'pacfplot' ))
+#'    seasonal::seas(UKgas, series.period = 4,  
+#'       arima.model = "(0 1 1)(0 1 1)", 
+#'       transform.function = "log", forecast.maxlead = 20,
+#'       check.print = c( 'pacf', 'pacfplot' ))
 #' ukgas_x11_sa     <- seasonal::final(ukgas_x11_seas)
 #' ukgas_seats_sa   <- seasonal::final(ukgas_seats_seas)
 #' ukgas_two_sa_facet_p <- 
 #'     plot_two_sa_facet(this_sa_one = ukgas_x11_sa, 
-#'                       this_sa_two = ukgas_seats_sa,
-#'                       main_title = "UK Gas Seasonal Adjustments",
-#'                       line_color = "forestgreen",
-#'                       this_sa_text = c("X-11", "Seats"))
+#'         this_sa_two = ukgas_seats_sa,
+#'         main_title = "UK Gas Seasonal Adjustments",
+#'         line_color = "forestgreen",
+#'         this_sa_text = c("X-11", "Seats"))
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
 #' @importFrom Rdpack reprompt
@@ -69,8 +76,9 @@ plot_two_sa_facet <-
 			 this_sa_text = c("sadj1", "sadj2"),
 			 do_grid = FALSE, 
 			 do_background = FALSE, 
-			 this_scale = "fixed") {
-    # Author: Brian C. Monsell (OEUS) Version 7.4, 2/17/2026
+			 facet_scale = "fixed",
+			 facet_text_size = NULL) {
+    # Author: Brian C. Monsell (OEUS) Version 8.1, 2026-09-30
 
     if (is.null(this_sa_one)) {
         cat("must specify the first seasonally adjusted series")
@@ -108,8 +116,9 @@ plot_two_sa_facet <-
 		                             color = .data$series)) +  
 			ggplot2::geom_line(color = line_color) + 
 			ggplot2::facet_grid(factor(.data$series, 
-	                             levels = c("one.sa", "two.sa"), 
-								 labels = this_sa_text) ~ ., scale = this_scale) +
+	                            levels = c("one.sa", "two.sa"), 
+								labels = this_sa_text) ~ ., 
+								scale = facet_scale) +
 			ggplot2::labs(title = main_title,
                     subtitle = sub_title,
                     x = this_x_label,
@@ -130,8 +139,9 @@ plot_two_sa_facet <-
 	                     colour = .data$series)) +  
 			ggplot2::geom_line(color = line_color) + 
 			ggplot2::facet_grid(factor(.data$series, 
-	                             levels = c("ori", "one.sa", "two.sa"), 
-								 labels = c("Ori", this_sa_text)) ~ ., scale = this_scale) +
+	                            levels = c("ori", "one.sa", "two.sa"), 
+								labels = c("Ori", this_sa_text)) ~ ., 
+								scale = facet_scale) +
 			ggplot2::labs(title = main_title,
                          subtitle = sub_title,
                          x = this_x_label,
@@ -151,6 +161,16 @@ plot_two_sa_facet <-
     }
 	
 	p_two_sa_facet <- p_two_sa_facet + ggplot2::theme(legend.position = "none")
+	
+	if (!is.null(facet_text_size)) {
+		p_two_sa_facet <- p_two_sa_facet + 
+			ggplot2::theme(strip.text = ggplot2::element_text(size = facet_text_size),
+				legend.position = "none")
+	} else {
+		p_two_sa_facet <- p_two_sa_facet + 
+			ggplot2::theme(legend.position = "none")
+	}
+
       
     return(p_two_sa_facet)
 }

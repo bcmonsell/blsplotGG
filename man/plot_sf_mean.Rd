@@ -16,7 +16,8 @@ plot_sf_mean(
   this_palette = "Dark2",
   this_line_type = rep("solid", ncol(this_sf_matrix)),
   do_facet = FALSE,
-  this_scale = "free_y",
+  facet_scale = "fixed",
+  facet_text_size = NULL,
   y_limit = NULL,
   forecast = 0,
   this_legend_entry = colnames(this_sf_matrix),
@@ -28,12 +29,12 @@ plot_sf_mean(
 )
 }
 \arguments{
-\item{this_sf_matrix}{time series matrix object of the seasonal factors from
+\item{this_sf_matrix}{time series matrix (mts) object of the seasonal factors from
 a number of seasonal adjustments.
 This is a required entry.}
 
 \item{main_title}{Character string; main title of plot.
-Default is  \code{'Mean of Seasonal Factors'}.}
+Default is  \code{"Mean of Seasonal Factors"}.}
 
 \item{sub_title}{Character string; subtitle of plot. There is no default subtitle.}
 
@@ -61,9 +62,12 @@ Default is \code{rep("solid", ncol(this_sf_matrix))}.}
 \item{do_facet}{Logical scalar; indicates if a facet plot is generated of the different colums.
 Default is \code{FALSE}.}
 
-\item{this_scale}{Character scalar; set the scale for the y-axis of the facet plots.
-Default is \code{"free_y"}.  To set axis to be the same for the different plots,
-set \code{this_scale = "fixed"}.}
+\item{facet_scale}{Character scalar; set the scale for the y-axis of the facet plots.
+Default is \code{"fixed"}.  To set axis to be different for the different plots,
+set \code{facet_scale = "free_y"}.}
+
+\item{facet_text_size}{Numeric scalar; size of text in facet labels.
+Default is set by the \code{ggplot2} package.}
 
 \item{y_limit}{Numeric vector of length 2; Range of values you wish the plot to be plotted over.
 Default is range of the seasonal factors.}
@@ -78,16 +82,20 @@ Default is \code{colnames(this_sf_matrix)}}
 \item{this_legend_title}{Character string; indicates title of legend. Default is \code{'Series'}.}
 
 \item{this_legend_title_size}{integer scalar; Size of the legend title.
+Must be greater than zero.
 Default is \code{12}.}
 
 \item{this_legend_text_size}{integer scalar; Size of the legend title.
+Must be greater than zero.
 Default is \code{10}.}
 
-\item{this_legend_position}{character String; The position of the legend, which can be one of
-\code{top}, \code{bottom}, \code{left}, \code{right}.
-Default is \code{right}.}
+\item{this_legend_position}{Character string; indicates the position of the plot legend.
+Possible values are \code{"right"}, \code{"left"}, \code{"top"},
+\code{"bottom"}, and \code{"none"}
+Default is \code{"right"}.}
 
 \item{this_legend_space}{integer scalar; Space between legend and plot in points.
+Must be greater than or equal to zero.
 Default is \code{10}.}
 }
 \value{
@@ -99,7 +107,7 @@ Generates a plot of the means of a matrix of seasonal factors.
 Each column of the matrix should be a \code{ts} object.
 }
 \details{
-Version 5.6, 2026-02-20
+Version 6.1, 2026-10-30
 }
 \examples{
 EM_individual_seas <-
@@ -125,7 +133,7 @@ EM_Comp_Sf <-
        seasonal::series(EM_individual_seas_only$n2000026, "d10"))
 colnames(EM_Comp_Sf) <- EM_names
 
-em_plot <- blsplotGG::plot_sf_mean(EM_Comp_Sf,
+em_plot <- plot_sf_mean(EM_Comp_Sf,
   main_title = 'US Employment Seasonal Means',
   sub_title = 'X-11 Seasonals',
   forecast = 60, 
@@ -133,12 +141,12 @@ em_plot <- blsplotGG::plot_sf_mean(EM_Comp_Sf,
   this_legend_entry = c("M 16-19", "F 16-19", "M 20+", "F 20+")
   )
 
-em_plot_facet <- blsplotGG::plot_sf_mean(EM_Comp_Sf,
+em_plot_facet <- plot_sf_mean(EM_Comp_Sf,
   main_title = 'US Employment Seasonal Means',
   sub_title = 'X-11 Seasonals',
   forecast = 60, 
   do_facet = TRUE, 
-  this_scale = "fixed",
+  facet_scale = "fixed",
   this_legend_entry = c("M 16-19", "F 16-19", "M 20+", "F 20+")
   )
 }

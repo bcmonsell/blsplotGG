@@ -63,7 +63,7 @@ Default is no grid lines.}
 Default is no grey background;}
 
 \item{line_color}{Character string; color used for series in the plot.
-Default is \code{'black'}. For a listing of R color codes,
+Default is \code{"black"}. For a listing of R color codes,
 see \insertCite{rchartsColors;textual}{blsplotGG}.}
 }
 \value{

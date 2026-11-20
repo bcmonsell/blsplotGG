@@ -23,9 +23,9 @@ Character string; an X-13ARIMA-SEATS table name. If the table is
 \code{"a1"}.
 }
 \description{
-Check X-13ARIMA-SEATS table name so that the B1 table can be extracted when
-no prior adjustment is done with the \code{seasonal} package
-\insertCite{seasonal2018}{blsplotGG}.
+Check X-13ARIMA-SEATS tables available in a given \code{seas} object so that
+the B1 table can be extracted when no prior adjustment is done with the
+\code{seasonal} package. \insertCite{seasonal2018}{blsplotGG}.
 }
 \details{
 Version 1.1, 2026-04-17

@@ -3,13 +3,15 @@
 #' Add shading for US NBER recession dates to \code{ggplot} plot object. Recession dates are
 #' are taken from the \code{nberDates} function of the \code{tis} package \insertCite{tis2021}{blsplotGG}.
 #' 
-#' Version 4.2, 2/10/2026
+#' Version 4.2.3, 2026-09-29
 #' 
 #' @param this_p \code{ggplot} object of a time series plot. 
 #'        This is a required entry.
 #' @param shade_color Character scalar; shading for recession region. 
-#'        Default is \code{"pink"}.
-#' @param shade_alpha numeric scalar; controls the intensity of the shading. Default is \code{0.2}.
+#'        Default is \code{"lightblue1"}. For a listing of R color codes, 
+#'        see \insertCite{rchartsColors;textual}{blsplotGG}.
+#' @param shade_alpha numeric scalar; controls the intensity of the shading. 
+#'        Default is \code{0.2}.
 #' @return \code{ggplot} object with shading for recession added. 
 #'
 #' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
@@ -40,9 +42,11 @@
 #' @importFrom rlang .data
 #' @importFrom Rdpack reprompt
 #' @export
-add_recession_shade <- function(this_p = NULL, shade_color = "lightblue1", 
-                                shade_alpha = 0.2) {
-# Author: Brian C. Monsell (OEUS) Version 4.2, 2/10/2026
+add_recession_shade <- 
+	function(this_p = NULL, 
+		shade_color = "lightblue1", 
+		shade_alpha = 0.2) {
+# Author: Brian C. Monsell (OEUS) Version 4.2.2, 2026-06-09
   
 #   check if \code{this_p} is specified and is a list object
     if (is.null(this_p)) {

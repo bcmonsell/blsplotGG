@@ -27,7 +27,7 @@ plot_fcst(
 This is a required entry.}
 
 \item{main_title}{Character string; main title of plot.
-Default is \code{'ARIMA forecasts'}.}
+Default is \code{"ARIMA Forecasts"}.}
 
 \item{sub_title}{Subtitle for the plot.
 Default is to generate the subtitle with the value of the average absolute percentage error
@@ -55,16 +55,20 @@ For a listing of R color codes, see \insertCite{rchartsColors;textual}{blsplotGG
 \item{this_legend_title}{Title for legend.  Default is \code{"Forecast"}}
 
 \item{this_legend_title_size}{integer scalar; Size of the legend title.
+Must be greater than zero.
 Default is \code{12}.}
 
 \item{this_legend_text_size}{integer scalar; Size of the legend title.
+Must be greater than zero.
 Default is \code{10}.}
 
-\item{this_legend_position}{character String; The position of the legend, which can be one of
-\code{top}, \code{bottom}, \code{left}, \code{right}.
-Default is \code{right}.}
+\item{this_legend_position}{Character string; indicates the position of the plot legend.
+Possible values are \code{"right"}, \code{"left"}, \code{"top"},
+\code{"bottom"}, and \code{"none"}
+Default is \code{"right"}.}
 
 \item{this_legend_space}{integer scalar; Space between legend and plot in points.
+Must be greater than or equal to zero.
 Default is \code{10}.}
 }
 \value{
@@ -74,7 +78,7 @@ A \code{ggplot} object of the regARIMA forecasts with confidence bounds.
 Generates a \code{ggplot} plot of regARIMA forecasts with confidence bounds.
 }
 \details{
-Version 4.3.1, 2026-06-09
+Version 4.5, 2026-10-28
 }
 \examples{
 air_seas <- seasonal::seas(AirPassengers, arima.model = "(0 1 1)(0 1 1)",

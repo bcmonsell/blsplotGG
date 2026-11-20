@@ -3,7 +3,7 @@
 #' Generates a \code{ggplot} object with a time series plot that compares two seasonal adjustments
 #' of the same series, optionally including the original series.
 #'
-#' Version 3.7, 2/17/2026
+#' Version 3.10, 2026-10-28
 #'
 #' @param this_sa_one Time series of the X-11 seasonal adjustment.
 #'        This is a required entry.
@@ -11,7 +11,7 @@
 #'        This is a required entry.
 #' @param this_ori Time series of the original series. Optional entry.
 #' @param main_title Title for the plot. 
-#'        Default is character string \code{'Comparison of Seasonal Adjustments'}.
+#'        Default is character string \code{"Comparison of Seasonal Adjustments"}.
 #' @param sub_title Subtitle for the plot. Optional entry.
 #' @param this_x_label Label for X-axis.  Default is \code{"Time"}
 #' @param this_y_label Label for Y-axis.  Default is \code{" "}
@@ -32,13 +32,17 @@
 #'        Default is the \code{RColorBrewer} palette \code{"Dark2"} \insertCite{RColorBrewer}{blsplotGG}. 
 #' @param this_legend_title Title for legend.  Default is \code{"Series"}
 #' @param this_legend_title_size integer scalar; Size of the legend title.
+#'        Must be greater than zero.
 #'        Default is \code{12}.
 #' @param this_legend_text_size integer scalar; Size of the legend title.
+#'        Must be greater than zero.
 #'        Default is \code{10}.
-#' @param this_legend_position character String; The position of the legend, which can be one of
-#'        \code{top}, \code{bottom}, \code{left}, \code{right}.
-#'        Default is \code{right}.
+#' @param this_legend_position Character string; indicates the position of the plot legend.
+#'        Possible values are \code{"right"}, \code{"left"}, \code{"top"}, 
+#'        \code{"bottom"}, and \code{"none"}
+#'        Default is \code{"right"}.
 #' @param this_legend_space integer scalar; Space between legend and plot in points.
+#'        Must be greater than or equal to zero.
 #'        Default is \code{10}.
 #' @return A \code{ggplot} object that generates a plot comparing two seasonal adjustments, trend, or factors.
 #'
@@ -49,21 +53,24 @@
 #'
 #' @examples
 #' ukgas_x11_seas   <- 
-#'    seasonal::seas(UKgas, series.period = 4, arima.model = "(0 1 1)(0 1 1)", 
-#'                   transform.function = "log", forecast.maxlead = 20,
-#'                   x11.seasonalma = "s3x5", 
-#'                   check.print = c( 'pacf', 'pacfplot' ))
+#'    seasonal::seas(UKgas, series.period = 4, 
+#'       arima.model = "(0 1 1)(0 1 1)", 
+#'       transform.function = "log", forecast.maxlead = 20,
+#'       x11.seasonalma = "s3x5", 
+#'       check.print = c( 'pacf', 'pacfplot' ))
 #' ukgas_seats_seas <- 
-#'    seasonal::seas(UKgas, series.period = 4, arima.model = "(0 1 1)(0 1 1)", 
-#'                   transform.function = "log", forecast.maxlead = 20,
-#'                   check.print = c( 'pacf', 'pacfplot' ))
+#'    seasonal::seas(UKgas, series.period = 4, 
+#'       arima.model = "(0 1 1)(0 1 1)", 
+#'       transform.function = "log", forecast.maxlead = 20,
+#'       check.print = c( 'pacf', 'pacfplot' ))
 #' ukgas_x11_sa     <- seasonal::final(ukgas_x11_seas)
 #' ukgas_seats_sa   <- seasonal::final(ukgas_seats_seas)
 #' ukgas_seats_v_x11_p <- 
-#'     plot_two_sa(this_sa_one = ukgas_x11_sa, this_sa_two = ukgas_seats_sa,
-#'                        main_title = "UK Gas Seasonal Adjustments",
-#'                        sub_title = "X-11 - Blue, SEATS - Green",
-#'                        line_color = c("steelblue", "forestgreen"))
+#'     plot_two_sa(this_sa_one = ukgas_x11_sa, 
+#'         this_sa_two = ukgas_seats_sa,
+#'         main_title = "UK Gas Seasonal Adjustments",
+#'         sub_title = "X-11 - Blue, SEATS - Green",
+#'         line_color = c("steelblue", "forestgreen"))
 #' @importFrom rlang .data
 #' @importFrom Rdpack reprompt
 #' @importFrom magrittr %>%
@@ -84,7 +91,7 @@ plot_two_sa <-
              this_legend_text_size = 10,
 			 this_legend_position = "right",
 			 this_legend_space = 10) {
-    # Author: Brian C. Monsell (OEUS) Version 3.7, 2/17/2026
+    # Author: Brian C. Monsell (OEUS) Version 3.10, 2026-10-28
 
     if (is.null(this_sa_one)) {
         cat("must specify the first seasonally adjusted series")
@@ -109,20 +116,28 @@ plot_two_sa <-
 	
 	# check legend options 
 	position_all <- c("top", "bottom", "left", "right")
-	if(sum(match(position_all, this_legend_position), na.rm = TRUE) == 0) {
+	if (sum(match(position_all, this_legend_position), na.rm = TRUE) == 0) {
         cat(paste("Legend position choice not valid:", this_legend_position))
 		return(NULL)
 	}
 	
-	if(this_legend_text_size <= 0) {
+    # check if values of \code{this_legend_text_size}, \code{this_legend_title_size}, 
+	# and \code{this_legend_space} are valid, return \code{NULL} if not.
+	if (this_legend_text_size <= 0) {
         cat(paste("Legend text size not valid (must be greater than zero):", 
 		           this_legend_text_size))
-		return(NULL)
+        return(NULL)
 	}
 	
-	if(this_legend_title_size <= 0) {
+	if (this_legend_title_size <= 0) {
         cat(paste("Legend title text size not valid (must be greater than zero):", 
 		           this_legend_title_size))
+        return(NULL)
+	}
+	
+	if (this_legend_space < 0) {
+		cat(paste("this_legend_space not valid (must be greater than or equal to zero):", 
+			this_legend_space))
 		return(NULL)
 	}
 	

@@ -24,7 +24,7 @@ If improper \code{this_spectrum} specified, function will return \code{NULL}.
 }
 \description{
 Convert the three character code used by the \code{plot_spectrum} function so that it can be used with the
-\code{visual_sig_peaks} function from the \code{blsplot} package.
+\code{visual_sig_peaks} function from the \code{blsplotGG} package.
 }
 \details{
 Version 1.4, 2024-05-06

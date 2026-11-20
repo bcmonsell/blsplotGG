@@ -24,7 +24,7 @@ will return a blank character (or blank vector).
 Get the names of outliers identified in the \code{seas} object for a single series.
 }
 \details{
-Version 5.0, 2026-01-07
+Version 5.1, 2026-10-26
 }
 \examples{
 air_seas <- seasonal::seas(AirPassengers, arima.model = "(0 1 1)(0 1 1)", x11="")

@@ -2,7 +2,7 @@
 #'
 #' Generate plot of user-specified time series (\code{ts}) object. 
 #'
-#' Version 3.0.1, 2026-05-15
+#' Version 3.2.1, 2026-09-29
 #'
 #' @param this_series A \code{ts} object; 
 #'        This is a required entry.
@@ -30,30 +30,41 @@
 #'        shaded areas for NBER recession dates. 
 #'        Default is no recession shading. 
 #' @param recess_color Character string; color used for shading of recession region.
-#'        Default is \code{'lightgrey'}.
+#'        Default is \code{"lightgrey"}. For a listing of R color codes, 
+#'        see \insertCite{rchartsColors;textual}{blsplotGG}.
 #' @param recess_sub Logical scalar; indicates if x-axis label for recession is 
 #'        produced for this plot. 
 #'        Default is x-axis label.
 #' @param this_line_type Character string; indicates line type of each plot produced. 
 #'        Default is "solid".
 #' @param line_color Character string; color used for series in the plot.  
-#'        Default is \code{'grey'}. 
+#'        Default is \code{"grey"}. For a listing of R color codes, 
+#'        see \insertCite{rchartsColors;textual}{blsplotGG}.
 #' @return Generate \code{ggplot} plot of user-specified series. 
-#'         If series not specified, print out error message and return NULL.
+#'         If series not specified, print out error message and return \code{NULL}.
 #'
 #' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #'
+#' @references
+#'  \insertAllCited{}
+#'
 #' @examples
 #' air_seas <- 
-#'   seasonal::seas(AirPassengers, arima.model = "(0 1 1)(0 1 1)", x11="",
-#'                  transform.function = "log")
+#'     seasonal::seas(AirPassengers, 
+#'          arima.model = "(0 1 1)(0 1 1)", x11="",
+#'          transform.function = "log")
 #' air_seas_d11 <- seasonal::final(air_seas)
-#' air_d11_p <- plot_series(air_seas_d11, this_series_name = "AirPassengers", 
+#' air_d11_p <- 
+#'     plot_series(air_seas_d11, 
+#'          this_series_name = "AirPassengers", 
 #'          main_title = 'X-11 Seasonal Adjustment of Airline Passengers',
 #'          sub_title = 'Box-Jenkins Airline series',
-#'          do_grid = TRUE, draw_recess = TRUE, line_color = "darkblue")
+#'          do_grid = TRUE, 
+#'          draw_recess = TRUE,  
+#'          line_color = "darkblue")
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
+#' @importFrom Rdpack reprompt
 #' @export
 plot_series <- 
     function(this_series = NULL,
@@ -72,19 +83,24 @@ plot_series <-
              recess_sub = TRUE,  
              this_line_type = "solid", 
              line_color = "grey") {
-    # Author: Brian C. Monsell (OEUS) Version 3.0.1, 2026-05-15
+    # Author: Brian C. Monsell (OEUS) Version 3.2.1, 2026-09-29
     
     # check if a value is specified for \code{this_series}
     if (is.null(this_series)) {
-        cat("must specify a ts object")
+        cat("must specify a ts object for the this_series argument")
         return(this_series)
     }
 	
-    # check if \code{this_series} is a ts object
-    if (!is.ts(this_series)) {
-        cat("must specify a ts object")
+    # check if \code{this_series} is a ts object 
+	if (tsbox::ts_boxable(this_series)) {
+		if (!is.ts(this_series)) {
+		# attempt to convert to \code{ts} format
+			this_series <- tsbox::ts_ts(this_series)
+		}
+	} else {
+		cat("must specify a ts object for the this_series argument.")
 		return(NULL)
-    }
+	}
     
     # If start_plot specified, shorten series
     if (!is.null(start_plot)) {
@@ -107,7 +123,7 @@ plot_series <-
 			this_title <- paste("Plot of ", this_series_name)
 		}
     }
-
+	
     this_df <- 
         data.frame(date = tsbox::ts_df(this_series)$time, 
 				   value = as.double(this_series))

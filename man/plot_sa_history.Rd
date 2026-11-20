@@ -25,7 +25,7 @@ This is a required entry.}
 \item{add_ori}{Logical scalar; add the original series to the plot. Default is \code{TRUE}.}
 
 \item{main_title}{Character string. Title for the plot.
-Default is \code{'Seasonal Adjustment History Graph'}.}
+Default is \code{"Seasonal Adjustment History Graph"}.}
 
 \item{sub_title}{Subtitle for the plot. Default is \code{NULL}.}
 
@@ -61,7 +61,7 @@ adjustment for a given series. For more information on revisions history diagnos
 \insertCite{@see Sections 6.3 and 7.8 of @Census2025;textual}{blsplotGG}.
 }
 \details{
-Version 2.3.1, 2026-06-09
+Version 2.3.2, 2026-09-29
 }
 \examples{
 shoes_seas <-

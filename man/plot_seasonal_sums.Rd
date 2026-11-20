@@ -44,14 +44,14 @@ shaded areas for NBER recession dates.
 Default is no recession shading.}
 
 \item{recess_color}{Character string; color used for shading of recession region.
-Default is \code{'lightgrey'}.}
+Default is \code{"lightgrey"}.}
 
 \item{recess_sub}{Logical scalar; indicates if x-axis label for recession is
 produced for this plot.
 Default is x-axis label.}
 
 \item{line_color}{Character string; color used for series in the plot.
-Default is \code{'steelblue'}. For a listing of R color codes,
+Default is \code{"steelblue"}. For a listing of R color codes,
 see \insertCite{rchartsColors;textual}{blsplotGG}.}
 }
 \value{
@@ -67,7 +67,7 @@ package. For more information on SEATS input options in X-13ARIMA-SEATS,
 \insertCite{@see Section 7.14 of @Census2025}{blsplotGG}.
 }
 \details{
-Version 1.8.1, 2026-06-09
+Version 1.9.1, 2026-09-29
 }
 \examples{
 shoes_seats_seas <- 

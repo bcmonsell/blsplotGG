@@ -32,14 +32,15 @@ This is a required entry.}
 \code{seasonal} package \insertCite{seasonal2018}{blsplotGG}.
 This is a required entry.}
 
-\item{this_series}{Character string; three character code for the type of series to be generated.
+\item{this_series}{Character string; three character code for the type of series
+to be generated.
 Allowed entries are \code{"sfs"} (seasonal factors, default),
 \code{"chs"} (period-to-period changes),
 \code{"sis"} (indirect seasonal factors),
 \code{"cis"} (indirect period-to-period changes).}
 
 \item{main_title}{Title for the plot.
-Default is character string \code{'Maximum Percent Difference Comparison Plot'}.}
+Default is character string \code{"Maximum Percent Difference Comparison Plot"}.}
 
 \item{sub_title}{Subtitle for the plot. Optional entry.}
 
@@ -64,16 +65,20 @@ Default is \code{'Sliding Spans'}.}
 Default is \code{c("ss1", "ss2")}.}
 
 \item{this_legend_title_size}{integer scalar; Size of the legend title.
+Must be greater than zero.
 Default is \code{12}.}
 
 \item{this_legend_text_size}{integer scalar; Size of the legend title.
+Must be greater than zero.
 Default is \code{10}.}
 
-\item{this_legend_position}{character String; The position of the legend, which can be one of
-\code{top}, \code{bottom}, \code{left}, \code{right}.
-Default is \code{right}.}
+\item{this_legend_position}{Character string; indicates the position of the plot legend.
+Possible values are \code{"right"}, \code{"left"}, \code{"top"},
+\code{"bottom"}, and \code{"none"}
+Default is \code{"right"}.}
 
 \item{this_legend_space}{integer scalar; Space between legend and plot in points.
+Must be greater than or equal to zero.
 Default is \code{10}.}
 }
 \value{
@@ -89,18 +94,18 @@ For more information on sliding spans analysis,
 details in \insertCite{Findley90;textual}{blsplotGG}.
 }
 \details{
-Version 2.6.1, 2026-06-09
+Version 2.8, 2026-10-28
 }
 \examples{
 shoes_sspan_seas <- 
-   seasonal::seas(blsplotGG::shoes2008, 
+   seasonal::seas(shoes2008, 
        arima.model = "(0 1 1)(0 1 1)", 
        transform.function = "log", 
        forecast.maxlead = 36,
        slidingspans.save = c('sfs', 'chs'))
 
 shoes_sspan_x11_seas <- 
-   seasonal::seas(blsplotGG::shoes2008, 
+   seasonal::seas(shoes2008, 
        arima.model = "(0 1 1)(0 1 1)", 
        transform.function = "log", 
        forecast.maxlead = 36, 

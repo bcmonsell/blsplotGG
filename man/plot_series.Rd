@@ -62,7 +62,7 @@ shaded areas for NBER recession dates.
 Default is no recession shading.}
 
 \item{recess_color}{Character string; color used for shading of recession region.
-Default is \code{'lightgrey'}. For a listing of R color codes,
+Default is \code{"lightgrey"}. For a listing of R color codes,
 see \insertCite{rchartsColors;textual}{blsplotGG}.}
 
 \item{recess_sub}{Logical scalar; indicates if x-axis label for recession is
@@ -73,23 +73,24 @@ Default is x-axis label.}
 Default is "solid".}
 
 \item{line_color}{Character string; color used for series in the plot.
-Default is \code{'grey'}. For a listing of R color codes,
+Default is \code{"grey"}. For a listing of R color codes,
 see \insertCite{rchartsColors;textual}{blsplotGG}.}
 }
 \value{
 Generate \code{ggplot} plot of user-specified series.
-If series not specified, print out error message and return NULL.
+If series not specified, print out error message and return \code{NULL}.
 }
 \description{
 Generate plot of user-specified time series (\code{ts}) object.
 }
 \details{
-Version 3.0.2, 2026-06-09
+Version 3.2.1, 2026-09-29
 }
 \examples{
 air_seas <- 
-  seasonal::seas(AirPassengers, arima.model = "(0 1 1)(0 1 1)", x11="",
-                 transform.function = "log")
+    seasonal::seas(AirPassengers, 
+         arima.model = "(0 1 1)(0 1 1)", x11="",
+         transform.function = "log")
 air_seas_d11 <- seasonal::final(air_seas)
 air_d11_p <- 
     plot_series(air_seas_d11, 

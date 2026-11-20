@@ -59,7 +59,7 @@ component for a given series, incorporating all trend lag revisions. For more in
 on revisions history diagnostics, \insertCite{@see Sections 6.3 and 7.8 of @Census2025;textual}{blsplotGG}.
 }
 \details{
-Version 3.2.1, 2026-06-09
+Version 3.2.2, 2026-09-29
 }
 \examples{
 shoes_seas <-

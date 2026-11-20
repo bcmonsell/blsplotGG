@@ -35,7 +35,7 @@ to be generated. Allowed entries are \code{"sfs"} (seasonal factors, default),
 \code{"cis"} (indirect period-to-period changes).}
 
 \item{main_title}{Character string; main title of plot.
-Default is character string \code{'Maximum Percent Difference Plot by Period'},
+Default is character string \code{"Maximum Percent Difference Plot by Period"},
 where Period is replaced by Month or Quarter.}
 
 \item{sub_title}{Character string; subtitle of plot. There is no default subtitle.}
@@ -63,17 +63,20 @@ Default is \code{"red"}.}
 
 \item{this_legend_title}{Title for legend.  Default is \code{"Year"}.}
 
-\item{this_legend_position}{character String; The position of the legend, which can be one of
-\code{top}, \code{bottom}, \code{left}, \code{right}.
-Default is \code{right}.}
+\item{this_legend_position}{Character string; indicates the position of the plot legend.
+Possible values are \code{"right"}, \code{"left"}, \code{"top"},
+\code{"bottom"}, and \code{"none"}
+Default is \code{"right"}.}
 
-\item{this_legend_size}{Numeric scalar; indicates the size of several attributes of the plot legend,
-in centimeters. Default value is \code{1}.}
+\item{this_legend_size}{Numeric scalar; indicates the size of several attributes of the
+Must be greater than zero.
+plot legend, in centimeters. Default value is \code{1}.}
 
 \item{this_legend_order}{Character vector; indicates the order of entries in the legend.
 Default order is determined by \code{ggplot2}.}
 
 \item{this_legend_space}{integer scalar; Space between legend and plot in points.
+Must be greater than or equal to zero.
 Default is \code{10}.}
 }
 \value{
@@ -87,11 +90,11 @@ month or quarter.  For more information on sliding spans analysis,
 details on sliding spans analysis in \insertCite{Findley90;textual}{blsplotGG}.
 }
 \details{
-Version 4.6.1, 2026-06-09
+Version 4.8, 2026-10-28
 }
 \examples{
 shoes_sspan_seas <- 
-   seasonal::seas(blsplotGG::shoes2008, 
+   seasonal::seas(shoes2008, 
        arima.model = "(0 1 1)(0 1 1)", 
        transform.function = "log", 
        forecast.maxlead = 36,

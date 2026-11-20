@@ -29,7 +29,7 @@ a high definition plot}
 Default is range of the series.}
 
 \item{main_title}{Title for the plot.
-Default is character string \code{'Ratio Plot'}.}
+Default is character string \code{"Ratio Plot"}.}
 
 \item{sub_title}{Subtitle for the plot. Default is \code{NULL}.}
 
@@ -48,7 +48,7 @@ areas for NBER recession dates.
 Default is no recession shading.}
 
 \item{recess_color}{Character string; color used for shading of recession region.
-Default is \code{'lightgrey'}. For a listing of R color codes,
+Default is \code{"lightgrey"}. For a listing of R color codes,
 see \insertCite{rchartsColors;textual}{blsplotGG}.}
 
 \item{recess_sub}{Logical scalar; indicates if x-axis label for recession is
@@ -71,17 +71,20 @@ A \code{ggplot} object that produces a ratio plot of a time series.
 Generates a high-definition plot around a reference line other than zero.
 }
 \details{
-Version 3.4.1, 2026-06-09
+Version 3.4.2, 2026-09-29
 }
 \examples{
 ukgas_x11_seas <- 
-   seasonal::seas(UKgas, series.period = 4, arima.model = "(0 1 1)(0 1 1)", 
-                  transform.function = "log", forecast.maxlead = 20, 
-                  series.appendfcst = "no", x11.seasonalma = "s3x5", 
-                  check.print = c( 'pacf', 'pacfplot' ))
+   seasonal::seas(UKgas, series.period = 4, 
+      arima.model = "(0 1 1)(0 1 1)", 
+      transform.function = "log", forecast.maxlead = 20, 
+      series.appendfcst = "no", x11.seasonalma = "s3x5", 
+      check.print = c( 'pacf', 'pacfplot' ))
 ukgas_x11_sf     <- seasonal::series(ukgas_x11_seas, "d10")
-ukgas_sf_ratio   <- plot_ratio(ukgas_x11_sf, main_title = "UK Gas X-11 Seasonal Factors",
-                               sub_title = "Seasonal Filter: 3x5")
+ukgas_sf_ratio   <- 
+   plot_ratio(ukgas_x11_sf, 
+      main_title = "UK Gas X-11 Seasonal Factors",
+      sub_title = "Seasonal Filter: 3x5")
 }
 \references{
 \insertAllCited{}

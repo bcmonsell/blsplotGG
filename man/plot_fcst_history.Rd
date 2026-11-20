@@ -32,13 +32,13 @@ on a single time series for the second model
 This is a required entry.}
 
 \item{main_title}{Character string; main title of plot.
-Default is \code{'Sum of Squared Forecast Error Differences'}.}
+Default is \code{"Sum of Squared Forecast Error Differences"}.}
 
 \item{name_mdl1}{Character string; Description of first model for use in the subtitle.
-Default is \code{'Model 1'}.}
+Default is \code{"Model 1"}.}
 
 \item{name_mdl2}{Character string; Description of second model for use in the subtitle.
-Default is \code{'Model 2'}.}
+Default is \code{"Model 2"}.}
 
 \item{do_grid}{Logical scalar; indicates if certain plots will have grid lines.
 Default is no grid lines.}
@@ -56,21 +56,25 @@ Default is \code{c("steelblue", "darkgreen")}.}
 \item{this_legend_title}{Title for legend.  Default is \code{"Fcst History"}}
 
 \item{this_legend_title_size}{integer scalar; Size of the legend title.
+Must be greater than zero.
 Default is \code{12}.}
 
 \item{this_legend_text_size}{integer scalar; Size of the legend title.
+Must be greater than zero.
 Default is \code{10}.}
 
-\item{this_legend_position}{character String; The position of the legend, which can be one of
-\code{top}, \code{bottom}, \code{left}, \code{right}.
-Default is \code{right}.}
+\item{this_legend_position}{Character string; indicates the position of the plot legend.
+Possible values are \code{"right"}, \code{"left"}, \code{"top"},
+\code{"bottom"}, and \code{"none"}
+Default is \code{"right"}.}
 
 \item{this_legend_space}{integer scalar; Space between legend and plot in points.
+Must be greater than or equal to zero.
 Default is \code{10}.}
 }
 \value{
 A \code{ggplot} object that produces a forecast history plot.
-If series not specified, print out error message and return NULL.
+If series not specified, print out error message and return \code{NULL}.
 }
 \description{
 Generate forecast history plot, which compares the sum of squared forecast errors for two models.
@@ -78,27 +82,37 @@ This follows the theory established in \insertCite{Findley2005;textual}{blsplotG
 For more information on history analysis, \insertCite{@see Chapters 6.3 and 7.8 of @Census2025;textual}{blsplotGG}.
 }
 \details{
-Version 4.3, 2026-05-09
+Version 4.5, 2026-10-28
 }
 \examples{
 air_seas_mdl <- 
-    seasonal::seas(AirPassengers, x11="", slidingspans = "", 
-        transform.function = "log", regression.aictest = NULL, 
-        arima.model = "(0 1 1)(0 1 1)", outlier = NULL,
-        forecast.maxlead = 36, check.print = c( 'pacf', 'pacfplot' ),
-        history.fstep = c(1, 12), history.estimates = 'fcst', 
+    seasonal::seas(AirPassengers, x11="",  
+        slidingspans = "", 
+        transform.function = "log",  
+        regression.aictest = NULL, 
+        arima.model = "(0 1 1)(0 1 1)",  
+        outlier = NULL,
+        forecast.maxlead = 36,  
+        check.print = c( 'pacf', 'pacfplot' ),
+        history.fstep = c(1, 12),  
+        history.estimates = 'fcst', 
         history.save = 'fcsterrors')
 air_seas_mdl2 <- 
-    seasonal::seas(AirPassengers, x11="", slidingspans = "", 
+    seasonal::seas(AirPassengers, x11="",  
+        slidingspans = "", 
         transform.function = "log",
-        arima.model = "(0 1 1)(0 1 1)", regression.variables = c("td"),
-        forecast.maxlead = 36, check.print = c( 'pacf', 'pacfplot' ),
-        history.fstep = c(1, 12), history.estimates = 'fcst', 
+        arima.model = "(0 1 1)(0 1 1)",  
+        regression.variables = c("td"),
+        forecast.maxlead = 36,  
+        check.print = c( 'pacf', 'pacfplot' ),
+        history.fstep = c(1, 12),  
+        history.estimates = 'fcst', 
         history.save = 'fcsterrors')
 plot_fcst_history_air <-
     plot_fcst_history(air_seas_mdl, air_seas_mdl2, 
-        main_title = 'Sum of Squared Forecast Error Differences for Airline Passengers',
-        name_mdl1 = 'Airline model', name_mdl2 = 'Airline model + regressors')
+        main_title = 'SS Forecast Error Differences for Airline Passengers',
+        name_mdl1 = 'Airline model',  
+        name_mdl2 = 'Airline model + regressors')
 }
 \references{
 \insertAllCited{}

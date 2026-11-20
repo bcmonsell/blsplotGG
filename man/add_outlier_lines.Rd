@@ -21,7 +21,7 @@ This is a required entry.}
 This is a required entry.}
 
 \item{line_color}{Character array of length 6; color used for different outliers, with the order being
-\code{'ao', 'ls', 'tc', 'so', 'rp', 'tls'}.
+\code{"ao", "ls", "tc", "so", "rp", "tls"}.
 Default is the \code{RColorBrewer} palette \code{"Dark2"}. For a listing of R color codes,
 see \insertCite{rchartsColors;textual}{blsplotGG}.}
 
@@ -29,8 +29,8 @@ see \insertCite{rchartsColors;textual}{blsplotGG}.}
 Deault is \code{"Dark2"}.}
 
 \item{this_line_type}{Character array of length 6; Line type used for different outliers, with the order being
-\code{'ao', 'ls', 'tc', 'so', 'rp', 'tls'}.
-Default is \code{c('dashed', 'dotdash', 'dashed', 'twodash', 'dotdash', 'dotdash')}.}
+\code{"ao", "ls", "tc", "so", "rp", "tls"}.
+Default is \code{c("dashed", "dotdash", "dashed", "twodash", "dotdash", "dotdash")}.}
 }
 \value{
 Revised \code{ggplot} object with lines for outliers added.
@@ -39,7 +39,7 @@ Revised \code{ggplot} object with lines for outliers added.
 add lines for outliers to a ggplot plot object
 }
 \details{
-Version 4.5.1, 2026-06-09
+Version 4.5.2, 2026-09-29
 }
 \examples{
 air_seas <- 

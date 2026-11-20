@@ -4,41 +4,60 @@
 #' Generates a plot of the seasonal factors grouped by month/quarter
 #' for two adjustments. 
 #'
-#' Version 2.4, 2/10/2026
+#' Version 2.7, 2026-10-28
 #'
 #' @param this_sf_one array of seasonal factors stored as a time series
+#'        This is a required entry.
 #' @param this_sf_two array of seasonal factors stored as a time series
-#' @param y_limit Numeric vector of length 2; Range of values you wish the plot to be plotted over. 
+#'        This is a required entry.
+#' @param y_limit Numeric vector of length 2;   
+#'        Range of values you wish the plot to be plotted over. 
 #'        Default is range of the seasonal factors.
-#' @param this_trans Logical scalar; indicates if the adjustment was done with a log transform. 
-#'        Default is TRUE.
-#' @param main_title Character string; main title of plot.  Default is  \code{'Seasonal Sub-Plots'}.
-#' @param sub_title Character string; subtitle of plot.  Subtitle not produced if not specified.
-#' @param this_xlab Character string; label for x-axis of plot.  Default is a blank x-axis.
+#' @param this_trans Logical scalar; indicates if the adjustment was done   
+#'        with a log transform. 
+#'        Default is \code{TRUE}.
+#' @param main_title Character string; main title of plot.  
+#'        Default is \code{"Seasonal Sub-Plots"}.
+#' @param sub_title Character string; subtitle of plot.    
+#'        Subtitle not produced if not specified.
+#' @param this_xlab Character string; label for x-axis of plot.    
+#'        Default is a blank x-axis.
 #' @param do_grid Logical scalar; indicates if plots will have grid lines. 
 #'        Default is no grid lines.
 #' @param do_background Logical scalar; indicates grey background included in plot.
 #'        Default is no grey background;
-#' @param this_color_sf Vector of character strings; colors used for seasonal factors. Should be of length two. 
+#' @param sf_color Vector of character strings; colors used for seasonal factors.   
+#'        Should be of length two. 
 #'        Default is \code{NULL}, which indicates that the palette specified 
 #'        in \code{this_palette} is used to generate colors for this plot.
-#' @param this_color_mean Vector of character strings; color used for means of the seasonal factors. Should be of length two.
+#'        For a listing of R color codes, see 
+#'        \insertCite{rchartsColors;textual}{blsplotGG}.
+#' @param mean_color Vector of character strings; color used for   
+#'        means of the seasonal factors. Should be of length two.
 #'        Default is \code{NULL}, which indicates that the palette specified 
 #'        in \code{this_palette} is used to generate colors for this plot.
 #' @param this_palette Color used for lines in plot. 
-#'        Default is the \code{RColorBrewer} palette \code{"Paired"} \insertCite{RColorBrewer}{blsplotGG}. 
-#' @param first_year Integer scalar; First year used in plot. Default is start of the series.
-#' @param this_legend_title Character string; indicates title of legend. Default is \code{'Series'}.
-#' @param this_legend_text Array of character strings; indicates text for each seasonal factor in plot. 
+#'        Default is the \code{RColorBrewer} palette \code{"Paired"}   
+#'        \insertCite{RColorBrewer}{blsplotGG}. 
+#' @param first_year Integer scalar; First year used in plot.   
+#'        Default is start of the series.
+#' @param this_legend_title Character string; indicates title of legend.   
+#'        Default is \code{'Series'}.
+#' @param this_legend_text Array of character strings; indicates text for   
+#'        each seasonal factor in plot. 
 #'        Default is \code{c("SF One", "SF Mean One", "SF Two", "SF Mean Two"))}.
 #' @param this_legend_title_size integer scalar; Size of the legend title.
+#'        Must be greater than zero.
 #'        Default is \code{12}.
 #' @param this_legend_text_size integer scalar; Size of the legend title.
+#'        Must be greater than zero.
 #'        Default is \code{10}.
-#' @param this_legend_position character String; The position of the legend, which can be one of
-#'        \code{top}, \code{bottom}, \code{left}, \code{right}.
-#'        Default is \code{right}.
+#' @param this_legend_position Character string; indicates the position of the plot legend.
+#'        Possible values are \code{"right"}, \code{"left"}, \code{"top"}, 
+#'        \code{"bottom"}, and \code{"none"}
+#'        Default is \code{"right"}.
 #' @param this_legend_space integer scalar; Space between legend and plot in points.
+#'        Must be greater than or equal to zero.
 #'        Default is \code{10}.
 #' @return A \code{ggplot} object which generates a plot of the seasonal factors 
 #'        (and the SI-ratios) grouped by month/quarter.
@@ -76,8 +95,8 @@ plot_sf_two <-
 			 this_xlab = NULL, 
              do_grid = FALSE,
 			 do_background = FALSE,
-			 this_color_sf = NULL, 
-			 this_color_mean = NULL, 
+			 sf_color = NULL, 
+			 mean_color = NULL, 
 			 this_palette = "Paired", 
 			 first_year = NULL, 
 			 this_legend_title = "SF Plot", 
@@ -86,7 +105,7 @@ plot_sf_two <-
 			 this_legend_text_size = 10,
 			 this_legend_position = "right",
 			 this_legend_space = 10) {
-    # Author: Brian C. Monsell (OEUS) Version 2.4, 2/10/2026
+    # Author: Brian C. Monsell (OEUS) Version 2.7, 2026-10-28
 
     # check if a value is specified for \code{this_sf}
     if (is.null(this_sf_one)) {
@@ -108,23 +127,31 @@ plot_sf_two <-
 	
 	# check legend options 
 	position_all <- c("top", "bottom", "left", "right")
-	if(sum(match(position_all, this_legend_position), na.rm = TRUE) == 0) {
+	if (sum(match(position_all, this_legend_position), na.rm = TRUE) == 0) {
         cat(paste("Legend position choice not valid:", this_legend_position))
 		return(NULL)
 	}
 	
-	if(this_legend_text_size <= 0) {
+    # check if values of \code{this_legend_text_size}, \code{this_legend_title_size}, 
+	# and \code{this_legend_space} are valid, return \code{NULL} if not.
+	if (this_legend_text_size <= 0) {
         cat(paste("Legend text size not valid (must be greater than zero):", 
 		           this_legend_text_size))
-		return(NULL)
+        return(NULL)
 	}
 	
-	if(this_legend_title_size <= 0) {
+	if (this_legend_title_size <= 0) {
         cat(paste("Legend title text size not valid (must be greater than zero):", 
 		           this_legend_title_size))
-		return(NULL)
+        return(NULL)
 	}
-
+	
+	if (this_legend_space < 0) {
+        cat(paste("Legend space size not valid (must be greater than or equal to zero):", 
+		           this_legend_space))
+        return(NULL)
+	}
+	
 	freq_one <- frequency(this_sf_one)
 	freq_two <- frequency(this_sf_two)
 	if (freq_one != freq_two) {
@@ -236,15 +263,15 @@ plot_sf_two <-
     }
 	
 	this_color <- NULL
-	if (is.null(this_color_sf)) {
+	if (is.null(sf_color)) {
 		this_color <- RColorBrewer::brewer.pal(4, this_palette)
-		this_color_sf <- c(this_color[2], this_color[4])
+		sf_color <- c(this_color[2], this_color[4])
 	}
-	if (is.null(this_color_mean)) {
+	if (is.null(mean_color)) {
 		if (is.null(this_color)) {
 			this_color <- RColorBrewer::brewer.pal(4, this_palette)
 		}
-		this_color_mean <- c(this_color[1], this_color[3])
+		mean_color <- c(this_color[1], this_color[3])
 	}
 
     this_df <- 
@@ -279,7 +306,7 @@ plot_sf_two <-
         ggplot2::scale_x_continuous(name = this_xlab, 
                                     breaks = 1:freq, 
                                     labels = this_label) +
-        ggplot2::scale_color_manual(values = c(this_color_mean, this_color_sf)) +
+        ggplot2::scale_color_manual(values = c(mean_color, sf_color)) +
 		ggplot2::geom_hline(yintercept = h_bar) +
         ggplot2::guides(color = ggplot2::guide_legend(this_legend_title))
     

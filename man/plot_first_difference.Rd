@@ -16,14 +16,14 @@ plot_first_difference(
 )
 }
 \arguments{
-\item{this_series}{\code{ts} object of a single time series
+\item{this_series}{\code{ts} object of a single time series.
 This is a required entry.}
 
 \item{take_log}{Logical scalar, specifies that a log transformation will be
 taken before differencing. Default is \code{FALSE}}
 
 \item{main_title}{Title for the plot.
-Default is character string \code{'First Difference Plot'}.}
+Default is character string \code{"First Difference Plot"}.}
 
 \item{remove_y_axis}{Logical scalar.
 If \code{TRUE}, removes the y-axis labels and tick marks from all subplots.
@@ -53,7 +53,7 @@ Generates a \code{ggplot2} object of the first difference of a time series group
 by months or quarters. The series must be a \code{ts} object.
 }
 \details{
-Version 2.3.1, 2026-06-09
+Version 3.0, 2026-10-23
 }
 \examples{
 shoes_seas <-

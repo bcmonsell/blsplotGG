@@ -23,7 +23,10 @@ plot_matrix(
   this_legend_position = "right",
   this_legend_space = 10,
   do_facet = FALSE,
-  reset_facet_y_axis = FALSE
+  facet_scale = "fixed",
+  facet_position = "right",
+  facet_text_size = NULL,
+  facet_column = 1
 )
 }
 \arguments{
@@ -64,52 +67,79 @@ Default is \code{"solid"}.}
 \item{this_legend_title}{Title for legend.  Default is \code{"Forecast"}}
 
 \item{this_legend_title_size}{integer scalar; Size of the legend title.
+Must be greater than zero.
 Default is \code{12}.}
 
 \item{this_legend_text_size}{integer scalar; Size of the legend title.
+Must be greater than zero.
 Default is \code{10}.}
 
-\item{this_legend_position}{character String; The position of the legend, which can be one of
-\code{top}, \code{bottom}, \code{left}, \code{right}.
-Default is \code{right}.}
+\item{this_legend_position}{Character string; indicates the position of the plot legend.
+Possible values are \code{"right"}, \code{"left"}, \code{"top"},
+\code{"bottom"}, and \code{"none"}
+Default is \code{"right"}.}
 
 \item{this_legend_space}{integer scalar; Space between legend and plot in points.
+Must be greater than or equal to zero.
 Default is \code{10}.}
 
 \item{do_facet}{Logical scalar; indicates if a facet plot is generated of the
 different colums. Default is \code{FALSE}.}
 
-\item{reset_facet_y_axis}{Logical scalar; indicates if y-axis for facet plots
-reset to \code{y_limit}. Default is \code{FALSE}.}
+\item{facet_scale}{Character scalar; set the scale for the y-axis of the facet plots.
+Default is \code{"fixed"}.  To set axis to be different for the different plots,
+set \code{facet_scale = "free_y"}.}
+
+\item{facet_position}{Character scalar; set position of the facet lables. Possible values
+are \code{"top"}, \code{"bottom"}, \code{"left"}, \code{"right"}.
+Default is \code{"right"}.}
+
+\item{facet_text_size}{Numeric scalar; size of text in facet labels.
+Default is set by the \code{ggplot2} package.}
+
+\item{facet_column}{Numeric scalar; number of columns in the facet plot.
+Default is \code{1}.}
 }
 \value{
 A \code{ggplot} object that produces a plot of user-specified time series
 in columns of \code{this_matrix}, either all on the same axis or as a facet plot.
-This function uses the \code{autoplot} function of the \code{forecast} package
-\insertCite{forecast2008,forecast2025}{blsplotGG}.
-If matrix not specified, print out error message and return NULL.
+This function uses the \code{tsibble} package \insertCite{tsibble}{blsplotGG}.
+If matrix not specified, print out error message and return \code{NULL}.
 }
 \description{
 Generate plot of a matrix of user-specified time series.
 }
 \details{
-Version 6.3, 2026-02-17
+Version 8.2, 2026-11-02
 }
 \examples{
-BP_Region_Matrix <-
-   cbind(blsplotGG::xt_data_list$mw1u, blsplotGG::xt_data_list$ne1u, 
-         blsplotGG::xt_data_list$so1u, blsplotGG::xt_data_list$we1u)
-colnames(BP_Region_Matrix) <- names(blsplotGG::xt_data_list)
-p_BP <- blsplotGG::plot_matrix(BP_Region_Matrix, 
-   this_y_label = 'Building Permits', 
-   main_title = "US Building Permits, 1 Family Units",
-   do_grid = TRUE, this_line_type = rep("solid", 4),
-   line_color = c("orange", "steelblue", "forestgreen", "brown"))
-p_BP_facet <- blsplotGG::plot_matrix(BP_Region_Matrix, 
-  this_y_label = 'Building Permits', 
-   main_title = "US Building Permits, 1 Family Units",
-   do_grid = FALSE, do_facet = TRUE,
-   line_color = c("orange", "steelblue", "forestgreen", "brown"))
+UN_Matrix <-
+	  cbind(blsplotGG::unemployment_list$n3000013, 
+	     blsplotGG::unemployment_list$n3000014, 
+	     blsplotGG::unemployment_list$n3000025, 
+		 blsplotGG::unemployment_list$n3000026)
+UN_names <- c("M 16-19", "F 16-19", "M 20+", "F 20+")
+colnames(UN_Matrix) <- UN_names
+p_UN <- plot_matrix(UN_Matrix, 
+   this_x_label = NULL, 
+   main_title = "US Unemployment", 
+   this_palette = "Set2",
+   do_grid = TRUE, 
+   this_line_type = rep("solid", 4),
+   this_legend_title = "UNemp",
+   this_legend_title_size = 8,
+   this_legend_text_size = 6,
+   this_legend_position = "bottom",
+   this_legend_space = 1)
+p_UN_facet <- plot_matrix(UN_Matrix, 
+   this_y_label = NULL, this_x_label = NULL, 
+   main_title = "US Unemployment",
+   do_grid = FALSE,
+   do_facet = TRUE, 
+   facet_text_size = 6,
+   facet_column = 2, 
+   facet_scale = "free_y",
+   facet_position = "top")
 }
 \references{
 \insertAllCited{}

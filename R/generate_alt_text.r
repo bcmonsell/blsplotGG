@@ -1,23 +1,18 @@
-#' Generate alt text for ggplot graphs
+#' Generate alt text for \code{ggplot} graphs
 #'
-#' Generates alt text for ggplot graph objects using the \code{BrailleR} package \insertCite{BrailleR2023}{blsplotGG} 
-#' or adding text as suggested by Amy Casale in her article "Writing Alt Text for Data Visualization" \insertCite{Cesal2020}{blsplotGG}.
+#' Generates alt text for \code{ggplot} graph objects; adds text as suggested by 
+#' Amy Casale in her article "Writing Alt Text for Data Visualization" 
+#' \insertCite{Cesal2020}{blsplotGG}.
 #'
-#' Version 4.3, 2/10/2026
+#' Version 5.0, 2026-11-09
 #'
-#' @param gg_object \code{ggplot} object from which alt text will be generated. 
-#'                  Required entry if \code{short_alt = FALSE}.
-#' @param chart_type character scalar telling what type of plot is used in \code{gg_object}. 
-#'                  This is a required entry.
-#' @param data_type character scalar detailing what data is used in \code{gg_object}. 
-#'                  This is a required entry.
-#' @param reason_text character scalar detailing the reason \code{gg_object} is plotted. 
-#'                  This is a required entry.
-#' @param short_alt logical scalar if TRUE BrailleR text will not be appended to the alt text. 
-#'                  Default is \code{FALSE}.
-#' @param BrailleR_only logical scalar if TRUE only BrailleR text will returned. 
-#'                  Default is \code{FALSE}.
-#' @return generate alt text for plot produced by \code{gg_object}
+#' @param chart_type character scalar telling what type of plot is used. 
+#'        This is a required entry.
+#' @param data_type character scalar detailing what data is used. 
+#'        This is a required entry.
+#' @param reason_text character scalar detailing the reason the plot is generated. 
+#'        This is a required entry.
+#' @return generate alt text 
 #'
 #' 
 #' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
@@ -40,62 +35,33 @@
 #'                      color="darkred", linetype="dotdash") + 
 #'   ggplot2::ggtitle("Airline Passenger X-11 Seasonal Adjustment")
 #' air_alt_text <- 
-#'    generate_alt_text(air_p, 
-#'                      "Time series plot", 
+#'    generate_alt_text("Time series plot", 
 #'                      "International Airline Passengers time series",
 #'                      "compare seasonal adjustment and trend to original series")
 #' @importFrom Rdpack reprompt
 #' @export
-generate_alt_text <- function(gg_object = NULL, chart_type = NULL, data_type = NULL, reason_text = NULL, 
-                              short_alt = FALSE, BrailleR_only = FALSE) {
-    # Author: Brian C. Monsell (OEUS) Version 4.3, 2/10/2026
+generate_alt_text <- 
+	function(chart_type = NULL, 
+		data_type = NULL, 
+		reason_text = NULL) {
+    # Author: Brian C. Monsell (OEUS) Version 5.0, 2026-11-09
     
-    if (!short_alt) {
-        if (is.null(gg_object)) {
-            cat("must specify ggplot graph object")
-            return(NULL)
-        } else {
-            if (!ggplot2::is_ggplot(gg_object)) {
-                cat("must specify ggplot graph object")
-                return(NULL)
-            }
-        }
-    } 
-	
-	if (!BrailleR_only) {
-   
-		if (is.null(chart_type)) {
-			cat("must specify type of chart")
-			return(NULL)
-		}
+	if (is.null(chart_type)) {
+		cat("must specify type of chart")
+		return(NULL)
+	}
     
-		if (is.null(data_type)) {
-			cat("must specify description of data used in plot")
-			return(NULL)
-		}
+	if (is.null(data_type)) {
+		cat("must specify description of data used in plot")
+		return(NULL)
+	}
    
-		if (is.null(reason_text)) {
-			cat("must specify reason for chart")
-			return(NULL)
-		}
+	if (is.null(reason_text)) {
+		cat("must specify reason for chart")
+		return(NULL)
 	}
     
     # create short text based on Amy Casale's article
-    short_alt_text <- 
-      paste0(chart_type, " of ", data_type, " where ", reason_text)
-    if (short_alt) {
-        return(short_alt_text)
-    }
-	
-	if (BrailleR_only) {
-		long_alt_text <- stringr::str_c(BrailleR::VI(gg_object)$text, collapse=" ")
-	} else {
-    # append BrailleR text to short text 
-		long_alt_text <- 
-			paste0(short_alt_text, " ", 
-                   stringr::str_c(BrailleR::VI(gg_object)$text, collapse=" "))
-	}
-
-    #return long alt text
-    return(long_alt_text)
+    return(paste0(chart_type, " of ", data_type, " where ", reason_text))
+ 
 }

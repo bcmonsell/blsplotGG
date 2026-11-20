@@ -27,21 +27,28 @@ plot_sf_two(
 )
 }
 \arguments{
-\item{this_sf_one}{array of seasonal factors stored as a time series}
+\item{this_sf_one}{array of seasonal factors stored as a time series
+This is a required entry.}
 
-\item{this_sf_two}{array of seasonal factors stored as a time series}
+\item{this_sf_two}{array of seasonal factors stored as a time series
+This is a required entry.}
 
-\item{y_limit}{Numeric vector of length 2; Range of values you wish the plot to be plotted over.
+\item{y_limit}{Numeric vector of length 2;
+Range of values you wish the plot to be plotted over.
 Default is range of the seasonal factors.}
 
-\item{this_trans}{Logical scalar; indicates if the adjustment was done with a log transform.
+\item{this_trans}{Logical scalar; indicates if the adjustment was done
+with a log transform.
 Default is \code{TRUE}.}
 
-\item{main_title}{Character string; main title of plot.  Default is  \code{'Seasonal Sub-Plots'}.}
+\item{main_title}{Character string; main title of plot.
+Default is \code{"Seasonal Sub-Plots"}.}
 
-\item{sub_title}{Character string; subtitle of plot.  Subtitle not produced if not specified.}
+\item{sub_title}{Character string; subtitle of plot.
+Subtitle not produced if not specified.}
 
-\item{this_xlab}{Character string; label for x-axis of plot.  Default is a blank x-axis.}
+\item{this_xlab}{Character string; label for x-axis of plot.
+Default is a blank x-axis.}
 
 \item{do_grid}{Logical scalar; indicates if plots will have grid lines.
 Default is no grid lines.}
@@ -49,37 +56,47 @@ Default is no grid lines.}
 \item{do_background}{Logical scalar; indicates grey background included in plot.
 Default is no grey background;}
 
-\item{sf_color}{Vector of character strings; colors used for seasonal factors. Should be of length two.
+\item{sf_color}{Vector of character strings; colors used for seasonal factors.
+Should be of length two.
 Default is \code{NULL}, which indicates that the palette specified
 in \code{this_palette} is used to generate colors for this plot.
 For a listing of R color codes, see
 \insertCite{rchartsColors;textual}{blsplotGG}.}
 
-\item{mean_color}{Vector of character strings; color used for means of the seasonal factors. Should be of length two.
+\item{mean_color}{Vector of character strings; color used for
+means of the seasonal factors. Should be of length two.
 Default is \code{NULL}, which indicates that the palette specified
 in \code{this_palette} is used to generate colors for this plot.}
 
 \item{this_palette}{Color used for lines in plot.
-Default is the \code{RColorBrewer} palette \code{"Paired"} \insertCite{RColorBrewer}{blsplotGG}.}
+Default is the \code{RColorBrewer} palette \code{"Paired"}
+\insertCite{RColorBrewer}{blsplotGG}.}
 
-\item{first_year}{Integer scalar; First year used in plot. Default is start of the series.}
+\item{first_year}{Integer scalar; First year used in plot.
+Default is start of the series.}
 
-\item{this_legend_title}{Character string; indicates title of legend. Default is \code{'Series'}.}
+\item{this_legend_title}{Character string; indicates title of legend.
+Default is \code{'Series'}.}
 
-\item{this_legend_text}{Array of character strings; indicates text for each seasonal factor in plot.
+\item{this_legend_text}{Array of character strings; indicates text for
+each seasonal factor in plot.
 Default is \code{c("SF One", "SF Mean One", "SF Two", "SF Mean Two"))}.}
 
 \item{this_legend_title_size}{integer scalar; Size of the legend title.
+Must be greater than zero.
 Default is \code{12}.}
 
 \item{this_legend_text_size}{integer scalar; Size of the legend title.
+Must be greater than zero.
 Default is \code{10}.}
 
-\item{this_legend_position}{character String; The position of the legend, which can be one of
-\code{top}, \code{bottom}, \code{left}, \code{right}.
-Default is \code{right}.}
+\item{this_legend_position}{Character string; indicates the position of the plot legend.
+Possible values are \code{"right"}, \code{"left"}, \code{"top"},
+\code{"bottom"}, and \code{"none"}
+Default is \code{"right"}.}
 
 \item{this_legend_space}{integer scalar; Space between legend and plot in points.
+Must be greater than or equal to zero.
 Default is \code{10}.}
 }
 \value{
@@ -91,7 +108,7 @@ Generates a plot of the seasonal factors grouped by month/quarter
 for two adjustments.
 }
 \details{
-Version 2.5, 2026-06-09
+Version 2.7, 2026-10-28
 }
 \examples{
 air_seas_x11    <- 

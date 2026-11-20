@@ -5,6 +5,8 @@
 @STRING{JSSoft="Journal of Statistical Software"}
 @STRING{TRJ="The R Journal"}
 @STRING{JOS="Journal of Official Statistics"}
+@STRING{JRSSB="Journal of the Royal Statistical Society: Series B (Methodological)"}
+@STRING{JCGS="Journal of Computational and Graphical Statistics"}
 
 @Manual{RColorBrewer,
   title = {RColorBrewer: ColorBrewer Palettes},
@@ -95,10 +97,10 @@
     doi = {10.32614/RJ-2016-060},
   }
 
-  @Manual{ggfortify2018,
+  @Manual{ggfortify2016a,
     author = {Masaaki Horikoshi and Yuan Tang},
     title = {ggfortify: Data Visualization Tools for Statistical Analysis Results},
-    year = {2018},
+    year = {2016},
     url = {https://CRAN.R-project.org/package=ggfortify},
   }
   
@@ -194,10 +196,10 @@
     url = {https://www.bls.gov/osmr/research-papers/2023/pdf/st230060.pdf}
 }
 
-  @Article{,
+  @Article{boiwsa,
     title = {boiwsa: An R Package for Seasonal Adjustment of Weekly Data},
     author = {Tim Ginker},
-    journal = {TRJ},
+    journal = TRJ,
     year = {2024},
     volume = {16},
     number = {3},
@@ -205,4 +207,67 @@
     doi = {10.32614/RJ-2024-032},
   }
   
+ @book{BoxJenkinsReinsel1976, 
+  author = {G. E. P. Box and G. M. Jenkins and G. C. Reinsel},
+  year = 1976,
+  title = {Time Series Analysis, Forecasting and Control},
+  publisher={Holden-Day}, 
+  edition={3rd},
+  note = {Series G}
+}
+
+  @Article{lubridate,
+    title = {Dates and Times Made Easy with {lubridate}},
+    author = {Garrett Grolemund and Hadley Wickham},
+    journal = JSSoft,
+    year = {2011},
+    volume = {40},
+    number = {3},
+    pages = {1--25},
+    url = {https://www.jstatsoft.org/v40/i03/},
+  }
+
+@article{cusum75,
+    author = {Robert Lawson Brown and James Durban and John Michael Evans},
+    title = {Techniques for Testing the Constancy of Regression Relationships Over Time},
+    journal = JRSSB,
+    volume = {37},
+    number = {2},
+    pages = {149-163},
+    year = {1975},
+    month = {01},
+    abstract = {Methods for studying the stability over time of regression relationships are considered. Recursive residuals, defined to be uncorrelated with zero means and constant variance, are introduced and tests based on the cusum and cusum of squares of recursive residuals are developed. Further techniques based on moving regressions, in which the regression model is fitted from a segment of data which is moved along the series, and on regression models whose coefficients are polynomials in time are studied. The Quandt log-likelihood ratio statistic is considered. Emphasis is placed on the use of graphical methods. The techniques proposed have been embodied in a comprehensive computer program, timvar. Use of the techniques is illustrated by applying them to three sets of data.},
+    issn = {0035-9246},
+    doi = {10.1111/j.2517-6161.1975.tb01532.x},
+    url = {https://doi.org/10.1111/j.2517-6161.1975.tb01532.x},
+    eprint = {https://academic.oup.com/jrsssb/article-pdf/37/2/149/49096325/jrsssb_37_2_149.pdf},
+}
+
+@Article{tsibble,
+    author = {Earo Wang and Dianne Cook and Rob J Hyndman},
+    title = {A new tidy data structure to support exploration and modeling of temporal data},
+    journal = JCGS,
+    volume = {29},
+    number = {3},
+    pages = {466-478},
+    year = {2020},
+    publisher = {Taylor & Francis},
+    doi = {10.1080/10618600.2019.1695624},
+    url = {https://doi.org/10.1080/10618600.2019.1695624},
+  }
   
+@UNPUBLISHED{Maravall2012,
+    author= {Maravall, A.},
+    year = {2012},
+    title= {Seasonality tests and automatic model identification in {TRAMO-SEATS}},
+    note= {(Version: November 12, 2012) Bank of Spain, Servicio de Estudios.}
+}
+
+@misc{Bell2022,
+  author = {Bell, William and McDonald-Johnson, Kathleen and McElroy, Tucker and Pang, Osbert and Monsell, Brian and Chen, Baoline},
+  year =   {2022},
+  title =  {Identifying Seasonality},
+  url =    {https://www.bls.gov/osmr/research-papers/2022/pdf/st220010.pdf},
+  note = "BLS Research Reports, U.S. Bureau of Labor Statistics",
+}
+

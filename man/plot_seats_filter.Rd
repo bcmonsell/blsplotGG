@@ -30,12 +30,14 @@ This is a required entry.}
 \item{this_series}{Character string; series for which SEATS produces a set of
 filter weights, limited to the seasonally adjusted series
 (\code{sa}, the default), or the trend component (\code{trend}).
-For other entries, the function will print an error message and return a NULL.}
+For other entries, the function will print an error message and
+return a \code{NULL}.}
 
 \item{this_filter}{Character string; type of filter for which SEATS produces
 filter coefficients, limited to the symmetric (\code{symmetric},
 the default), or the concurrent (\code{trend}) filter.
-For other entries, the function will print an error message and return a NULL.}
+For other entries, the function will print an error message and
+return a \code{NULL}.}
 
 \item{main_title}{Character string; main title of plot.
 A title will be generated if no title is specified.}
@@ -57,23 +59,26 @@ Default is no grid lines.}
 Default is no grey background;}
 
 \item{title_size}{integer scalar; Size of the plot title.
+Must be greater than zero.
 Default is \code{12}.}
 
 \item{point_color}{Character string; color used for points in the plot.
-Default is \code{'steelblue'}. For a listing of R color codes,
+Default is \code{"steelblue"}. For a listing of R color codes,
 see \insertCite{rchartsColors;textual}{blsplotGG}.}
 
 \item{point_size}{Integer scalar; relative size of points in filter plot.
+Must be greater than zero.
 Default is \code{1.5}.}
 
 \item{point_shape}{Integer scalar; code for the shape of points in filter plot.
+Must be greater than zero.
 Default is \code{20}, a small filled circle.}
 }
 \value{
 A \code{ggplot} object that generates a plot of the adjustment or trend filter
 from a SEATS seasonal adjustment from X-13ARIMA-SEATS.
 If SEATS seaonal adjustment (with \code{seats.finite = "yes"}) not producted,
-print out error message and return NULL.
+print out error message and return \code{NULL}.
 }
 \description{
 Generate plot of the fully differenced transformed series from a SEATS adjustment
@@ -82,34 +87,34 @@ For more information on SEATS input options in X-13ARIMA-SEATS,
 \insertCite{@see Section 7.14 of @Census2025}{blsplotGG}.
 }
 \details{
-Version 3.3.1, 2026-06-09
+Version 3.5, 2026-10-28
 }
 \examples{
 shoes_seats_seas <- 
    seasonal::seas(shoes2008, arima.model = "(0 1 1)(0 1 1)", 
-                  transform.function = "log", 
-                  forecast.maxlead = 36,
-                  check.print = c( 'pacf', 'pacfplot' ), 
-                  seats.finite = "yes",
-                  seats.save = c( 'fac', 'faf', 'ftc', 'ftf' ) )
+      transform.function = "log", 
+      forecast.maxlead = 36,
+      check.print = c( 'pacf', 'pacfplot' ), 
+      seats.finite = "yes",
+      seats.save = c( 'fac', 'faf', 'ftc', 'ftf' ) )
 p_sa_sym_filter <- 
-  plot_seats_filter(shoes_seats_seas, "sa", "symmetric",
-	sub_title = "US Shoe Sales",
-	point_color = "darkgreen",
-     this_x_breaks = seq(-96,96,24))
+   plot_seats_filter(shoes_seats_seas, "sa", "symmetric",
+	 sub_title = "US Shoe Sales",
+	 point_color = "darkgreen",
+      this_x_breaks = seq(-96,96,24))
 p_trn_sym_filter <- 
-  plot_seats_filter(shoes_seats_seas, "trn", "symmetric",
-	sub_title = "US Shoe Sales",
-	point_color = "darkgreen",
-     this_x_breaks = seq(-96,96,24))
+   plot_seats_filter(shoes_seats_seas, "trn", "symmetric",
+	 sub_title = "US Shoe Sales",
+	 point_color = "darkgreen",
+      this_x_breaks = seq(-96,96,24))
 p_sa_conc_filter <- 
-  plot_seats_filter(shoes_seats_seas, "sa", "concurrent",
-	sub_title = "US Shoe Sales",
-	point_color = "darkgreen")
+   plot_seats_filter(shoes_seats_seas, "sa", "concurrent",
+      sub_title = "US Shoe Sales",
+      point_color = "darkgreen")
 p_trn_conc_filter <- 
-  plot_seats_filter(shoes_seats_seas, "trn", "concurrent",
-	sub_title = "US Shoe Sales",
-	point_color = "darkgreen")
+   plot_seats_filter(shoes_seats_seas, "trn", "concurrent",
+      sub_title = "US Shoe Sales",
+      point_color = "darkgreen")
 }
 \references{
 \insertAllCited{}

@@ -3,7 +3,7 @@
 #' Generates ratio plots for two series, and a third plot of the ratio/difference of 
 #' the two series if the user requests it.
 #'
-#' Version 3.5, 1/6/2026
+#' Version 3.7, 2026-09-30
 #'
 #' @param ratio_one First time series of ratios/factors for which you want to generate 
 #'        a high definition plot.
@@ -16,15 +16,17 @@
 #' @param ratio_range_two Range of values you wish the plot to be plotted over for the second ratio series. 
 #'        Default is range of the second series.
 #' @param ratio_mean_one Assumend mean for the first ratio series. 
-#'        Default is 1.0 if \code{ratio_range_one} has both elements greater than zero, zero otherwise.
+#'        Default is \code{1.0} if \code{ratio_range_one} 
+#'        has both elements greater than zero, \code{0.0} otherwise.
 #' @param ratio_mean_two Assumend mean for the second ratio series. 
-#'        Default is 1.0 if \code{ratio_range_two} has both elements greater than zero, zero otherwise.
+#'        Default is \code{1.0} if \code{ratio_range_two} 
+#'        has both elements greater than zero, \code{0.0} otherwise.
 #' @param do_comparison_plot Logical scalar. If TRUE, a ratio/difference plot of the two
 #'        factors will be generated from \code{ratio_one} and \code{ratio_two},
 #'        if the series have the same periodicity and are the same type of factor.
-#'        Default is TRUE.
+#'        Default is \code{TRUE}.
 #' @param overall_title Title for the combined plot. 
-#'        Default is NULL.
+#'        Default is \code{NULL}.
 #' @param ratio_one_title Title for the first plot. 
 #'        Default is character string \code{'First Ratio Plot'}.
 #' @param ratio_two_title Title for the plot. 
@@ -47,15 +49,21 @@
 #' @param add_line Logical scalar; add solid line for assumed mean. 
 #'        Default is \code{TRUE}. 
 #' @param ratio_mean_one Assumend mean for the first ratio series. 
-#'        Default is 1.0 if \code{ratio_range_one} has both elements greater than zero, zero otherwise.
+#'        Default is \code{1.0} if \code{ratio_range_one} has both elements 
+#'        greater than zero, \code{0.0} otherwise.
 #' @param ratio_mean_two Assumend mean for the second ratio series. 
-#'        Default is 1.0 if \code{ratio_range_two} has both elements greater than zero, zero otherwise.
+#'        Default is \code{1.0} if \code{ratio_range_two} has both elements 
+#'        greater than zero, \code{0.0} otherwise.
 #' @param ratio_color Color used for lines in ratio plot.  
-#'        Default is \code{"steelblue"}.
+#'        Default is \code{"steelblue"}. For a listing of R color codes, 
+#'        see \insertCite{rchartsColors;textual}{blsplotGG}.
 #' @return A \code{ggplot} object that generates a stacked plot with the 
 #         ratio plot of both series.
 #'
 #' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
+#'
+#' @references
+#'  \insertAllCited{}
 #'
 #' @examples
 #' ukgas_x11_seas   <- 
@@ -93,6 +101,7 @@
 #'          do_comparison_plot = FALSE,
 #'          ratio_color = "darkgreen")
 #'
+#' @importFrom Rdpack reprompt
 #' @export
 plot_ratio_two <- 
     function(ratio_one = NULL,
@@ -113,29 +122,46 @@ plot_ratio_two <-
              ratio_mean_one = NULL,
              ratio_mean_two = NULL,
              ratio_color = "steelblue") {
-    # Author: Brian C. Monsell (OEUS) Version 3.5, 1/6/2026
+    # Author: Brian C. Monsell (OEUS) Version 3.7, 2026-09-30
     
     # check if \code{ratio_one} is specified
 	if (is.null(ratio_one)) {
 		cat("Argument ratio_one must be specified.")
 		return(NULL)
 	} else {
-		if (!is.ts(ratio_one)) {
-			cat("Argument ratio_one must be a ts object")
+		if (tsbox::ts_boxable(ratio_one)) {
+			if (!is.ts(ratio_one)) {
+	# attempt to convert to \code{ts} format
+				ratio_one <- tsbox::ts_ts(ratio_one)
+			}
+		} else {
+			cat("must specify a ts object for the ratio_one argument.")
 			return(NULL)
 		}
-    }
+	}
 	
     # check if \code{ratio_two} is specified
 	if (is.null(ratio_two)) {
 		cat("Argument ratio_two must be specified.")
 		return(NULL)
       } else {
-		if (!is.ts(ratio_two)) {
-			cat("Argument ratio_two must be a ts object")
+		if (tsbox::ts_boxable(ratio_two)) {
+			if (!is.ts(ratio_two)) {
+	# attempt to convert to \code{ts} format
+				ratio_two <- tsbox::ts_ts(ratio_two)
+			}
+		} else {
+			cat("must specify a ts object for the ratio_two argument.")
 			return(NULL)
 		}
     }
+	
+    # check if value of \code{title_size} is valid, return \code{NULL} if not.
+	if (title_size <= 0) {
+		cat(paste("Legend text size not valid (must be greater than zero):", 
+			title_size))
+		return(NULL)
+	}
 	
 	if (!is.null(remove_fcst_one)) {
 		this_end <- length(ratio_one) - remove_fcst_one

@@ -20,10 +20,11 @@ of the regressor groups in the regARIMA model.
 If no regressors in the model, the routine will return a blank character (or blank vector).
 }
 \description{
-Generate string of names for the regressors used in the model fit for a given series.
+Generate string of names for the groups of regressors used in the model fit for a given series.
+Function can return a text string (default) or a vector of text strings.
 }
 \details{
-Version 1.1.1, 2026-06-09
+Version 1.2, 2026-10-26
 }
 \examples{
 air_seas <- seasonal::seas(AirPassengers, slidingspans = "", 

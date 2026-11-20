@@ -2,16 +2,20 @@
 #'
 #' Generates a heat map of the seasonal factors. 
 #'
-#' Version 1.2, 2026-07-21
+#' Version 1.4.2, 2026-09-29
 #'
-#' @param this_sf array of seasonal factors stored as a time series
+#' @param this_sf array of seasonal factors stored as a time series (ts) object.
 #' @param main_title Character string; main title of plot.  
-#'        Default is \code{'Seasonal Sub-Plots'}.
-#' @param sub_title Character string; subtitle of plot.  Subtitle not produced if not specified.
-#' @param this_x_label Character string; label for x-axis of plot.  Default is a blank x-axis.
-#' @param this_y_label Character string; label for y-axis of plot.  Default is a blank y-axis.
-#' @param this_palette Character string; default \code{RColorBrewer} palette \insertCite{RColorBrewer}{blsplotGG}.
-#'        Deault is \code{"YlOrRd"}.
+#'        Default is \code{"Seasonal Sub-Plots"}.
+#' @param sub_title Character string; subtitle of plot.  
+#'        Subtitle not produced if not specified.
+#' @param this_x_label Character string; label for x-axis of plot.   
+#'        Default is a blank x-axis.
+#' @param this_y_label Character string; label for y-axis of plot.   
+#'        Default is a blank y-axis.
+#' @param this_palette Character string;  
+#'        default \code{RColorBrewer} palette \insertCite{RColorBrewer}{blsplotGG}.
+#'        Default is \code{"YlOrRd"}.
 #' @return A \code{ggplot} object which generates a heat map of the seasonal factors.
 #'
 #' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
@@ -42,24 +46,36 @@ plot_sf_heat_map <-
 			 this_x_label = NULL, 
 			 this_y_label = NULL, 
 			 this_palette = "YlOrRd") {
-    # Author: Brian C. Monsell (OEUS) Version 1.2, 2026-07-21
+    # Author: Brian C. Monsell (OEUS) Version 1.4.1, 2026-09-29
 
     # check if a value is specified for \code{this_sf}
     if (is.null(this_sf)) {
         cat("must specify a set of seasonal factors")
 		return(NULL)
+    # check if \code{this_sf} is a ts object
+	} else {
+		if (tsbox::ts_boxable(this_sf)) {
+			if (!is.ts(this_sf)) {
+				this_sf <- tsbox::ts_ts(this_sf)
+			}
+		} else {
+			cat("must specify a ts object for the this_sf argument.")
+			return(NULL)
+		}
     }
 	
+    # extract frequency from \code{this_sf}
 	this_freq <- frequency(this_sf)
 	
+    # generate data frame for heat map
 	sf_df <- 
 		data.frame(Period = as.double(cycle(this_sf)),
 			Year = as.double(time(this_sf) %/% 1.0),
 			SF = as.double(this_sf))
 			
-	
+    # generate ggplot object for heat plot using \code{geom_tile})
 	gg_heat_map <-
-		ggplot2::ggplot(sf_df, ggplot2::aes(factor(.data$Period), .data$Year, fill= .data$SF)) + 
+		ggplot2::ggplot(sf_df, ggplot2::aes(factor(.data$Period), factor(.data$Year), fill= .data$SF)) + 
 			ggplot2::geom_tile() +
 			ggplot2::scale_fill_distiller(palette = this_palette, direction = 1) + 
 			ggplot2::theme_bw() + 
@@ -71,7 +87,8 @@ plot_sf_heat_map <-
 			ggplot2::labs(title = main_title, 
 				subtitle = sub_title,
                   y = this_y_label)
-
+	
+	# return heat map object
 	return(gg_heat_map)
 	
 }

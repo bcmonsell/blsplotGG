@@ -26,7 +26,7 @@ plot_sf_series(
 )
 }
 \arguments{
-\item{this_sf}{array of seasonal factors stored as a time series}
+\item{this_sf}{array of seasonal factors stored as a time series (ts) object.}
 
 \item{y_limit}{Numeric vector of length 2; Range of values you wish the plot to be plotted over.
 Default is range of the seasonal factors.}
@@ -66,16 +66,20 @@ Default includes lines for seasonal means.}
 Default is \code{c("SF", "SF Mean")}.}
 
 \item{this_legend_title_size}{integer scalar; Size of the legend title.
+Must be greater than zero.
 Default is \code{12}.}
 
 \item{this_legend_text_size}{integer scalar; Size of the legend title.
+Must be greater than zero.
 Default is \code{10}.}
 
-\item{this_legend_position}{character String; The position of the legend, which can be one of
-\code{top}, \code{bottom}, \code{left}, \code{right}.
-Default is \code{right}.}
+\item{this_legend_position}{Character string; indicates the position of the plot legend.
+Possible values are \code{"right"}, \code{"left"}, \code{"top"},
+\code{"bottom"}, and \code{"none"}
+Default is \code{"right"}.}
 
 \item{this_legend_space}{integer scalar; Space between legend and plot in points.
+Must be greater than or equal to zero.
 Default is \code{10}.}
 }
 \value{
@@ -86,7 +90,7 @@ A \code{ggplot} object which generates a plot of the seasonal factors
 Generates a special plot of the seasonal factors grouped by month/quarter.
 }
 \details{
-Version 3.2, 2026-06-09
+Version 3.6, 2026-10-28
 }
 \examples{
 air_seas    <- 

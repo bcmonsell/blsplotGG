@@ -14,7 +14,8 @@ plot_ratio_facet(
   do_grid = FALSE,
   do_background = FALSE,
   add_line = TRUE,
-  this_scale = "fixed",
+  facet_scale = "fixed",
+  facet_text_size = NULL,
   ratio_mean = 1,
   remove_fcst = FALSE,
   ratio_color = "steelblue"
@@ -48,9 +49,12 @@ Default is no grey background;}
 \item{add_line}{Logical scalar; add solid line for assumed mean.
 Default is \code{TRUE}.}
 
-\item{this_scale}{Character scalar; set the scale for the y-axis of the facet plots.
-Default is \code{"fixed"}.  To set the y-axis to be different for the different plots,
-set \code{this_scale = "free_y"}.}
+\item{facet_scale}{Character scalar; set the scale for the y-axis of the facet plots.
+Default is \code{"fixed"}.  To set axis to be different for the different plots,
+set \code{facet_scale = "free_y"}.}
+
+\item{facet_text_size}{Numeric scalar; size of text in facet labels.
+Default is set by the \code{ggplot2} package.}
 
 \item{ratio_mean}{Assumed mean value for the ratio.  Default is \code{1.0}}
 
@@ -71,7 +75,7 @@ Generates a high-definition plot for a number of X-13 factors around
 a reference line other than zero.
 }
 \details{
-Version 4.3.1, 2026-06-09
+Version 5.2, 2026-10-30
 }
 \examples{
 shoes_x11_seas <- 
@@ -88,7 +92,7 @@ shoes_factor_ratio_two   <-
    plot_ratio_facet(shoes_x11_seas, c("td", "hol", "irr"), 
                     main_title = "US Retail Shoe Sales",
                     sub_title = "Trading Day, Easter, and Irregular Factors",
-                    this_scale = "free_y")
+                    facet_scale = "free_y")
 }
 \references{
 \insertAllCited{}

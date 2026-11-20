@@ -34,7 +34,7 @@ This is a required entry.}
 \item{this_ori}{Time series of the original series. Optional entry.}
 
 \item{main_title}{Title for the plot.
-Default is character string \code{'Comparison of Seasonal Adjustments'}.}
+Default is character string \code{"Comparison of Seasonal Adjustments"}.}
 
 \item{sub_title}{Subtitle for the plot. Optional entry.}
 
@@ -65,16 +65,20 @@ Default is the \code{RColorBrewer} palette \code{"Dark2"} \insertCite{RColorBrew
 \item{this_legend_title}{Title for legend.  Default is \code{"Series"}}
 
 \item{this_legend_title_size}{integer scalar; Size of the legend title.
+Must be greater than zero.
 Default is \code{12}.}
 
 \item{this_legend_text_size}{integer scalar; Size of the legend title.
+Must be greater than zero.
 Default is \code{10}.}
 
-\item{this_legend_position}{character String; The position of the legend, which can be one of
-\code{top}, \code{bottom}, \code{left}, \code{right}.
-Default is \code{right}.}
+\item{this_legend_position}{Character string; indicates the position of the plot legend.
+Possible values are \code{"right"}, \code{"left"}, \code{"top"},
+\code{"bottom"}, and \code{"none"}
+Default is \code{"right"}.}
 
 \item{this_legend_space}{integer scalar; Space between legend and plot in points.
+Must be greater than or equal to zero.
 Default is \code{10}.}
 }
 \value{
@@ -85,7 +89,7 @@ Generates a \code{ggplot} object with a time series plot that compares two seaso
 of the same series, optionally including the original series.
 }
 \details{
-Version 3.7, 2026-02-17
+Version 3.10, 2026-10-28
 }
 \examples{
 ukgas_x11_seas   <- 

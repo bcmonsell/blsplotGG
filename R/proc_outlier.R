@@ -1,9 +1,10 @@
-
+#'
 #' Extract dates from outlier text
 #'
-#' Process name of outlier regressor to extract the dates associated with the outlier.
+#' Process text string of the name of an outlier regressor to extract the dates associated 
+#' with the outlier.
 #'
-#' Version 3.1, 12/30/2025
+#' Version 3.1, 2025-12-30
 #'
 #' @param this_outlier Character string; outlier regressor.
 #'        This is a required entry.
@@ -18,14 +19,14 @@
 #' @examples
 #' air_seas <- 
 #'    seasonal::seas(AirPassengers, x11="", slidingspans = "", 
-#'                      transform.function = "log", arima.model = "(0 1 1)(0 1 1)", 
-#'                      regression.aictest = 'td', forecast.maxlead=60, 
-#'                      check.print = c( "pacf", "pacfplot" ))
+#'       transform.function = "log", arima.model = "(0 1 1)(0 1 1)", 
+#'       regression.aictest = 'td', forecast.maxlead=60, 
+#'       check.print = c( "pacf", "pacfplot" ))
 #' this_auto_outlier <- get_auto_outlier_string(air_seas)
 #' this_outlier      <- proc_outlier(this_auto_outlier)
 #' @export
 proc_outlier <- function(this_outlier = NULL, this_freq = 12, add_type = TRUE) {
-    # Author: Brian C. Monsell (OEUS) Version 3.1, 12/30/2025
+    # Author: Brian C. Monsell (OEUS) Version 3.1, 2025-12-30
     
     # check if a value is specified for \code{this_outlier}
     if (is.null(this_outlier)) {
@@ -118,7 +119,7 @@ proc_outlier <- function(this_outlier = NULL, this_freq = 12, add_type = TRUE) {
     
     # if this_freq = 1, check if period = NA and reset to 1
     if (this_freq == 1) {
-        if(is.na(otl_list$period)) { otl_list$period = 1 }
+        if (is.na(otl_list$period)) { otl_list$period = 1 }
     }
     
     return(otl_list)

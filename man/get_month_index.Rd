@@ -16,7 +16,8 @@ Index of month - 1 for \code{'Jan'}, 2 for \code{'Feb'}, etc.
 If results do not match, this function will return \code{0}.
 }
 \description{
-Process string of month abbreviation to return a numeric index .
+Process string of month abbreviation to return a numeric index
+(1 for "Jan", 2 for "Feb", etc.).
 }
 \details{
 Version 3.1, 2026-06-15

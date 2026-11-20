@@ -14,19 +14,23 @@ plot_sf_heat_map(
 )
 }
 \arguments{
-\item{this_sf}{array of seasonal factors stored as a time series}
+\item{this_sf}{array of seasonal factors stored as a time series (ts) object.}
 
 \item{main_title}{Character string; main title of plot.
-Default is \code{'Seasonal Sub-Plots'}.}
+Default is \code{"Seasonal Sub-Plots"}.}
 
-\item{sub_title}{Character string; subtitle of plot.  Subtitle not produced if not specified.}
+\item{sub_title}{Character string; subtitle of plot.
+Subtitle not produced if not specified.}
 
-\item{this_x_label}{Character string; label for x-axis of plot.  Default is a blank x-axis.}
+\item{this_x_label}{Character string; label for x-axis of plot.
+Default is a blank x-axis.}
 
-\item{this_y_label}{Character string; label for y-axis of plot.  Default is a blank y-axis.}
+\item{this_y_label}{Character string; label for y-axis of plot.
+Default is a blank y-axis.}
 
-\item{this_palette}{Character string; default \code{RColorBrewer} palette \insertCite{RColorBrewer}{blsplotGG}.
-Deault is \code{"YlOrRd"}.}
+\item{this_palette}{Character string;
+default \code{RColorBrewer} palette \insertCite{RColorBrewer}{blsplotGG}.
+Default is \code{"YlOrRd"}.}
 }
 \value{
 A \code{ggplot} object which generates a heat map of the seasonal factors.
@@ -35,7 +39,7 @@ A \code{ggplot} object which generates a heat map of the seasonal factors.
 Generates a heat map of the seasonal factors.
 }
 \details{
-Version 1.2, 2026-07-21
+Version 1.4.2, 2026-09-29
 }
 \examples{
 air_seas    <- 

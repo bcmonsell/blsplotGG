@@ -16,7 +16,8 @@ plot_sadj_and_trend_facet(
   line_color = NULL,
   this_palette = "Dark2",
   line_label = NULL,
-  this_scale = "fixed"
+  facet_scale = "fixed",
+  facet_text_size = NULL
 )
 }
 \arguments{
@@ -58,9 +59,12 @@ in the order of original series, seasonally adjusted series.
 Default is \code{c("Ori", "SA", "Trend")} (if original series plotted) or
 \code{c("SA", "Trend")}.}
 
-\item{this_scale}{Character scalar; set the scale for the y-axis of the facet plots.
+\item{facet_scale}{Character scalar; set the scale for the y-axis of the facet plots.
 Default is \code{"fixed"}.  To set axis to be different for the different plots,
-set \code{this_scale = "free_y"}.}
+set \code{facet_scale = "free_y"}.}
+
+\item{facet_text_size}{Numeric scalar; size of text in facet labels.
+Default is set by the \code{ggplot2} package.}
 }
 \value{
 A \code{ggplot} object that generates a facet plot comparing a
@@ -73,7 +77,7 @@ an X-13 seasonal adjustment and trend, extracted from a \code{seas} object.
 The plot optionally includes the original series.
 }
 \details{
-Version 6.3.1, 2026-06-09
+Version 7.1 2026-10-30
 }
 \examples{
 ukgas_x11_seas   <- 

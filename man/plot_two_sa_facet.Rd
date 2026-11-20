@@ -16,7 +16,8 @@ plot_two_sa_facet(
   this_sa_text = c("sadj1", "sadj2"),
   do_grid = FALSE,
   do_background = FALSE,
-  this_scale = "fixed"
+  facet_scale = "fixed",
+  facet_text_size = NULL
 )
 }
 \arguments{
@@ -28,7 +29,8 @@ This is a required entry.}
 
 \item{this_ori}{Time series of the original series. Optional entry.}
 
-\item{main_title}{Title for the plot. Default is character string \code{'Comparison of Seasonal Adjustments'}.}
+\item{main_title}{Title for the plot.
+Default is character string \code{"Comparison of Seasonal Adjustments"}.}
 
 \item{sub_title}{Subtitle for the plot. Optional entry.}
 
@@ -40,8 +42,10 @@ This is a required entry.}
 For a listing of R color codes,
 see \insertCite{rchartsColors;textual}{blsplotGG}.}
 
-\item{this_sa_text}{Caracter vector of length 2; labels for different seasonal adjustments.
-Note that if \code{this_ori} is set, the label for that line will be set as \code{"Ori"}.
+\item{this_sa_text}{Caracter vector of length 2;
+labels for different seasonal adjustments.
+Note that if \code{this_ori} is set, the label for that
+line will be set as \code{"Ori"}.
 Default is \code{c("sadj1", "sadj2")}.}
 
 \item{do_grid}{Logical scalar; indicates if certain plots will have grid lines.
@@ -50,20 +54,23 @@ Default is no grid lines.}
 \item{do_background}{Logical scalar; indicates grey background included in plot.
 Default is no grey background;}
 
-\item{this_scale}{Character scalar; set the scale for the y-axis of the facet plots.
+\item{facet_scale}{Character scalar; set the scale for the y-axis of the facet plots.
 Default is \code{"fixed"}.  To set axis to be different for the different plots,
-set \code{this_scale = "free_y"}.}
+set \code{facet_scale = "free_y"}.}
+
+\item{facet_text_size}{Numeric scalar; size of text in facet labels.
+Default is set by the \code{ggplot2} package.}
 }
 \value{
-A \code{ggplot} object that generates a facet plot comparing two seasonal adjustments,
-trends, or factors.
+A \code{ggplot} object that generates a facet plot comparing
+two seasonal adjustments, trends, or factors.
 }
 \description{
 Generates a \code{ggplot} object with a time series facet plot that compares two
 seasonal adjustments of the same series, optionally including the original series.
 }
 \details{
-Version 7.4, 2026-02-17
+Version 8.1, 2026-09-30
 }
 \examples{
 ukgas_x11_seas   <- 

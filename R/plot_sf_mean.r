@@ -3,10 +3,13 @@
 #' Generates a plot of the means of a matrix of seasonal factors. 
 #' Each column of the matrix should be a \code{ts} object.
 #'
-#' Version 5.6, 2/20/2026
+#' Version 6.1, 2026-10-30
 #'
-#' @param this_sf_matrix time series matrix object of the seasonal factors from a number of seasonal adjustments.
-#' @param main_title Character string; main title of plot.  Default is  \code{'Mean of Seasonal Factors'}.
+#' @param this_sf_matrix time series matrix (mts) object of the seasonal factors from 
+#'        a number of seasonal adjustments.
+#'        This is a required entry.
+#' @param main_title Character string; main title of plot.  
+#'        Default is  \code{"Mean of Seasonal Factors"}.
 #' @param sub_title Character string; subtitle of plot. There is no default subtitle.
 #' @param this_y_label Character string; y-axis label for plot, if specified.
 #' @param this_x_label Label for X axis. Default is \code{"Time"}.
@@ -24,27 +27,34 @@
 #'        Default is \code{rep("solid", ncol(this_sf_matrix))}.
 #' @param do_facet Logical scalar; indicates if a facet plot is generated of the different colums. 
 #'        Default is \code{FALSE}.
-#' @param this_scale Character scalar; set the scale for the y-axis of the facet plots. 
-#'        Default is \code{"free_y"}.  To set axis to be the same for the different plots,
-#'        set \code{this_scale = "fixed"}.
+#' @param facet_scale Character scalar; set the scale for the y-axis of the facet plots. 
+#'        Default is \code{"fixed"}.  To set axis to be different for the different plots,
+#'        set \code{facet_scale = "free_y"}.
+#' @param facet_text_size Numeric scalar; size of text in facet labels. 
+#'        Default is set by the \code{ggplot2} package.
 #' @param y_limit Numeric vector of length 2; Range of values you wish the plot to be plotted over. 
 #'        Default is range of the seasonal factors.
-#' @param forecast Integer scalar; Number of forecasts appended to the seasonal factors. Default is 0.
+#' @param forecast Integer scalar; Number of forecasts appended to the seasonal factors. 
+#'        Default is \code{0}.
 #' @param this_legend_entry Character array; entries for the legend. When \code{do_facet = TRUE}, 
 #'        entries are used as the facet labels.
 #'        Default is \code{colnames(this_sf_matrix)}
 #' @param this_legend_title Character string; indicates title of legend. Default is \code{'Series'}.
 #' @param this_legend_title_size integer scalar; Size of the legend title.
+#'        Must be greater than zero.
 #'        Default is \code{12}.
 #' @param this_legend_text_size integer scalar; Size of the legend title.
+#'        Must be greater than zero.
 #'        Default is \code{10}.
-#' @param this_legend_position character String; The position of the legend, which can be one of
-#'        \code{top}, \code{bottom}, \code{left}, \code{right}.
-#'        Default is \code{right}.
+#' @param this_legend_position Character string; indicates the position of the plot legend.
+#'        Possible values are \code{"right"}, \code{"left"}, \code{"top"}, 
+#'        \code{"bottom"}, and \code{"none"}
+#'        Default is \code{"right"}.
 #' @param this_legend_space integer scalar; Space between legend and plot in points.
+#'        Must be greater than or equal to zero.
 #'        Default is \code{10}.
 #' @return Generate plot of the means of seasonal factors by period.
-#'         If seasonal factors not specified, print out error message and return NULL.
+#'         If seasonal factors not specified, print out error message and return \code{NULL}.
 #'
 #' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #'
@@ -70,12 +80,12 @@
 #' 
 #' EM_Comp_Sf <-
 #'  cbind(seasonal::series(EM_individual_seas_only$n2000013, "d10"),
-#'       seasonal::series(EM_individual_seas_only$n2000014, "d10"),
+#'        seasonal::series(EM_individual_seas_only$n2000014, "d10"),
 #'        seasonal::series(EM_individual_seas_only$n2000025, "d10"),
 #'        seasonal::series(EM_individual_seas_only$n2000026, "d10"))
 #' colnames(EM_Comp_Sf) <- EM_names
 #' 
-#' em_plot <- blsplotGG::plot_sf_mean(EM_Comp_Sf,
+#' em_plot <- plot_sf_mean(EM_Comp_Sf,
 #'   main_title = 'US Employment Seasonal Means',
 #'   sub_title = 'X-11 Seasonals',
 #'   forecast = 60, 
@@ -83,12 +93,12 @@
 #'   this_legend_entry = c("M 16-19", "F 16-19", "M 20+", "F 20+")
 #'   )
 #' 
-#' em_plot_facet <- blsplotGG::plot_sf_mean(EM_Comp_Sf,
+#' em_plot_facet <- plot_sf_mean(EM_Comp_Sf,
 #'   main_title = 'US Employment Seasonal Means',
 #'   sub_title = 'X-11 Seasonals',
 #'   forecast = 60, 
 #'   do_facet = TRUE, 
-#'   this_scale = "fixed",
+#'   facet_scale = "fixed",
 #'   this_legend_entry = c("M 16-19", "F 16-19", "M 20+", "F 20+")
 #'   )
 #' @import graphics
@@ -96,31 +106,64 @@
 #' @export
 plot_sf_mean <- 
     function(this_sf_matrix = NULL, 
-	         main_title = deparse(substitute(this_sf_matrix)), 
-             sub_title = NULL, 
-			 this_y_label = NULL, 
-			 this_x_label = "Time", 
-	         do_grid = FALSE, 
-			 do_background = FALSE, 
-			 line_color = NULL, 
-			 this_palette = "Dark2", 
-			 this_line_type = rep("solid", ncol(this_sf_matrix)), 
-			 do_facet = FALSE, 
-			 this_scale = "free_y", 
-			 y_limit = NULL, 
-			 forecast = 0, 
-			 this_legend_entry = colnames(this_sf_matrix),
-			 this_legend_title = "SF Means",
-			 this_legend_title_size = 12,
-			 this_legend_text_size = 10,
-			 this_legend_position = "right",
-			 this_legend_space = 10) {
-    # Author: Brian C. Monsell (OEUS) Version 5.6, 2/20/2026
+	    main_title = deparse(substitute(this_sf_matrix)), 
+        sub_title = NULL, 
+		this_y_label = NULL, 
+		this_x_label = "Time", 
+	    do_grid = FALSE, 
+		do_background = FALSE, 
+		line_color = NULL, 
+		this_palette = "Dark2", 
+		this_line_type = rep("solid", ncol(this_sf_matrix)), 
+		do_facet = FALSE, 
+		facet_scale = "fixed",
+		facet_text_size = NULL,
+		y_limit = NULL, 
+		forecast = 0, 
+		this_legend_entry = colnames(this_sf_matrix),
+		this_legend_title = "SF Means",
+		this_legend_title_size = 12,
+		this_legend_text_size = 10,
+		this_legend_position = "right",
+		this_legend_space = 10) {
+    # Author: Brian C. Monsell (OEUS) Version 6.1, 2026-10-30
 
     if (is.null(this_sf_matrix)) {
         cat("Argument this_sf_matrix must be specified.")
 		return(NULL)
     }
+	
+	if (!is.mts(this_sf_matrix)) {
+        cat("Argument this_sf_matrix must be a time series matrix (mts) object.")
+		return(NULL)
+	}
+	
+	# check legend options 
+	position_all <- c("top", "bottom", "left", "right")
+	if (sum(match(position_all, this_legend_position), na.rm = TRUE) == 0) {
+        cat(paste("Legend position choice not valid:", this_legend_position))
+		return(NULL)
+	}
+	
+    # check if values of \code{this_legend_text_size}, \code{this_legend_title_size}, 
+	# and \code{this_legend_space} are valid, return \code{NULL} if not.
+	if (this_legend_text_size <= 0) {
+        cat(paste("Legend text size not valid (must be greater than zero):", 
+		           this_legend_text_size))
+        return(NULL)
+	}
+	
+	if (this_legend_title_size <= 0) {
+        cat(paste("Legend title text size not valid (must be greater than zero):", 
+		           this_legend_title_size))
+        return(NULL)
+	}
+	
+	if (this_legend_space < 0) {
+        cat(paste("Legend space size not valid (must be greater than or equal to zero):", 
+		           this_legend_space))
+        return(NULL)
+	}
 	
 	if (forecast > 0) {
 		n_row <- nrow(this_sf_matrix)
@@ -146,18 +189,18 @@ plot_sf_mean <-
 
 	# check legend options 
 	position_all <- c("top", "bottom", "left", "right")
-	if(sum(match(position_all, this_legend_position), na.rm = TRUE) == 0) {
+	if (sum(match(position_all, this_legend_position), na.rm = TRUE) == 0) {
         cat(paste("Legend position choice not valid:", this_legend_position))
 		return(NULL)
 	}
 	
-	if(this_legend_text_size <= 0) {
+	if (this_legend_text_size <= 0) {
         cat(paste("Legend text size not valid (must be greater than zero):", 
 		           this_legend_text_size))
 		return(NULL)
 	}
 	
-	if(this_legend_title_size <= 0) {
+	if (this_legend_title_size <= 0) {
         cat(paste("Legend title text size not valid (must be greater than zero):", 
 		           this_legend_title_size))
 		return(NULL)
@@ -272,8 +315,12 @@ plot_sf_mean <-
 		legend_factor <- factor(this_legend_entry)
 		this_plot <- 
 			this_plot + ggplot2::facet_grid(legend_factor[name] ~ ., 
-											scale = this_scale) + 
+											scale = facet_scale) + 
 						ggplot2::theme(legend.position = "none")
+		if (!is.null(facet_text_size)) {
+			this_plot <- this_plot + 
+				ggplot2::theme(strip.text = ggplot2::element_text(size = facet_text_size))
+		}
 	} else {
 		this_plot <- this_plot +
 			ggplot2::theme(legend.text = ggplot2::element_text(size = this_legend_text_size),

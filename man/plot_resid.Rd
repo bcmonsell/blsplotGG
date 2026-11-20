@@ -7,6 +7,7 @@
 plot_resid(
   seas_obj = NULL,
   main_title = "ARIMA Residuals",
+  sub_size_base = 9,
   series_name = NULL,
   this_x_label = "Time",
   this_y_label = NULL,
@@ -26,7 +27,11 @@ plot_resid(
 This is a required entry.}
 
 \item{main_title}{Character string; main title of plot.
-Default is  \code{'ARIMA Residuals'}.}
+Default is  \code{"ARIMA Residuals"}.}
+
+\item{sub_size_base}{Numeric scalar; base subtitle size for normality statistics.
+This size depends on the number of normality statistics printed out in the subtitle.
+Default is \code{9}.}
 
 \item{series_name}{Character scalar; name of the time series used in \code{seas_obj}.}
 
@@ -44,7 +49,7 @@ Default is no grey background;}
 areas for NBER recession dates. Default is recession shading not plotted.}
 
 \item{recess_color}{Character string; color used for shading of recession region.
-Default is \code{'lightgrey'}.}
+Default is \code{"lightgrey"}.}
 
 \item{recess_sub}{Logical scalar; indicates if x-axis label for recession is
 produced for this plot. Default is x-axis label is produced}
@@ -69,7 +74,7 @@ Generates a plot of the regARIMA residuals extracted from a \code{seas} object,
 with diagnostic information added to the subtitle.
 }
 \details{
-Version 3.6.1, 2026-06-09
+Version 3.8, 2026-09-30
 }
 \examples{
 air_seas <- 

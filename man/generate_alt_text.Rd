@@ -2,47 +2,30 @@
 % Please edit documentation in R/generate_alt_text.r
 \name{generate_alt_text}
 \alias{generate_alt_text}
-\title{Generate alt text for ggplot graphs}
+\title{Generate alt text for \code{ggplot} graphs}
 \usage{
-generate_alt_text(
-  gg_object = NULL,
-  chart_type = NULL,
-  data_type = NULL,
-  reason_text = NULL,
-  short_alt = FALSE,
-  BrailleR_only = FALSE
-)
+generate_alt_text(chart_type = NULL, data_type = NULL, reason_text = NULL)
 }
 \arguments{
-\item{gg_object}{\code{ggplot} object from which alt text will be generated.
-Required entry if \code{short_alt = FALSE}.}
-
-\item{chart_type}{character scalar telling what type of plot is used in \code{gg_object}.
+\item{chart_type}{character scalar telling what type of plot is used.
 This is a required entry.}
 
-\item{data_type}{character scalar detailing what data is used in \code{gg_object}.
+\item{data_type}{character scalar detailing what data is used.
 This is a required entry.}
 
-\item{reason_text}{character scalar detailing the reason \code{gg_object} is plotted.
+\item{reason_text}{character scalar detailing the reason the plot is generated.
 This is a required entry.}
-
-\item{short_alt}{logical scalar if TRUE BrailleR text will not be appended to the alt text.
-Default is \code{FALSE}.}
-
-\item{BrailleR_only}{logical scalar if TRUE only BrailleR text will returned.
-Default is \code{FALSE}.}
 }
 \value{
-generate alt text for plot produced by \code{gg_object}
+generate alt text
 }
 \description{
-Generates alt text for ggplot graph objects using the \code{BrailleR} package
-\insertCite{BrailleR2023}{blsplotGG} or adding text as suggested by
+Generates alt text for \code{ggplot} graph objects; adds text as suggested by
 Amy Casale in her article "Writing Alt Text for Data Visualization"
 \insertCite{Cesal2020}{blsplotGG}.
 }
 \details{
-Version 4.3, 2026-02-10
+Version 5.0, 2026-11-09
 }
 \examples{
 air_seas <- seasonal::seas(AirPassengers, arima.model = "(0 1 1)(0 1 1)", x11="")
@@ -59,8 +42,7 @@ air_p <- ggplot2::ggplot(air_df, ggplot2::aes(x=date)) +
                      color="darkred", linetype="dotdash") + 
   ggplot2::ggtitle("Airline Passenger X-11 Seasonal Adjustment")
 air_alt_text <- 
-   generate_alt_text(air_p, 
-                     "Time series plot", 
+   generate_alt_text("Time series plot", 
                      "International Airline Passengers time series",
                      "compare seasonal adjustment and trend to original series")
 }

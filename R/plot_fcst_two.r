@@ -1,9 +1,11 @@
 #' Forecast plot for two models
 #'
 #' Generates plot that compares regARIMA forecasts for two models of the same series.
-#' The forecasts are extracted from two seas objects generated from the same series.
-#'
-#' Version 3.1, 12/30/2025
+#' The forecasts are extracted from two \code{seas} objects 
+#' from the same seriesgenerated from the \code{seas} function of the 
+#' \code{seasonal} package \insertCite{Sax2018}{blsplotGG}.
+#' 
+#' Version 3.4, 2026-10-28
 #'
 #' @param seas_obj_one \code{seas} object generated from a call of \code{seas} 
 #'        on a single time series
@@ -12,17 +14,17 @@
 #'        on the same time series, but a different regARIMA model.
 #'        This is a required entry.
 #' @param main_title Character string; main title of plot.  
-#'        Default is \code{'ARIMA Residuals'}.
+#'        Default is \code{"ARIMA Forecasts"}.
 #' @param sub_title Subtitle for the plot. 
 #'        Default is to generate the subtitle. 
 #' @param name_mdl1 Character string; Description of first model for use in the subtitle. 
-#'        Default is \code{'Model 1'}.
+#'        Default is \code{"Model 1"}.
 #' @param name_mdl2 Character string; Description of second model for use in the subtitle. 
-#'        Default is \code{'Model 2'}.
+#'        Default is \code{"Model 2"}.
 #' @param this_x_label Label for X-axis.  Default is \code{"Time"}
 #' @param this_y_label Label for Y-axis.  Default is \code{" "}
 #' @param length_ori Integer scalar; number of years of the original series 
-#'        to show with forecasts. #'        Default is 2 years. 
+#'        to show with forecasts. Default is 2 years. 
 #' @param do_grid Logical scalar; indicates if certain plots will have grid lines. 
 #'        Default is no grid lines. 
 #' @param do_background Logical scalar; indicates grey background included in plot.
@@ -30,31 +32,46 @@
 #' @param this_palette Array of character strings; color used for original series, 
 #'        forecast, and upper and lower forecast bounds. 
 #'        Default is \code{c("darkgrey", "steelblue", "darkgreen")}. 
+#'        For a listing of R color codes, see \insertCite{rchartsColors;textual}{blsplotGG}.
 #' @param this_legend_title Title for legend.  Default is \code{"Forecast"}
 #' @param this_legend_title_size integer scalar; Size of the legend title.
+#'        Must be greater than zero.
 #'        Default is \code{12}.
 #' @param this_legend_text_size integer scalar; Size of the legend title.
+#'        Must be greater than zero.
 #'        Default is \code{10}.
-#' @param this_legend_position character String; The position of the legend, which can be one of
-#'        \code{top}, \code{bottom}, \code{left}, \code{right}.
-#'        Default is \code{right}.
+#' @param this_legend_position Character string; indicates the position of the plot legend.
+#'        Possible values are \code{"right"}, \code{"left"}, \code{"top"}, 
+#'        \code{"bottom"}, and \code{"none"}
+#'        Default is \code{"right"}.
 #' @param this_legend_space integer scalar; Space between legend and plot in points.
+#'        Must be greater than or equal to zero.
 #'        Default is \code{10}.
-#' @return A \code{ggplot} object of the regARIMA forecasts for two models of the same series.
+#' @return A \code{ggplot} object of the regARIMA forecasts for two models of the 
+#'         same series.
 #'
 #' @author Brian C. Monsell, \email{monsell.brian@@bls.gov} or \email{bcmonsell@@gmail.com}
 #'
+#' @references
+#'  \insertAllCited{}
+#'
 #' @examples
 #' shoes_seas_one <- 
-#'     seasonal::seas(shoes2008, x11="", slidingspans = "", transform.function = "log",
-#'                    arima.model = "(0 1 1)(0 1 1)", regression.aictest = NULL, 
-#'                    outlier = NULL, forecast.maxlead = 60, forecast.save = "fct",
-#'                    check.print = c( 'pacf', 'pacfplot' ), series.save = "a1")
+#'     seasonal::seas(shoes2008, x11="", slidingspans = "", 
+#'         transform.function = "log", outlier = NULL, 
+#'         arima.model = "(0 1 1)(0 1 1)", 
+#'         regression.aictest = NULL, 
+#'         forecast.maxlead = 60, forecast.save = "fct",
+#'         check.print = c( 'pacf', 'pacfplot' ), 
+#'         series.save = "a1")
 #' shoes_seas_two <- 
-#'     seasonal::seas(shoes2008, x11="", slidingspans = "", transform.function = "log",
-#'                    arima.model = "(0 1 1)(0 1 1)", regression.variables = c("td"),
-#'                    forecast.maxlead = 60, forecast.save = "fct", 
-#'                    check.print = c( 'pacf', 'pacfplot' ), series.save = "a1")
+#'     seasonal::seas(shoes2008, x11="", slidingspans = "", 
+#'         transform.function = "log",
+#'         arima.model = "(0 1 1)(0 1 1)", 
+#'         regression.variables = c("td"),
+#'         forecast.maxlead = 60, forecast.save = "fct", 
+#'         check.print = c( 'pacf', 'pacfplot' ), 
+#'         series.save = "a1")
 #' shoes_fcst_two_p <- 
 #'     plot_fcst_two(shoes_seas_one, shoes_seas_two,
 #'          main_title = "Forecast Comparison Plot", 
@@ -62,6 +79,7 @@
 #'          do_grid = TRUE)
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
+#' @importFrom Rdpack reprompt
 #' @export
 plot_fcst_two <- 
     function(seas_obj_one = NULL, 
@@ -81,7 +99,7 @@ plot_fcst_two <-
 			 this_legend_text_size = 10,
 			 this_legend_position = "right",
 			 this_legend_space = 10) {
-    # Author: Brian C. Monsell (OEUS) Version 3.1, 12/30/2025
+    # Author: Brian C. Monsell (OEUS) Version 3.4, 2026-10-28
 	    
     # check if a value is specified for \code{seas_obj}
     if (is.null(seas_obj_one)) {
@@ -112,24 +130,31 @@ plot_fcst_two <-
 	
 	# check legend options 
 	position_all <- c("top", "bottom", "left", "right")
-	if(sum(match(position_all, this_legend_position), na.rm = TRUE) == 0) {
+	if (sum(match(position_all, this_legend_position), na.rm = TRUE) == 0) {
         cat(paste("Legend position choice not valid:", this_legend_position))
 		return(NULL)
 	}
 	
-	if(this_legend_text_size <= 0) {
+    # check if values of \code{this_legend_text_size}, \code{this_legend_title_size}, 
+	# and \code{this_legend_space} are valid, return \code{NULL} if not.
+	if (this_legend_text_size <= 0) {
         cat(paste("Legend text size not valid (must be greater than zero):", 
 		           this_legend_text_size))
-		return(NULL)
+        return(NULL)
 	}
 	
-	if(this_legend_title_size <= 0) {
+	if (this_legend_title_size <= 0) {
         cat(paste("Legend title text size not valid (must be greater than zero):", 
 		           this_legend_title_size))
-		return(NULL)
+        return(NULL)
 	}
-
-
+	
+	if (this_legend_space < 0) {
+        cat(paste("Legend space size not valid (must be greater than or equal to zero):", 
+		           this_legend_space))
+        return(NULL)
+	}
+	
     # extract forecasts, original series
     fcst_one <- seasonal::series(seas_obj_one, "fct")
     fcst_two <- seasonal::series(seas_obj_two, "fct")
